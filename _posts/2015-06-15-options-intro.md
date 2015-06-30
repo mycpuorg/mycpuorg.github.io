@@ -1,12 +1,59 @@
-# Welcome to this entry about options trading and how to potentially making a living out of trading options only.
+# Introduction to Investing
 
- In this blog, I'll attempt to share my learnings through various resources that I have personally invested. These resources range from expensive trainings that have costed me several thousands of dollars, upto a thousand dollars in books and online video tutorials, and what I'd consider the most valuable lesson of all, the tens of thousands that I have lost in risky trades and short-sighted decisions.
+In this entry we will visit the important criteria to become an active
+investor. Of course, as the name suggests, our favorite instrument are
+options but in this blog we will understand the mindset required to
+begin investing. In this entry, I'll attempt to share my learnings
+through various resources that I have personally invested in. These
+resources range from expensive trainings that have costed me several
+thousands of dollars, upto a thousand dollars in books and online
+video tutorials, and what I'd consider the most valuable lesson of
+all, the tens of thousands that I have lost in risky trades and
+short-sighted decisions. I'll walk you step by step through the trades
+that I have made in the past and my learnings through these trades
+(good and bad) and how they have contributed to 'thumb rules' that are
+now a part of my repertoire and have helped regain steadily the
+capital that I had lost and more.
 
- I'll walk you step by step through the trades that I have made in the past and my learnings through these trades (good and bad) and how they have contributed to 'thumb rules' that are now a part of my repertoire and have helped regain steadily the capital that I had lost and more.
+This is not a blog that will try to push you to buy my favorite "stock
+picks" or "trade recommendations", many of which I have purchased in
+the past. Such strategies rely on the probability that a customer would pay "a
+small fee" a.k.a. 100% real money in the hope of entering an elite
+club that's somehow informed about what the markets are going to do
+the next morning. Some of them make a few good recommendations occasionally
+but that is all there is to such schemes, occasional hits and
+frequent misses. But there is no secret sauce apart from the fact that
+the game is tipped for the house to win. As a retail trader the most
+important measure we can take is to design a set of basic rules and
+stay within the boundaries of these rules. Yes, options trading is
+risky and it is not recommended for those who cannot make an effort to
+understand the rules not just different strategies. With simple yet
+careful calculations we can make sure that we don't get into a
+position that cannot easily get out of.
 
- What started off as a personal journal slowly turned into a useful textual summary of how to trade options. So I am publishing this in an attempt to save you the heartbreak and a roller-coaster ride in your options trading journey.
 
- I don't stand to gain (or lose for that matter!) anything real by publishing this content in this particular format itself. However, I'd like to keep a log of all my lessons in a digital format so I can refer to them quickly when I need them the most.
+ I am not an industry insider, I do not claim to
+guarantee turning a small account into multi-million dollars. I want
+to put honest content out there which is easy for the common man to
+understand and wrap their heads around. Many people, even the
+smart ones shy away from the world of options trading. Human tendency
+is to deny, reject or stay away from something that is not easily
+understood. In this topic, there are several topics that seem
+intimidating and daunting. With the help of past experiences and
+sometimes references to classic books on options trading such as:
+[[http://www.amazon.com/Option-Volatility-amp-Pricing-Strategies/dp/155738486X/ref=sr_1_2?s=books&ie=UTF8&qid=1435645553&sr=1-2&keywords=options+volatility+and+pricing][Options
+Volatility and Pricing]] [[Options as a Strategic
+Investment][http://www.amazon.com/Options-Strategic-Investment-Lawrence-McMillan/dp/0735204659/ref=sr_1_1?s=books&ie=UTF8&qid=1435645661&sr=1-1&keywords=options+as+a+strategic+investment]]
+I sincerely believe you will be able to understand the idea behind the
+particular strategy or trade in question.
+
+ What started off as a personal journal slowly turned into a useful
+ textual summary of how to trade options. So I am publishing this in
+ an attempt to save you the heartbreak and a roller-coaster ride in
+ your options trading journey.
+
+ I don't stand to gain (or lose for that matter!) anything real by
+ publishing this content in this particular format.
 
  Here I will try to list all the various options trading strategies that I have tried and succeeded at and those that I have failed gloriously at too.
 
