@@ -1,4 +1,12 @@
-# Introduction to Investing
+---
+layout: post
+title: "Introduction to our investing philosophy"
+excerpt: "A ton of text to test readability."
+tags: [sample post, readability, test]
+comments: true
+---
+
+## Introduction
 
 In this entry we will visit the important criteria to become an active
 investor. Of course, as the name suggests, our favorite instrument are
@@ -31,7 +39,6 @@ understand the rules not just different strategies. With simple yet
 careful calculations we can make sure that we don't get into a
 position that cannot easily get out of.
 
-
  I am not an industry insider, I do not claim to
 guarantee turning a small account into multi-million dollars. I want
 to put honest content out there which is easy for the common man to
@@ -41,19 +48,20 @@ is to deny, reject or stay away from something that is not easily
 understood. In this topic, there are several topics that seem
 intimidating and daunting. With the help of past experiences and
 sometimes references to classic books on options trading such as:
-[[http://www.amazon.com/Option-Volatility-amp-Pricing-Strategies/dp/155738486X/ref=sr_1_2?s=books&ie=UTF8&qid=1435645553&sr=1-2&keywords=options+volatility+and+pricing][Options
-Volatility and Pricing]] [[Options as a Strategic
-Investment][http://www.amazon.com/Options-Strategic-Investment-Lawrence-McMillan/dp/0735204659/ref=sr_1_1?s=books&ie=UTF8&qid=1435645661&sr=1-1&keywords=options+as+a+strategic+investment]]
+[Options
+Volatility and Pricing](http://www.amazon.com/Option-Volatility-amp-Pricing-Strategies/dp/155738486X/ref=sr_1_2?s=books&ie=UTF8&qid=1435645553&sr=1-2&keywords=options+volatility+and+pricing) [Options as a Strategic
+Investment](http://www.amazon.com/Options-Strategic-Investment-Lawrence-McMillan/dp/0735204659/ref=sr_1_1?s=books&ie=UTF8&qid=1435645661&sr=1-1&keywords=options+as+a+strategic+investment)
 I sincerely believe you will be able to understand the idea behind the
 particular strategy or trade in question.
 
+## Motivation
  What started off as a personal journal slowly turned into a useful
  textual summary of how to trade options. So I am publishing this in
  an attempt to save you the heartbreak and a roller-coaster ride in
  your options trading journey.
 
  I don't stand to gain (or lose for that matter!) anything real by
- publishing this content in this particular format.
+ publishing this content in this particular format. 
 
  Here I will try to list all the various options trading strategies that I have tried and succeeded at and those that I have failed gloriously at too.
 
@@ -61,6 +69,7 @@ particular strategy or trade in question.
 
  The hope here is that this book provides the reader with sufficient ammunition that the need to purchase those expensive materials and trainings that I had thrown my money upon does not arise.
 
+## What to expect
  For the sake of clarity, the investment education industry is a very profitable business due to the very nature of the material it promises to teach. Comprehensive materials on derivatives and the theory governing the derivative markets are products of decades of research done by mathematicians (a.k.a rocket scientists!). While its nice to know the theory behind options pricing you won't be able to apply Black-Scholes' Model practically while trying to make trades at retail scales. I redirect the interested readers to the [original publication](https://dx.doi.org/10.1086%2F260062).
 
  Quite honestly, these theories are encompassed in the indicators and signals that we will use in our thumb rules. The nature of these indicators vary from visual chart patterns to numerical to just plain common sense.
