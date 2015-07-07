@@ -1,48 +1,49 @@
 ---
 layout: post
 title: "Introduction to our investing philosophy"
-excerpt: "A ton of text to test readability."
-tags: [sample post, readability, test]
+excerpt: "Welcome to developing the right mindset to invest successfully"
+tags: [Investing, mindset, philosophy, Options]
 comments: true
 ---
 
-## Introduction
-
 In this entry we will visit the important criteria to become an active
-investor. Of course, as the name suggests, our favorite instrument are
+investor, the mindset, a philosophy to investing. This mindset
+transcends details of what instrument you are trading, what your goals
+in life are etc. As the title suggests, our favorite instrument are
 options but in this blog we will understand the mindset required to
-begin investing. In this entry, I'll attempt to share my learnings
-through various resources that I have personally invested in. These
+begin investing. I'll attempt to share my learnings
+through various resources that I have personally invested in. At the
+very least you can walk away with a summary of teachings from
+investment gurus like John C Bogle. These
 resources range from expensive trainings that have costed me several
 thousands of dollars, upto a thousand dollars in books and online
 video tutorials, and what I'd consider the most valuable lesson of
-all, the tens of thousands that I have lost in risky trades and
+all, the tens of thousands that a retail trader loses in risky trades and
 short-sighted decisions. I'll walk you step by step through the trades
 that I have made in the past and my learnings through these trades
 (good and bad) and how they have contributed to 'thumb rules' that are
-now a part of my repertoire and have helped regain steadily the
-capital that I had lost and more.
-
-This is not a blog that will try to push you to buy my favorite "stock
-picks" or "trade recommendations", many of which I have purchased in
-the past. Such strategies rely on the probability that a customer would pay "a
-small fee" a.k.a. 100% real money in the hope of entering an elite
-club that's somehow informed about what the markets are going to do
-the next morning. Some of them make a few good recommendations occasionally
-but that is all there is to such schemes, occasional hits and
-frequent misses. But there is no secret sauce apart from the fact that
-the game is tipped for the house to win. As a retail trader the most
+now a part of my repertoire and have helped stay successful through
+ups and downs. As a retail trader the most
 important measure we can take is to design a set of basic rules and
 stay within the boundaries of these rules. Yes, options trading is
 risky and it is not recommended for those who cannot make an effort to
 understand the rules not just different strategies. With simple yet
-careful calculations we can make sure that we don't get into a
-position that cannot easily get out of.
+careful calculations we can make sure that we don't get into that we
+haven't planned the worst case for.
 
- I am not an industry insider, I do not claim to
+If you are paying  favorite "stock picks" or "trade recommendations",
+ many of which I have purchased in the past, I'd suggest that you get
+ out of them. Such strategies often rely on the probability that a customer
+ would pay "a small fee" a.k.a. 100% real money in the hope of
+ entering an elite club that's somehow informed about what the markets
+ are going to do the next morning. Some of them make a few good
+ recommendations occasionally but that is all there is to such
+ schemes, occasional hits and frequent misses. There is no secret
+ sauce apart from the fact that the game is tipped for the house to
+ win. I am not an industry insider, I do not claim to
 guarantee turning a small account into multi-million dollars. I want
 to put honest content out there which is easy for the common man to
-understand and wrap their heads around. Many people, even the
+understand. However, with [CBOE][ Many people, even the
 smart ones shy away from the world of options trading. Human tendency
 is to deny, reject or stay away from something that is not easily
 understood. In this topic, there are several topics that seem
