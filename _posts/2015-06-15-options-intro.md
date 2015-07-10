@@ -11,27 +11,23 @@ investor, the mindset, a philosophy to investing. This mindset
 transcends details of what instrument you are trading, what your goals
 in life are etc. As the title suggests, our favorite instrument are
 options but in this blog we will understand the mindset required to
-begin investing. I'll attempt to share my learnings
-through various resources that I have personally invested in. At the
-very least you can walk away with a summary of teachings from
-investment gurus like John C Bogle. These
-resources range from expensive trainings that have costed me several
-thousands of dollars, upto a thousand dollars in books and online
+begin investing. I'll share what I've learnt from various resources that I have personally invested in. At the
+very least you can walk away with a summary of these resources. These
+resources range from expensive training sessions costing several
+thousands of dollars, nearly a thousand dollars in books and online
 video tutorials, and what I'd consider the most valuable lesson of
 all, the tens of thousands that a retail trader loses in risky trades and
-short-sighted decisions. I'll walk you step by step through the trades
-that I have made in the past and my learnings through these trades
-(good and bad) and how they have contributed to 'thumb rules' that are
-now a part of my repertoire and have helped stay successful through
-ups and downs. As a retail trader the most
-important measure we can take is to design a set of basic rules and
-stay within the boundaries of these rules. Yes, options trading is
-risky and it is not recommended for those who cannot make an effort to
-understand the rules not just different strategies. With simple yet
-careful calculations we can make sure that we don't get into that we
-haven't planned the worst case for.
+short-sighted decisions.  We'll walk step by step through the trades
+(good and bad) and derive 'thumb rules' that must guide our trading
+strategy. As a retail trader the most important measure we can take is
+to design a set of basic rules and stay within the boundaries of these
+rules. Yes, options trading is risky and it is not recommended for
+those who cannot make an effort to understand these rules not just
+different strategies. With simple yet careful calculations we can make
+sure that we don't get into anything that we haven't planned the worst case
+for.
 
-If you are paying  favorite "stock picks" or "trade recommendations",
+If you are paying for favorite "stock picks" or "trade recommendations",
  many of which I have purchased in the past, I'd suggest that you get
  out of them. Such strategies often rely on the probability that a customer
  would pay "a small fee" a.k.a. 100% real money in the hope of
@@ -40,10 +36,16 @@ If you are paying  favorite "stock picks" or "trade recommendations",
  recommendations occasionally but that is all there is to such
  schemes, occasional hits and frequent misses. There is no secret
  sauce apart from the fact that the game is tipped for the house to
- win. I am not an industry insider, I do not claim to
-guarantee turning a small account into multi-million dollars. I want
-to put honest content out there which is easy for the common man to
-understand. However, with [CBOE][ Many people, even the
+ win. I want to put honest content out there which is easy for the common man to
+understand. As far as the complexity of some of the strategies go,
+ it's synthetic, not organic to the nature of the topic. Plain stocks
+is a very simple concept: you pay the current market price to buy a
+ stock which lets you own a small piece of the company itself. However, with [CBOE] and [OIC] video/audio tutorials it is now very
+easy to understand any strategy theoretically. Most of these lectures
+are delivered by industry professionals who have seen many facets of
+the industry over the years.
+
+Many people, even the
 smart ones shy away from the world of options trading. Human tendency
 is to deny, reject or stay away from something that is not easily
 understood. In this topic, there are several topics that seem
