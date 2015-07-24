@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Options Investing: What to Expect"
+excerpt: "Welcome to developing the right mindset to invest successfully"
+tags: [Investing, mindset, philosophy, Options]
+comments: true
+---
 
 ## What to expect
  For the sake of clarity, the investment education industry is a very profitable business due to the very nature of the material it promises to teach. Comprehensive materials on derivatives and the theory governing the derivative markets are products of decades of research done by mathematicians (a.k.a rocket scientists!). While its nice to know the theory behind options pricing you won't be able to apply Black-Scholes' Model practically while trying to make trades at retail scales. I redirect the interested readers to the [original publication](https://dx.doi.org/10.1086%2F260062).

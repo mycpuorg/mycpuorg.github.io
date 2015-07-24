@@ -1,3 +1,11 @@
+---
+layout: post
+title: "Motivation to our investing philosophy"
+excerpt: "Welcome to developing the right mindset to invest successfully"
+tags: [Investing, mindset, philosophy, Options]
+comments: true
+---
+
 ## Motivation
  What started off as a personal journal slowly turned into a useful
  textual summary of how to trade options. So I am publishing this in
