@@ -7,10 +7,10 @@ comments: true
 ---
 
 In this entry we will visit the important criteria to become an active
-investor, the mindset, a philosophy to investing. This mindset
+investor, the mindset - a philosophy to investing. This mindset
 transcends details of what instrument you are trading, what your goals
 in life are etc. As the title suggests, our favorite instrument are
-options but in this blog we will understand the mindset required to
+options but in this blog we will understand the mental approach required to
 begin investing. I'll share what I've learnt from various resources that I have personally invested in. At the
 very least you can walk away with a summary of these resources. These
 resources range from expensive training sessions costing several
@@ -30,25 +30,30 @@ for.
 If you are paying for favorite "stock picks" or "trade recommendations",
  many of which I have purchased in the past, I'd suggest that you get
  out of them. Such strategies often rely on the probability that a customer
- would pay "a small fee" a.k.a. 100% real money in the hope of
+ pays "a small fee" a.k.a. 100% real money in the hope of
  entering an elite club that's somehow informed about what the markets
  are going to do the next morning. Some of them make a few good
  recommendations occasionally but that is all there is to such
  schemes, occasional hits and frequent misses. There is no secret
  sauce apart from the fact that the game is tipped for the house to
- win. I want to put honest content out there which is easy for the common man to
+ win. I want to put honest content out there which is easy for a common man to
 understand. As far as the complexity of some of the strategies go,
  it's synthetic, not organic to the nature of the topic. Plain stocks
 is a very simple concept: you pay the current market price to buy a
- stock which lets you own a small piece of the company itself. However, with [CBOE] and [OIC] video/audio tutorials it is now very
-easy to understand any strategy theoretically. Most of these lectures
-are delivered by industry professionals who have seen many facets of
+ stock which lets you own a small piece of the company itself. Options
+ are basically contracts exchanged based on your outlook on a certain
+ stock. Now this seemingly simple concept starts turning into a tricky
+ and fun game-like concept. But what turns it into a complex,
+ all-consuming beast that any long-term options investor/trader will
+ recount is when there is greed. More practically, with [CBOE] and [OIC] video/audio tutorials it is now very
+easy to understand any strategy. Most of these lectures
+are delivered by professionals investors and traders who have seen many facets of
 the industry over the years.
 
 Many people, even the
 smart ones shy away from the world of options trading. Human tendency
 is to deny, reject or stay away from something that is not easily
-understood. In this topic, there are several topics that seem
+understood. In this topic, there are several concepts that seem
 intimidating and daunting. With the help of past experiences and
 sometimes references to classic books on options trading such as:
 [Options
@@ -66,11 +71,17 @@ particular strategy or trade in question.
  I don't stand to gain (or lose for that matter!) anything real by
  publishing this content in this particular format. 
 
- Here I will try to list all the various options trading strategies that I have tried and succeeded at and those that I have failed gloriously at too.
+ Here I will try to list the various options trading strategies that I have tried and succeeded at and those that I have failed gloriously at too.
 
- The ones of particular interest will be those where I failed in the past and how I was able to derive these 'thumb rules' that I use to trade in my real life today. Along the course of this text, I will share actual numbers from my trades that are scaled proportionately, for the sake of illustration at times and for the sake of modesty at others.
-
- The hope here is that this book provides the reader with sufficient ammunition that the need to purchase those expensive materials and trainings that I had thrown my money upon does not arise.
+ The ones of particular interest will be those where I failed in the
+ past and how I was able to derive these 'thumb rules' that I use to
+ trade in my real life today. Along the course of this text, I will
+ share actual numbers from my trades that are scaled proportionately,
+ for the sake of illustration at times and for the sake of modesty at
+ others. The hope here is that this book provides the reader with
+ sufficient ammunition that the need to purchase those expensive
+ materials and trainings that I had thrown my money upon does not
+ arise.
 
 ## What to expect
  For the sake of clarity, the investment education industry is a very profitable business due to the very nature of the material it promises to teach. Comprehensive materials on derivatives and the theory governing the derivative markets are products of decades of research done by mathematicians (a.k.a rocket scientists!). While its nice to know the theory behind options pricing you won't be able to apply Black-Scholes' Model practically while trying to make trades at retail scales. I redirect the interested readers to the [original publication](https://dx.doi.org/10.1086%2F260062).
@@ -95,55 +106,32 @@ particular strategy or trade in question.
 
  The primary characteristic of a successful options businessman is the ability to commit to the boundaries and rules that are a result of well-thought out plan. Once you spend the time and energy to come up with a plan it only makes sense to stick to it no matter what! It is not much of a plan if nobody is sticking to it. Execution trumps knowledge every time. Sure, the basic knowledge forms a foundation for a well thought out plan but top class execution is an absolute necessity for any plan to succeed even to a small extent.
 
- If you stick with the plan of action offered in this book I promise you that you will be in total control of the outcome of each of your trades. The most common reason for a trade to fail is the lack of commitment to stick to a plan because in the options world its very easy for a trader to be seduced by the meretricious metals out there. Do not fall prey to it, our plan will prevent us from falling prey like others do over and over again.
+ If you stick with the plan of action offered in this book you can
+ rest assured that you will have a peace of mind of knowing the outcome of each
+ of your trades (yes, even the worst cases). The most common reason for a trade to fail is the
+ lack of commitment to stick to a plan because in the options world
+ its very easy for a trader to be seduced by the meretricious metals
+ out there. Do not fall prey to it, our plan will prevent us from
+ falling prey like others do over and over again.
+TODO: Link to the post containing the basic rules.
 
  If you commit to the plan and promise yourself that you will run this like you'd run your own business and not some game you would play on your console against a 10 year old then you are very likely to succeed in this business.
 
  Shift of mindset: How would you run a business?
 
- Imagine if you were given a choice to think of a business, say, a brick and mortar shop of some kind, decide the amount of capital you would like to put in, set up shop at any location of your choice in the world, define the risk parameters for the business (of course this would likely decide the extent of profits you'd reap too!), not having to deal with uncertainties of the real world that typical brick and mortar business owners deal with such as supplies of raw materials etc. You'd probably say <span class="underline">Wonderful I'd love to start such a business</span>. But here's the icing, what if I told you that you are allowed to do this for free and for as long as you want to before feeling sure of your decisions, strategies by testing it on the real world with real customers! Now how many businesses can you think of come with this promise?
+ Imagine if you were given a choice to think of a business, say, a
+ brick and mortar shop of some kind, decide the amount of capital you
+ would like to put in, set up shop at any location of your choice in
+ the world, define the risk parameters for the business (of course
+ this would likely decide the extent of profits you'd reap too!), not
+ having to deal with uncertainties of the real world that typical
+ brick and mortar business owners deal with such as supplies of raw
+ materials etc. You'd probably say <span class="underline">Wonderful
+ I'd love to start such a business</span>. But here's the icing, what
+ if I told you that you are allowed to do this for free and for as
+ long as you want to before feeling sure of your decisions, strategies
+ by testing it on the real world with real customers! Now how many
+ businesses can you think of that come with this promise?
 
-## Homeworks and assignments at the end of each chapter: What am I back in elementary school again?
-
-## Refer back to CBOE for tutorials on introduction to the basic concepts.
-
-## Buffet's number one rule: Do not lose capital. It applies to any type of investment, not just buy and hold type of investment.
-
-## Commissions and Taxes
-
-## Concept of Stocks
-
-## Concept of Options
-
-## Basics of Options
-
-## Uses of options in the buy and hold portfolio
-
-## Normal distribution
-
-## Standard Deviation and probability
-
-## Volatility
-
-## Greeks
-
-# The methods:
-
--   Long Call Options after buying stocks.
-    -   Suitable for individual stocks.
--   Short Put options before buying stocks.
-    -   Suitable for stocks that you want to buy but are currently
-        overpriced, not overpriced simply based on a 'guess' but
-        actually inflated in terms of indicators like P/E is exorbitant
-        relative to the average P/E of the top-5 stocks in the
-        particular industry.
--   Vertical Spreads
-    DELTA
--   Iron Condors
-    DELTA
--   Calendar Spreads
-    DELTA
--   LEAPS
-    Great way to buy
 
 <!-- more -->
