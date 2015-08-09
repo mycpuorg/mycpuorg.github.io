@@ -12,6 +12,5 @@ image:
 
 ## Common Man's Options Guide is all about:
 
-* Log of my learnings
-* Log of my experiences
+* Log of my experiences and insights into trading
 * A clear description of the strategies that are successful
