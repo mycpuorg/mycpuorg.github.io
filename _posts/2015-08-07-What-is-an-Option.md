@@ -5,7 +5,6 @@ excerpt: "An TL;DR style of quick lookup info for basic terms in Options"
 tags: [Investing, Terminology, Options, FAQs,]
 comments: true
 ---
-## Options: What
 
 # What are shares?
 
