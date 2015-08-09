@@ -1,3 +1,11 @@
+---
+layout: post
+title: "Options: A quick guide"
+excerpt: "An TL;DR style of quick lookup info for basic terms in Options"
+tags: [Investing, Terminology, Options, FAQs,]
+comments: true
+---
+
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
