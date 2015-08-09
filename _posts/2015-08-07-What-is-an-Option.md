@@ -5,26 +5,7 @@ excerpt: "An TL;DR style of quick lookup info for basic terms in Options"
 tags: [Investing, Terminology, Options, FAQs,]
 comments: true
 ---
-
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. What are shares?</a></li>
-<li><a href="#sec-2">2. What is the value of a single share?</a></li>
-<li><a href="#sec-3">3. What is an option?</a></li>
-<li><a href="#sec-4">4. What is a 'Strike'?</a></li>
-<li><a href="#sec-5">5. What is a Expiry?</a></li>
-<li><a href="#sec-6">6. What is an outlook?</a></li>
-<li><a href="#sec-7">7. What are the main components of an option?</a></li>
-<li><a href="#sec-8">8. What are Calls?</a></li>
-<li><a href="#sec-9">9. What are Puts?</a></li>
-<li><a href="#sec-10">10. Who are involved in an options trade transaction?</a></li>
-</ul>
-</div>
-</div>
-
-Options: What
+## Options: What
 
 # What are shares?
 
