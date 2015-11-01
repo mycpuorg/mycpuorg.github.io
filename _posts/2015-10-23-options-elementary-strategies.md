@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Options: Elementary Strategies"
+title: "Options: Elementary Strategies - Part I"
 excerpt: "Options Elementary Strategies"
 tags: [Investing, Strategies, Options, Calls, Puts 
 comments: true
 ---
 
-Options: Elementary Strategies - Part I
+# Options: Elementary Strategies - Part I
 
 A new trader will be faced with a deluge of numbers on the options charts listing options pricing.
 An equity is identified by a unique symbol, the last price that the transaction was made at.
