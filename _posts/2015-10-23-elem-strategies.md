@@ -8,9 +8,8 @@ comments: true
 
 Options: Elementary Strategies - Part I
 
-# A new trader will be faced with a deluge of numbers on the options charts listing options pricing.
-
-# An equity is identified by a unique symbol, the last price that the transaction was made at.
+A new trader will be faced with a deluge of numbers on the options charts listing options pricing.
+An equity is identified by a unique symbol, the last price that the transaction was made at.
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -51,8 +50,7 @@ Options: Elementary Strategies - Part I
 </tbody>
 </table>
 
-# For options pricing the chart looks drastically different. In it's simplest form this is what a typical chart looks like for options.
-
+For options pricing the chart looks drastically different. In it's simplest form this is what a typical chart looks like for options.
 XYZ: Options pricing chart for single expiry date:
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -184,7 +182,7 @@ XYZ: Options pricing chart for single expiry date:
 </tbody>
 </table>
 
-# We will try and break it down to simpler sub-parts:
+We will try and break it down to simpler sub-parts:
 
 -   The Calls and Puts table are listed for strike prices near
     the current trading price for XYZ
@@ -195,15 +193,15 @@ XYZ: Options pricing chart for single expiry date:
 -   The table also shows the volatility skew in pricing between Bid
     and Ask prices towards the ends of the table.
 
-# As we see from the equity pricing that XYZ is trading at around 99 mark currently.
+As we see from the equity pricing that XYZ is trading at around 99 mark currently.
 
-# Based on the current equity price the options pricing of the various strikes varies constantly determined by various factors which are covered in the writeup about the 'Greeks'.
+Based on the current equity price the options pricing of the various strikes varies constantly determined by various factors which are covered in the writeup about the 'Greeks'.
 
-# For the sake of simplicity, our discussion can be limited to the pricing listed on this table while ignoring the effect of Greeks and volatility.
+For the sake of simplicity, our discussion can be limited to the pricing listed on this table while ignoring the effect of Greeks and volatility.
 
-# Calls:
+## Calls:
 
-## Suppose we believe that the price of underlying equity is going to increase all the way up to 108 before expiration, then we might purchase a 100 Call (Call at strike 100) for 2.5
+Suppose we believe that the price of underlying equity is going to increase all the way up to 108 before expiration, then we might purchase a 100 Call (Call at strike 100) for 2.5
 
 -   If we are correct and the price of the option goes beyond 108 prior
     to expiration then we have the following two choices:
@@ -222,11 +220,11 @@ XYZ: Options pricing chart for single expiry date:
     expiration and the proximity of the current price to strike price
     of the option in question.
 
-# Both of the above choices should result in a profit if there is sufficient time before the option expiration because the intrinsic value of the call option becomes higher than the current price at expiration.
+Both of the above choices should result in a profit if there is sufficient time before the option expiration because the intrinsic value of the call option becomes higher than the current price at expiration.
 
-# Puts:
+## Puts:
 
-## Suppose we believe that the price of underlying equity is going to decrease all the way down to 82 before expiration, then we might purchase a 90 Puts (Puts at strike 90) for 0.39
+Suppose we believe that the price of underlying equity is going to decrease all the way down to 82 before expiration, then we might purchase a 90 Puts (Puts at strike 90) for 0.39
 
 -   If we are correct and the price of the option goes below 90 prior
     to expiration then we have the following two choices:
@@ -246,4 +244,4 @@ XYZ: Options pricing chart for single expiry date:
     expiration and the proximity of the current price to strike price
     of the option in question.
 
-# Both of the above choices should result in a profit if there is sufficient time before the option expiration because the intrinsic value of the puts option becomes higher than the current price at expiration.
+Both of the above choices should result in a profit if there is sufficient time before the option expiration because the intrinsic value of the puts option becomes higher than the current price at expiration.
