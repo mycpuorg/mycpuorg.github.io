@@ -1,29 +1,10 @@
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. A new trader will be faced with a deluge of numbers on the options charts listing options pricing.</a></li>
-<li><a href="#sec-2">2. An equity is identified by a unique symbol, the last price that the transaction was made at.</a></li>
-<li><a href="#sec-3">3. For options pricing the chart looks drastically different. In it's simplest form this is what a typical chart looks like for options.</a></li>
-<li><a href="#sec-4">4. We will try and break it down to simpler sub-parts:</a></li>
-<li><a href="#sec-5">5. As we see from the equity pricing that XYZ is trading at around 99 mark currently.</a></li>
-<li><a href="#sec-6">6. Based on the current equity price the options pricing of the various strikes varies constantly determined by various factors which are covered in the writeup about the 'Greeks'.</a></li>
-<li><a href="#sec-7">7. For the sake of simplicity, our discussion can be limited to the pricing listed on this table while ignoring the effect of Greeks and volatility.</a></li>
-<li><a href="#sec-8">8. Calls:</a>
-<ul>
-<li><a href="#sec-8-1">8.1. Suppose we believe that the price of underlying equity is going to increase all the way up to 108 before expiration, then we might purchase a 100 Call (Call at strike 100) for 2.5</a></li>
-</ul>
-</li>
-<li><a href="#sec-9">9. Both of the above choices should result in a profit if there is sufficient time before the option expiration because the intrinsic value of the call option becomes higher than the current price at expiration.</a></li>
-<li><a href="#sec-10">10. Puts:</a>
-<ul>
-<li><a href="#sec-10-1">10.1. Suppose we believe that the price of underlying equity is going to decrease all the way down to 82 before expiration, then we might purchase a 90 Puts (Puts at strike 90) for 0.39</a></li>
-</ul>
-</li>
-<li><a href="#sec-11">11. Both of the above choices should result in a profit if there is sufficient time before the option expiration because the intrinsic value of the puts option becomes higher than the current price at expiration.</a></li>
-</ul>
-</div>
-</div>
+---
+layout: post
+title: "Options: Elementary Strategies"
+excerpt: "Options Elementary Strategies"
+tags: [Investing, Strategies, Options, Calls, Puts 
+comments: true
+---
 
 Options: Elementary Strategies - Part I
 
