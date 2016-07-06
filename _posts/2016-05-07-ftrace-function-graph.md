@@ -133,29 +133,31 @@ Ftrace supports static and dynamic events
 To reduce the verbose output and configure to show only the
 interesting output we can use the `max_graph_depth` to avoid nesting in
 the output trace
-\\#+BEGIN<sub>EXAMPLE</sub> 
 
-1.  + 81.718 us   |  } *\* schedule<sub>preempt</sub><sub>disabled</sub> \**
-2.  5.468 us    |  tick<sub>nohz</sub><sub>idle</sub><sub>enter</sub>();
-3.  0.969 us    |  SyS<sub>dup2</sub>();
-4.  1.620 us    |  do<sub>page</sub><sub>fault</sub>();
-5.  0.572 us    |  SyS<sub>close</sub>();
-6.  0.431 us    |  arch<sub>cpu</sub><sub>idle</sub><sub>enter</sub>();
-7.  0.116 us    |  tick<sub>check</sub><sub>broadcast</sub><sub>expired</sub>();
-8.  0.632 us    |  rcu<sub>idle</sub><sub>enter</sub>();
-
-\#+END<sub>SRC</sub>
+    # cd /sys/kernel/debug/tracing
+    # echo function_graph > current_tracer
+    # echo 1 > max_graph_depth
+    # echo 1 > tracing_on
+    # cat trace
+     3) + 81.718 us   |  } /* schedule_preempt_disabled */
+     3)   5.468 us    |  tick_nohz_idle_enter();
+     2)   0.969 us    |  SyS_dup2();
+     2)   1.620 us    |  do_page_fault();
+     2)   0.572 us    |  SyS_close();
+     3)   0.431 us    |  arch_cpu_idle_enter();
+     3)   0.116 us    |  tick_check_broadcast_expired();
+     3)   0.632 us    |  rcu_idle_enter();
 
 # Conditional trace: Important filters<a id="orgheadline9"></a>
 
 -   ftrace filtering:
     
-          # echo ext4:ext4_readpage > set_ftrace_filter
-          #+END_SRC
-        - user space conditional:
-          - intended to be used by the application to open this file early on.
-        #+BEGIN_EXAMPLE 
-        # echo "my_trace_string" > trace_marker
+        # echo ext4:ext4_readpage > set_ftrace_filter
+-   user space conditional:
+    -   intended to be used by the application to open this file early on.
+
+    # echo "my_trace_string" > trace_marker
+
 -   `tracing_max_latency` Some of the tracers record their max latency. If a new max trace is recorded (latency greater than the value stored in this file) then it will be stored as the new max latency.
 
 # Summary<a id="orgheadline10"></a>
