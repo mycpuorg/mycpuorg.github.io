@@ -1,8 +1,8 @@
 # Site wide configuration
 
-title:            A Common Man's Guide to Trading Options
+title:            Yet Another Technical Blog
 locale:           en_US
-url:             http://www.commonmansoptions.com
+url:             http://www.mycpu.org
 #url:             http://localhost:4000
 
 
@@ -27,16 +27,16 @@ kramdown:
 
 # Site owner
 owner:
-  name: Common Man
+  name: Manoj Rao
   avatar: common-man.png
   bio: "Your Average Common Man"
-  email: commonman@commonmansoptions.com
-  disqus-shortname: commonmansoptions
-  twitter: commonmansoptns
+  email: manoj@mycpu.org
+  disqus-shortname: manojrajarao
+  twitter: manojrajarao
   facebook: #username
   google:
     plus:
-    analytics: UA-64925206-1
+    #analytics: UA-64925206-1
     verify: 
     ad-client: 
     ad-slot: 
