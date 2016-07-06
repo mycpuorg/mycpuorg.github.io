@@ -1,3 +1,11 @@
+---
+layout: post
+title: "Ftrace: Function Graph Overview"
+excerpt: "Introduction to Function Graph"
+tags: [Linux, kernel, tracing, ftrace, tracer, func_graph, call graphs ]
+comments: true
+---
+
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
