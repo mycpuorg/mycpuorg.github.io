@@ -6,7 +6,7 @@ tags: [Linux, kernel, tracing, ftrace, tracer, func_graph, call graphs ]
 comments: true
 ---
 
-# What is ftrace <a id="orgheadline1"></a>
+## What is ftrace <a id="orgheadline1"></a>
 
 -   The generic tracing system in kernel: It is a kernel-only tracer tool that is designed to help developers and designers to understand what's going on inside the kernel. It is widely used for analyzing systems to understand latencies and performance issues. Although it's utility extends beyond that such as event tracing in the kernel. Throughout the kernel there are hundreds of static events available that can be enabled via the debugfs to generate runtime traces of the system. The debugfs filesystem contains control files that can be used to configure parameters of ftrace, as well as the read-only files that can be used to display output on the running system. The default directory where debugfs is mounted in the kernel is under *sys/kernel/debug*, for any reason if your system should not have 'debug' directory mounted under this then you can explicitly mount this by:
 
@@ -37,7 +37,7 @@ All the nodes that are required for ftrace, be it, collecting traces or configur
 
 -   Uses special data structure to store trace data in memory
 
-# ftrace - Overview of events<a id="orgheadline2"></a>
+## ftrace - Overview of events<a id="orgheadline2"></a>
 
 -   An event in the kernel that needs to be traced in the kernel.
 
@@ -60,22 +60,22 @@ All the nodes that are required for ftrace, be it, collecting traces or configur
 -   Hundreds of events supported in the kernel by default
     -   4.x kernels support over 600 events
 
-# Types of events<a id="orgheadline5"></a>
+## Types of events<a id="orgheadline5"></a>
 
 Ftrace supports static and dynamic events
 
-## Deliberate/Explicit<a id="orgheadline3"></a>
+### Deliberate/Explicit<a id="orgheadline3"></a>
 
 -   Kernel is sprinkled with trace points for important events
 -   Most kernel versions support a majority of static trace events
 
-## Surprise/Implicit<a id="orgheadline4"></a>
+### Surprise/Implicit<a id="orgheadline4"></a>
 
 -   ftrace has the ability to trace any function in the kernel
     because 'mcount'
 -   allows for tracing a subset of functions via filtering too
 
-# mcount - the trampoline<a id="orgheadline6"></a>
+## mcount - the trampoline<a id="orgheadline6"></a>
 
 -   mcount is a low overhead routine
 -   mcount is called by every kernel function
@@ -83,7 +83,7 @@ Ftrace supports static and dynamic events
 -   added by default during entry into function
 -   at exit the trampoline may not be available on all SoCs
 
-# Practice: function graph in action<a id="orgheadline7"></a>
+## Practice: function graph in action<a id="orgheadline7"></a>
 
     # cd /sys/kernel/debug/tracing
     # echo function_graph > current_tracer
@@ -104,7 +104,7 @@ Ftrace supports static and dynamic events
      3)               |                    __put_anon_vma() {
      1)   4.853 us    |  }
 
-# Dealing with output verbiage<a id="orgheadline8"></a>
+## Dealing with output verbiage<a id="orgheadline8"></a>
 
 To reduce the verbose output and configure to show only the
 interesting output we can use the `max_graph_depth` to avoid nesting in
@@ -124,7 +124,7 @@ the output trace
      3)   0.116 us    |  tick_check_broadcast_expired();
      3)   0.632 us    |  rcu_idle_enter();
 
-# Conditional trace: Important filters<a id="orgheadline9"></a>
+## Conditional trace: Important filters<a id="orgheadline9"></a>
 
 -   ftrace filtering:
     
@@ -136,6 +136,6 @@ the output trace
 
 -   `tracing_max_latency` Some of the tracers record their max latency. If a new max trace is recorded (latency greater than the value stored in this file) then it will be stored as the new max latency.
 
-# Summary<a id="orgheadline10"></a>
+## Summary<a id="orgheadline10"></a>
 
 To summarize, we have learned what ftrace is and how to collect traces for function and function graph. In a future post, we will look at some examples and how they can be used to trace a specific function.
