@@ -1,10 +1,8 @@
----
 layout: post
 title: "perf: A quick look"
 excerpt: "Introduction of perf usage"
 tags: [Linux, kernel, perf, monitor, tracing, ftrace, tracer, func_graph, call graphs ]
 comments: true
----
 
 # Introduction<a id="orgheadline6"></a>
 
@@ -86,3 +84,36 @@ comments: true
                    --- trace_graph_entry
                       |
                       |
+
+## Ouput of perf top<a id="orgheadline6"></a>
+
+**perf top**
+   PerfTop:    2852 irqs/sec  kernel:74.9%  exact:  0.0% [4000Hz cycles],  (all, 4 CPUs)
+
+---
+
+14.81%  [kernel]       [k] arch<sub>cpu</sub><sub>idle</sub>                     
+ 3.76%  [unknown]      [.] 0x76e22324                        
+ 1.90%  [kernel]       [k] \_<sub>memzero</sub>                         
+ 1.27%  [unknown]      [.] 0x76e21960                        
+ 1.19%  [kernel]       [k] finish<sub>task</sub><sub>switch</sub>                
+ 1.16%  [kernel]       [k] \_raw<sub>spin</sub><sub>unlock</sub><sub>irqrestore</sub>       
+ 1.01%  [unknown]      [.] 0x76e22320                        
+ 0.98%  [kernel]       [k] rcu<sub>idle</sub><sub>exit</sub>                     
+ 0.92%  [unknown]      [.] 0x76e21958                        
+ 0.86%  [kernel]       [k] copy<sub>page</sub>                         
+ 0.72%  [unknown]      [.] 0x76e21954                        
+ 0.71%  [kernel]       [k] filemap<sub>map</sub><sub>pages</sub>                 
+ 0.67%  [kernel]       [k] get<sub>page</sub><sub>from</sub><sub>freelist</sub>            
+ 0.57%  [kernel]       [k] do<sub>page</sub><sub>fault</sub>                     
+ 0.51%  [kernel]       [k] handle<sub>mm</sub><sub>fault</sub>                   
+ 0.49%  [kernel]       [k] unmap<sub>single</sub><sub>vma</sub>                  
+ 0.37%  [unknown]      [.] 0x76ded280                        
+ 0.35%  [kernel]       [k] \_<sub>wake</sub><sub>up</sub><sub>bit</sub>                     
+ 0.34%  [kernel]       [k] free<sub>hot</sub><sub>cold</sub><sub>page</sub>                
+ 0.34%  [kernel]       [k] memcpy                            
+ 0.31%  [kernel]       [k] \_<sub>usb</sub><sub>hcd</sub><sub>giveback</sub><sub>urb</sub>            
+ 0.31%  [kernel]       [k] vector<sub>swi</sub>                        
+ 0.30%  [kernel]       [k] \_<sub>sync</sub><sub>icache</sub><sub>dcache</sub>              
+ 0.28%  [kernel]       [k] \_<sub>do</sub><sub>softirq</sub>                      
+&#x2026;.

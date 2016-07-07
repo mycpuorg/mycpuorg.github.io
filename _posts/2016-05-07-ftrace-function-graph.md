@@ -14,6 +14,7 @@ comments: true
 
 `sudo mount -t debugfs none /sys/kernel/debug`
 
+
 All the nodes that are required for ftrace, be it, collecting traces or configuring a parameter of ftrace all of them can be found under
 
     /sys/kernel/debug/tracing
