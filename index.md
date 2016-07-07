@@ -1,7 +1,7 @@
 ---
 layout: home
-excerpt: "A Common Man's Guide to Options Trading"
-tags: [Options, Philosophy, Investing, Finance]
+excerpt: "Yet Another Technical Blog"
+tags: [Linux, Technology, Geeks, kernel, tracing, ftrace, perf, ext4]
 image:
   feature: banner_pic.png
   credit: 
