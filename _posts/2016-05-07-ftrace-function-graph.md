@@ -6,28 +6,6 @@ tags: [Linux, kernel, tracing, ftrace, tracer, func_graph, call graphs ]
 comments: true
 ---
 
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#orgheadline1">1. ftrace - What?</a></li>
-<li><a href="#orgheadline2">2. ftrace - Overview of events</a></li>
-<li><a href="#orgheadline5">3. Types of events</a>
-<ul>
-<li><a href="#orgheadline3">3.1. Deliberate/Explicit</a></li>
-<li><a href="#orgheadline4">3.2. Surprise/Implicit</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline6">4. mcount - the trampoline</a></li>
-<li><a href="#orgheadline7">5. Practice: function graph in action</a></li>
-<li><a href="#orgheadline8">6. Dealing with output verbiage</a></li>
-<li><a href="#orgheadline9">7. Conditional trace: Important filters</a></li>
-<li><a href="#orgheadline10">8. Summary</a></li>
-</ul>
-</div>
-</div>
-
-
 # ftrace - What?<a id="orgheadline1"></a>
 
 Note: This section is a gentle introduction for ftrace beginners. If you are comfortable enough with ftrace to collect traces then please proceed to skip this section.
