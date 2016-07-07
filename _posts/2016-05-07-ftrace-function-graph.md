@@ -12,7 +12,7 @@ comments: true
 -   Although it's utility extends beyond that such as event tracing in the kernel. Throughout the kernel there are hundreds of static events available that can be enabled via the debugfs to generate runtime traces of the system. The debugfs filesystem contains control files that can be used to configure parameters of ftrace, as well as the read-only files that can be used to display output on the running system.
 -   The default directory where debugfs is mounted in the kernel is under *sys/kernel/debug*, for any reason if your system should not have 'debug' directory mounted under this then you can explicitly mount this by
 
-sudo mount -t debugfs none /sys/kernel/debug
+`sudo mount -t debugfs none /sys/kernel/debug`
 
 All the nodes that are required for ftrace, be it, collecting traces or configuring a parameter of ftrace all of them can be found under
 
