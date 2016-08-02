@@ -6,8 +6,6 @@ tags: [Linux, kernel, tracing, perf, profiler, events, record ]
 comments: true
 ---
 
-# Introduction<a id="orgheadline7"></a>
-
 ## perf - What is perf?<a id="orgheadline1"></a>
 
 -   The generic profiler tool for linux
@@ -87,7 +85,7 @@ comments: true
                       |
                       |
 
-## Ouput of perf top<a id="orgheadline6"></a>
+## Ouput of perf top<a id="orgheadline7"></a>
 
 **perf top**
    PerfTop:    2852 irqs/sec  kernel:74.9%  exact:  0.0% [4000Hz cycles],  (all, 4 CPUs)
