@@ -1,10 +1,12 @@
+---
 layout: post
-title: "perf: A quick look"
-excerpt: "Introduction of perf usage"
-tags: [Linux, kernel, perf, monitor, tracing, ftrace, tracer, func_graph, call graphs ]
+title: "Perf: Introduction to events"
+excerpt: "Introduction to perf events"
+tags: [Linux, kernel, tracing, perf, profiler, events, record ]
 comments: true
+---
 
-# Introduction<a id="orgheadline6"></a>
+# Introduction<a id="orgheadline7"></a>
 
 ## perf - What is perf?<a id="orgheadline1"></a>
 
