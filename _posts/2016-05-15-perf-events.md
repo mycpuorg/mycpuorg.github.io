@@ -93,28 +93,28 @@ comments: true
 
    ---
 
-   14.81%  [kernel]       [k] arch<sub>cpu</sub><sub>idle</sub>		         
+   14.81%  [kernel]       [k] arch_cpu_idle		         
    3.76%  [unknown]      [.] 0x76e22324                        
-   1.90%  [kernel]       [k] \_<sub>memzero</sub>                         
+   1.90%  [kernel]       [k] \__memzero                         
    1.27%  [unknown]      [.] 0x76e21960                        
-   1.19%  [kernel]       [k] finish<sub>task</sub><sub>switch</sub>                
-   1.16%  [kernel]       [k] \_raw<sub>spin</sub><sub>unlock</sub><sub>irqrestore</sub>       
+   1.19%  [kernel]       [k] finish_task_switch                
+   1.16%  [kernel]       [k] \_raw_spin_unlock_irqrestore       
    1.01%  [unknown]      [.] 0x76e22320                        
-   0.98%  [kernel]       [k] rcu<sub>idle</sub><sub>exit</sub>                     
+   0.98%  [kernel]       [k] rcu_idle_exit                     
    0.92%  [unknown]      [.] 0x76e21958                        
-   0.86%  [kernel]       [k] copy<sub>page</sub>                         
+   0.86%  [kernel]       [k] copy_page                         
    0.72%  [unknown]      [.] 0x76e21954                        
-   0.71%  [kernel]       [k] filemap<sub>map</sub><sub>pages</sub>                 
-   0.67%  [kernel]       [k] get<sub>page</sub><sub>from</sub><sub>freelist</sub>            
-   0.57%  [kernel]       [k] do<sub>page</sub><sub>fault</sub>                     
-   0.51%  [kernel]       [k] handle<sub>mm</sub><sub>fault</sub>                   
-   0.49%  [kernel]       [k] unmap<sub>single</sub><sub>vma</sub>                  
+   0.71%  [kernel]       [k] filemap_map_pages                 
+   0.67%  [kernel]       [k] get_page_from_freelist            
+   0.57%  [kernel]       [k] do_page_fault                     
+   0.51%  [kernel]       [k] handle_mm_fault                   
+   0.49%  [kernel]       [k] unmap_single_vma                  
    0.37%  [unknown]      [.] 0x76ded280                        
-   0.35%  [kernel]       [k] \_<sub>wake</sub><sub>up</sub><sub>bit</sub>                     
-   0.34%  [kernel]       [k] free<sub>hot</sub><sub>cold</sub><sub>page</sub>                
+   0.35%  [kernel]       [k] \__wake_up_bit                     
+   0.34%  [kernel]       [k] free_hot_cold_page                
    0.34%  [kernel]       [k] memcpy                            
-   0.31%  [kernel]       [k] \_<sub>usb</sub><sub>hcd</sub><sub>giveback</sub><sub>urb</sub>            
-   0.31%  [kernel]       [k] vector<sub>swi</sub>                        
-   0.30%  [kernel]       [k] \_<sub>sync</sub><sub>icache</sub><sub>dcache</sub>              
-   0.28%  [kernel]       [k] \_<sub>do</sub><sub>softirq</sub>                      
+   0.31%  [kernel]       [k] \__usb_hcd_giveback_urb            
+   0.31%  [kernel]       [k] vector_swi                        
+   0.30%  [kernel]       [k] \__sync_icache_dcache              
+   0.28%  [kernel]       [k] \__do_softirq                      
 &#x2026;.
