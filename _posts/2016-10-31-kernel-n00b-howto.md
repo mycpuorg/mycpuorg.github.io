@@ -11,7 +11,7 @@ If you do it right, most of these 60mins will be spent like this:
 
 ![img](//imgs.xkcd.com/comics/compiling.png)
 
-Recently, I was asked by a friend on how to compile Linux kernel. Shortly after, I realized that he assumed this needed a really complex system with a very sophisticated configuration. Although he was running a fairly new system he felt it needed a lot more "setup time" to get his kernel compiled and running. I found that most people are under the impression that you had to have this complex setup to be able to start "hacking the kernel".
+Recently, I was asked by a friend about how to compile Linux Kernel. Shortly after, I realized that he assumed this needed a really complex system with a very sophisticated configuration. Although he was running a fairly new system he felt it needed a lot more "setup time" to get his kernel compiled and running. I found that most people are under the impression that you had to have this complex setup to be able to start "hacking the kernel".
 I challenged him that we could find a way to be able to boot and run a kernel in under 60 mins!
 For the impatient, I have kept this entry short enough but if you are feeling extra-impatient follow the instructions inside<a id="sec-1" name="sec-1"></a>
 
@@ -89,8 +89,7 @@ To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT
 If you're missing any dependencies you should be able to quickly figure out by searching stackoverflow or by installing packages directly. Once buildroot has started compiling then you can take a break for several minutes. This is, easily, the most time-consuming step of the 60 mins we allocated for this activiity.<a id="sec-4-14" name="sec-4-14"></a>
 If everything went well, you should be very close to having your first kernel compiled on your machine.<a id="sec-4-15" name="sec-4-15"></a>
 Now we have a compressed image of the kernel binaries and a filesystem package for running a basic ramdisk image with a minimal userspace binaries to talk to your kernel!<a id="sec-4-16" name="sec-4-16"></a>
-The following part is borrowed from [LKP test script](https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/tree/rootfs/kexec/run-in-kvm.sh) and [Laura's blog](http://www.labbott.name/blog/2016/04/22/quick-kernel-hacking-with-qemu-+-buildroot/) You should check it out, it's awesome!:<a id="sec-4-17" name="sec-4-17"></a>
-
+The following part is borrowed from [LKP test script](https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/tree/rootfs/kexec/run-in-kvm.sh) and [Laura's blog](http://www.labbott.name/blog/2016/04/22/quick-kernel-hacking-with-qemu-+-buildroot/) (You should check it out, it's awesome!):<a id="sec-4-17" name="sec-4-17"></a>
 Copy this script into, say, **start-qemu.sh**
 
     #!/bin/bash
@@ -161,7 +160,7 @@ This should boot your kernel with a print out of intial kernel logs on your scre
 
 That's it! you have successfully downloaded the absolute latest and greatest kernel from the source tree of Linus Torvalds and compiled it. This is really the basic building block of kernel hacking. Save this setup, play around with it until you have exactly what you are looking for, tweak kernel config options, add your own prints in the kernel for fun!<a id="sec-4-20" name="sec-4-20"></a>
 
-Caveat: Are you screaming "Woohoo! I never this powerful before"? or "Nothing works! This entry sucks"? Either way, this is just the start of something that can repay rich dividends for a programmer. Play around with everything mentioned above until it works for you. There's no shorter route. There's no substitute for your own work.
+Caveat: Are you screaming "Woohoo! I never this powerful before"? or "Nothing works! This entry sucks"? Either way, this is just the start of something that can repay rich dividends for a programmer. Play around with everything mentioned above until it works for you. There's no shorter route. There's no substitute for your own work. Above steps assume that you are using a reasonably modern machine running Linux to compile. Also, if you don't make it in 60 mins don't sue me please.
 
 
 *Time to start growing a beard on your necks! Wait, what?!*
