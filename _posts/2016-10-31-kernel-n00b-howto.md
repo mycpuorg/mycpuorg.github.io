@@ -8,6 +8,7 @@ comments: true
 
 I will teach you how to make a lot of mon..er.. No, in this we will have our own running kernel within the next 60 mins (likely lesser).
 If you do it right, most of these 60mins will be spent like this:
+
 ![img](//imgs.xkcd.com/comics/compiling.png)
 Recently, I was asked by a friend on how to compile Linux kernel. Shortly after, I realized that he assumed this needed a really complex system with a very sophisticated configuration. Although he was running a fairly new system he felt it needed a lot more "setup time" to get his kernel compiled and running. I found that most people are under the impression that you had to have this complex setup to be able to start "hacking the kernel".
 I challenged him that we could find a way to be able to boot and run a kernel in under 60 mins!
@@ -41,12 +42,12 @@ Not sure?<a id="sec-4-3" name="sec-4-3"></a>
 
 Even if you are running x86\_64 the config files are placed under<a id="sec-4-4" name="sec-4-4"></a>
 
-    ls KERNEL\_ROOT/arch/x86/configs/
+    ls KERNEL_ROOT/arch/x86/configs/
     # no suffix '_64' in dirname
 
 In my case, I'm running a x86\_64 machine for desktop. So,<a id="sec-4-5" name="sec-4-5"></a>
 
-    # I will choose x86\_64\_defconfig
+    # I will choose x86_64_defconfig
     make x86_64_defconfig
 
 Typically, I add a list of my favorite options to the kernel that I leave turned on by default in my kernels. Ex: CONFIG\_FUNCTION\_GRAPH\_TRACER, CONFIG\_PREEMPT\_TRACER, CONFIG\_IRQSOFF\_TRACER<a id="sec-4-6" name="sec-4-6"></a>
