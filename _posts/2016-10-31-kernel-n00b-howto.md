@@ -1,37 +1,10 @@
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. For the impatient, I have kept this entry short enough but if you are feeling extra-impatient follow the instructions inside</a></li>
-<li><a href="#sec-2">2. Install QEMU and KVM</a></li>
-<li><a href="#sec-3">3. Get Linux kernel:</a></li>
-<li><a href="#sec-4">4. Build kernel config</a>
-<ul>
-<li><a href="#sec-4-1">4.1. I have to mention that in my experience as a kernel n00b I used to get stuck in this step more often than I should have. I'd either end up double guessing myself about whether I'd need this new feature simply based on how well the one-line description looked in the menu or getting drowned in the kernel documentation rabbit-hole. But the kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply</a></li>
-<li><a href="#sec-4-2">4.2. You should make sure you know what your machine's "YOUR<sub>MACHINE</sub><sub>ARCH</sub><sub>TYPE</sub>" is.</a></li>
-<li><a href="#sec-4-3">4.3. Not sure?</a></li>
-<li><a href="#sec-4-4">4.4. Even if you are running x86<sub>64</sub> the config files are placed under</a></li>
-<li><a href="#sec-4-5">4.5. In my case, I'm running a x86<sub>64</sub> machine for desktop. So,</a></li>
-<li><a href="#sec-4-6">4.6. Typically, I add a list of my favorite options to the kernel that I leave turned on by default in my kernels. Ex: CONFIG<sub>FUNCTION</sub><sub>GRAPH</sub><sub>TRACER</sub>, CONFIG<sub>PREEMPT</sub><sub>TRACER</sub>, CONFIG<sub>IRQSOFF</sub><sub>TRACER</sub></a></li>
-<li><a href="#sec-4-7">4.7. This should only take a few seconds. It's already time to actually compile our shiny new kernel:</a></li>
-<li><a href="#sec-4-8">4.8. Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL<sub>ROOT</sub>/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.</a></li>
-<li><a href="#sec-4-9">4.9. This will take several minutes for the first time, say about 6-7 mins in a normal case for an idle 4-core machine (for assumptions within reason)</a></li>
-<li><a href="#sec-4-10">4.10. Now we have the kernel already compiled. However, remember kernel doesn't all by itself. We will need a shell running in user space for which you will need a sandbox userspace. One of the quickest options is to build an initial ramdisk, which basically provides a temporary root fs in memory.</a></li>
-<li><a href="#sec-4-11">4.11. The best option here is buildroot, you don't have to click and get lost in the ocean of details (yet!). Here's an intro from it's official documentation: "Buildroot is a tool that simplifies and automates the process of building a complete Linux system for an embedded system, using cross-compilation.". OK! so you know enough to follow up on the details later. For now we have got to start compiling.</a></li>
-<li><a href="#sec-4-12">4.12. In the menu config for buildroot, there are a ton of config options that might seem interesting and you would want to explore them one by one, because it's magic! But we still are quite a way away from being able to run our kernel, yet we are close!</a></li>
-<li><a href="#sec-4-13">4.13. To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT<sub>ROOT</sub>/output/images/. I encourage you to do this</a></li>
-<li><a href="#sec-4-14">4.14. If you're missing any dependencies you should be able to quickly figure out by searching stackoverflow or by installing packages directly. Once buildroot has started compiling then you can take a break for several minutes. This is, easily, the most time-consuming step of the 60 mins we allocated for this activiity.</a></li>
-<li><a href="#sec-4-15">4.15. If evertying went well, you should be very close to having your first kernel compiled on your machine.</a></li>
-<li><a href="#sec-4-16">4.16. Now we have a compressed image of the kernel binaries and a filesystem package for running a basic ramdisk image with a minimal userspace binaries to talk to your kernel!</a></li>
-<li><a href="#sec-4-17">4.17. The following part is borrowed from LKP test script and Laura's blog:</a></li>
-<li><a href="#sec-4-18">4.18. After our 60mins, I encourage you to play with these options. But first let's try to get our system running:</a></li>
-<li><a href="#sec-4-19">4.19. This should boot your kernel with a print out of intial kernel logs on your screen and end at a login prompt (user: root, no passwd)</a></li>
-<li><a href="#sec-4-20">4.20. That's it! you have successfully downloaded the absolute latest and greatest kernel from the source tree of Linus Torvalds and compiled it. This is really the basic building block of kernel hacking. Save this setup, play around with it until you have exactly what you are looking for, tweak kernel config options, add your own prints in the kernel for fun!</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
+---
+layout: post
+title: "Build and Run your own kernel in 60 mins or less"
+excerpt: "Kernel n00b to n00b++ in 60mins"
+tags: [Linux, kernel, buildroot, kernel hacking, qemu, kvm, qemu-kvm, hacking]
+comments: true
+---
 
 Run your own kernel in 60 mins or less
 
