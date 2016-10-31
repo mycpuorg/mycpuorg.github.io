@@ -31,25 +31,25 @@ Steps:
 
 I have to mention that in my experience as a kernel n00b I used to get stuck in this step more often than I should have. I'd either end up double guessing myself about whether I'd need this new feature simply based on how well the one-line description looked in the menu or getting drowned in the kernel documentation rabbit-hole. But the kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply<a id="sec-4-1" name="sec-4-1"></a>
 
-    cd KERNEL\_ROOT/arch/<YOUR\_MACHINE\_ARCH\_TYPE>/configs/
+    cd KERNEL_ROOT/arch/<YOUR_MACHINE_ARCH_TYPE>/configs/
 
-You should make sure you know what your machine's "YOUR<sub>MACHINE</sub><sub>ARCH</sub><sub>TYPE</sub>" is.<a id="sec-4-2" name="sec-4-2"></a>
+You should make sure you know what your machine's "YOUR\_MACHINE\_ARCH\_TYPE" is.<a id="sec-4-2" name="sec-4-2"></a>
 
 Not sure?<a id="sec-4-3" name="sec-4-3"></a>
 
     uname -m
 
-Even if you are running x86<sub>64</sub> the config files are placed under<a id="sec-4-4" name="sec-4-4"></a>
+Even if you are running x86\_64 the config files are placed under<a id="sec-4-4" name="sec-4-4"></a>
 
     ls KERNEL\_ROOT/arch/x86/configs/
-    # no suffix '\_64' in dirname
+    # no suffix '_64' in dirname
 
-In my case, I'm running a x86<sub>64</sub> machine for desktop. So,<a id="sec-4-5" name="sec-4-5"></a>
+In my case, I'm running a x86\_64 machine for desktop. So,<a id="sec-4-5" name="sec-4-5"></a>
 
     # I will choose x86\_64\_defconfig
-    make x86\_64\_defconfig
+    make x86_64_defconfig
 
-Typically, I add a list of my favorite options to the kernel that I leave turned on by default in my kernels. Ex: CONFIG<sub>FUNCTION</sub><sub>GRAPH</sub><sub>TRACER</sub>, CONFIG<sub>PREEMPT</sub><sub>TRACER</sub>, CONFIG<sub>IRQSOFF</sub><sub>TRACER</sub><a id="sec-4-6" name="sec-4-6"></a>
+Typically, I add a list of my favorite options to the kernel that I leave turned on by default in my kernels. Ex: CONFIG\_FUNCTION\_GRAPH\_TRACER, CONFIG\_PREEMPT\_TRACER, CONFIG\_IRQSOFF\_TRACER<a id="sec-4-6" name="sec-4-6"></a>
 
 ### Compile
 This should only take a few seconds. It's already time to actually compile our shiny new kernel:<a id="sec-4-7" name="sec-4-7"></a>
@@ -60,7 +60,7 @@ This should only take a few seconds. It's already time to actually compile our s
 ### Compile Success? Verify.
 Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL<sub>ROOT</sub>/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.<a id="sec-4-8" name="sec-4-8"></a>
 
-    export MY\_BZIMG=$KERNEL\_ROOT/arch/x86/boot/bzImage
+    export MY_BZIMG=$KERNEL_ROOT/arch/x86/boot/bzImage
 
 This will take several minutes for the first time, say about 6-7 mins in a normal case for an idle 4-core machine (for assumptions within reason)<a id="sec-4-9" name="sec-4-9"></a>
 
@@ -75,7 +75,7 @@ The best option here is [buildroot](https://buildroot.org/), you don't have to c
     
     # Select these two options
     
-    Target options -> Target Architecture -> ex: x86\_64
+    Target options -> Target Architecture -> ex: x86_64
     
     Filesystem Images ->  cpio the root filesystem (for use as an initial RAM filesystem)
 
@@ -83,9 +83,9 @@ In the menu config for buildroot, there are a ton of config options that might s
 
     make
 
-To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT<sub>ROOT</sub>/output/images/. I encourage you to do this<a id="sec-4-13" name="sec-4-13"></a>
+To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT\_ROOT</sub>/output/images/. I encourage you to do this<a id="sec-4-13" name="sec-4-13"></a>
 
-    export BUIDLROOT\_PKG=$BUILDROOT_ROOT/output/images/rootfs.cpio
+    export BUIDLROOT_PKG=$BUILDROOT_ROOT/output/images/rootfs.cpio
 
 If you're missing any dependencies you should be able to quickly figure out by searching stackoverflow or by installing packages directly. Once buildroot has started compiling then you can take a break for several minutes. This is, easily, the most time-consuming step of the 60 mins we allocated for this activiity.<a id="sec-4-14" name="sec-4-14"></a>
 
