@@ -13,7 +13,6 @@ If you do it right, most of these 60mins will be spent like this:
 
 Recently, I was asked by a friend on how to compile Linux kernel. Shortly after, I realized that he assumed this needed a really complex system with a very sophisticated configuration. Although he was running a fairly new system he felt it needed a lot more "setup time" to get his kernel compiled and running. I found that most people are under the impression that you had to have this complex setup to be able to start "hacking the kernel".
 I challenged him that we could find a way to be able to boot and run a kernel in under 60 mins!
-
 For the impatient, I have kept this entry short enough but if you are feeling extra-impatient follow the instructions inside<a id="sec-1" name="sec-1"></a>
 
     this block
@@ -31,7 +30,7 @@ Steps:
 
 ### Build kernel config<a id="sec-4" name="sec-4"></a>
 
-I have to mention that in my experience as a kernel n00b I used to get stuck in this step more often than I should have. I'd either end up double guessing myself about whether I'd need this new feature simply based on how well the one-line description looked in the menu or getting drowned in the kernel documentation rabbit-hole. But the kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply<a id="sec-4-1" name="sec-4-1"></a>
+I have to mention that in my experience as a kernel n00b I used to get stuck in this step more often than I should have. I'd either end up double guessing myself about whether I'd need this new feature simply based on how well the one-line description looked in the menu or getting drowned in the kernel documentation rabbit-hole. But the kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply: <a id="sec-4-1" name="sec-4-1"></a>
 
     cd KERNEL_ROOT/arch/<YOUR_MACHINE_ARCH_TYPE>/configs/
 
@@ -67,7 +66,6 @@ This will take several minutes for the first time, say about 6-7 mins in a norma
 
 ### Buildroot
 Now we have the kernel already compiled. However, remember kernel doesn't all by itself. We will need a shell running in user space for which you will need a sandbox userspace. One of the quickest options is to build an initial ramdisk, which basically provides a temporary root fs in memory.<a id="sec-4-10" name="sec-4-10"></a>
-
 The best option here is [buildroot](https://buildroot.org/), you don't have to click and get lost in the ocean of details (yet!). Here's an intro from it's official documentation: "Buildroot is a tool that simplifies and automates the process of building a complete Linux system for an embedded system, using cross-compilation.". OK! so you know enough to follow up on the details later. For now we have got to start compiling.<a id="sec-4-11" name="sec-4-11"></a>
 
     git clone git://git.buildroot.net/buildroot
@@ -89,11 +87,8 @@ To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT
     export BUIDLROOT_PKG=$BUILDROOT_ROOT/output/images/rootfs.cpio
 
 If you're missing any dependencies you should be able to quickly figure out by searching stackoverflow or by installing packages directly. Once buildroot has started compiling then you can take a break for several minutes. This is, easily, the most time-consuming step of the 60 mins we allocated for this activiity.<a id="sec-4-14" name="sec-4-14"></a>
-
 If everything went well, you should be very close to having your first kernel compiled on your machine.<a id="sec-4-15" name="sec-4-15"></a>
-
 Now we have a compressed image of the kernel binaries and a filesystem package for running a basic ramdisk image with a minimal userspace binaries to talk to your kernel!<a id="sec-4-16" name="sec-4-16"></a>
-
 The following part is borrowed from [LKP test script](https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/tree/rootfs/kexec/run-in-kvm.sh) and [Laura's blog](http://www.labbott.name/blog/2016/04/22/quick-kernel-hacking-with-qemu-+-buildroot/) You should check it out, it's awesome!:<a id="sec-4-17" name="sec-4-17"></a>
 
 Copy this script into, say, **start-qemu.sh**
