@@ -1,22 +1,18 @@
 ---
 layout: post
 title: "Build and Run your own kernel in 60 mins or less"
-excerpt: "Kernel n00b to n00b++ in 60mins"
+excerpt: "Run your own kernel in 60 mins or less. Kernel n00b to n00b++ in 60mins"
 tags: [Linux, kernel, buildroot, kernel hacking, qemu, kvm, qemu-kvm, hacking]
 comments: true
 ---
 
-Run your own kernel in 60 mins or less
-
-I will teach you how to make a lot of mon..er.. No, in this we will have our own running kernel within the next 60 mins (likely lesser). And if you do it right, most of these 60mins will be spent like this:
-
+I will teach you how to make a lot of mon..er.. No, in this we will have our own running kernel within the next 60 mins (likely lesser).
+If you do it right, most of these 60mins will be spent like this:
 ![img](//imgs.xkcd.com/comics/compiling.png)
-
-Recently, I was asked by an acquaintance on how to compile Linux kernel. Shortly after I figured that he assumed this needed a really complex system with very high end compute power. Although he was running a fairly new system he felt it needed a lot more work to get his kernel compiled and running. I found that most people are under the impression that you had to have this complex setup to be able to start "hacking the kernel".
-
+Recently, I was asked by a friend on how to compile Linux kernel. Shortly after, I realized that he assumed this needed a really complex system with a very sophisticated configuration. Although he was running a fairly new system he felt it needed a lot more "setup time" to get his kernel compiled and running. I found that most people are under the impression that you had to have this complex setup to be able to start "hacking the kernel".
 I challenged him that we could find a way to be able to boot and run a kernel in under 60 mins!
 
-Note: For the impatient, I have kept this entry short enough but if you are feeling extra-impatient follow the instructions inside<a id="sec-1" name="sec-1"></a>
+For the impatient, I have kept this entry short enough but if you are feeling extra-impatient follow the instructions inside<a id="sec-1" name="sec-1"></a>
 
     this block
 
@@ -35,7 +31,7 @@ Steps:
 
 I have to mention that in my experience as a kernel n00b I used to get stuck in this step more often than I should have. I'd either end up double guessing myself about whether I'd need this new feature simply based on how well the one-line description looked in the menu or getting drowned in the kernel documentation rabbit-hole. But the kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply<a id="sec-4-1" name="sec-4-1"></a>
 
-    cd KERNEL_ROOT/arch/<YOUR_MACHINE_ARCH_TYPE>/configs/
+    cd KERNEL\_ROOT/arch/<YOUR\_MACHINE\_ARCH\_TYPE>/configs/
 
 You should make sure you know what your machine's "YOUR<sub>MACHINE</sub><sub>ARCH</sub><sub>TYPE</sub>" is.<a id="sec-4-2" name="sec-4-2"></a>
 
@@ -45,13 +41,13 @@ Not sure?<a id="sec-4-3" name="sec-4-3"></a>
 
 Even if you are running x86<sub>64</sub> the config files are placed under<a id="sec-4-4" name="sec-4-4"></a>
 
-    ls KERNEL_ROOT/arch/x86/configs/
-    # no suffix '_64' in dirname
+    ls KERNEL\_ROOT/arch/x86/configs/
+    # no suffix '\_64' in dirname
 
 In my case, I'm running a x86<sub>64</sub> machine for desktop. So,<a id="sec-4-5" name="sec-4-5"></a>
 
-    # I will choose x86_64_defconfig
-    make x86_64_defconfig
+    # I will choose x86\_64\_defconfig
+    make x86\_64\_defconfig
 
 Typically, I add a list of my favorite options to the kernel that I leave turned on by default in my kernels. Ex: CONFIG<sub>FUNCTION</sub><sub>GRAPH</sub><sub>TRACER</sub>, CONFIG<sub>PREEMPT</sub><sub>TRACER</sub>, CONFIG<sub>IRQSOFF</sub><sub>TRACER</sub><a id="sec-4-6" name="sec-4-6"></a>
 
@@ -64,7 +60,7 @@ This should only take a few seconds. It's already time to actually compile our s
 ### Compile Success? Verify.
 Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL<sub>ROOT</sub>/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.<a id="sec-4-8" name="sec-4-8"></a>
 
-    export MY_BZIMG=$KERNEL_ROOT/arch/x86/boot/bzImage
+    export MY\_BZIMG=$KERNEL\_ROOT/arch/x86/boot/bzImage
 
 This will take several minutes for the first time, say about 6-7 mins in a normal case for an idle 4-core machine (for assumptions within reason)<a id="sec-4-9" name="sec-4-9"></a>
 
@@ -79,7 +75,7 @@ The best option here is [buildroot](https://buildroot.org/), you don't have to c
     
     # Select these two options
     
-    Target options -> Target Architecture -> ex: x86_64
+    Target options -> Target Architecture -> ex: x86\_64
     
     Filesystem Images ->  cpio the root filesystem (for use as an initial RAM filesystem)
 
@@ -89,7 +85,7 @@ In the menu config for buildroot, there are a ton of config options that might s
 
 To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT<sub>ROOT</sub>/output/images/. I encourage you to do this<a id="sec-4-13" name="sec-4-13"></a>
 
-    export BUIDLROOT_PKG=$BUILDROOT_ROOT/output/images/rootfs.cpio
+    export BUIDLROOT\_PKG=$BUILDROOT_ROOT/output/images/rootfs.cpio
 
 If you're missing any dependencies you should be able to quickly figure out by searching stackoverflow or by installing packages directly. Once buildroot has started compiling then you can take a break for several minutes. This is, easily, the most time-consuming step of the 60 mins we allocated for this activiity.<a id="sec-4-14" name="sec-4-14"></a>
 
