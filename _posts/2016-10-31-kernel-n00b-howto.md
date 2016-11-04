@@ -58,7 +58,7 @@ This should only take a few seconds. It's already time to actually compile our s
     # NN = number of cores. Ex: make -j4 on a 4-core machine
 
 ### Compile Success? Verify.
-Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL\_ROOT</sub>/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.<a id="sec-4-8" name="sec-4-8"></a>
+Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL\_ROOT/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.<a id="sec-4-8" name="sec-4-8"></a>
 
     export MY_BZIMG=$KERNEL_ROOT/arch/x86/boot/bzImage
 
@@ -82,7 +82,7 @@ In the menu config for buildroot, there are a ton of config options that might s
 
     make
 
-To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT\_ROOT</sub>/output/images/. I encourage you to do this<a id="sec-4-13" name="sec-4-13"></a>
+To ensure buildroot compiled successfully, look for rootfs.cpio under $BUIDLROOT\_ROOT/output/images/. I encourage you to do this<a id="sec-4-13" name="sec-4-13"></a>
 
     export BUIDLROOT_PKG=$BUILDROOT_ROOT/output/images/rootfs.cpio
 
