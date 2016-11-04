@@ -58,7 +58,7 @@ This should only take a few seconds. It's already time to actually compile our s
     # NN = number of cores. Ex: make -j4 on a 4-core machine
 
 ### Compile Success? Verify.
-Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL<sub>ROOT</sub>/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.<a id="sec-4-8" name="sec-4-8"></a>
+Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL\_ROOT</sub>/arch/x86/boot/. I enourage you to have this in your shell to save some typing xlater.<a id="sec-4-8" name="sec-4-8"></a>
 
     export MY_BZIMG=$KERNEL_ROOT/arch/x86/boot/bzImage
 
@@ -154,7 +154,7 @@ Copy this script into, say, **start-qemu.sh**
 
 After our 60mins, I encourage you to play with these options. But first let's try to get our system running:<a id="sec-4-18" name="sec-4-18"></a>
 
-    ./start-qemu.sh $MY_BZ_IMG $BUILDROOT_PKG
+    ./start-qemu.sh $MY_BZIMG $BUILDROOT_PKG
 
 This should boot your kernel with a print out of intial kernel logs on your screen and end at a login prompt (user: root, no passwd)<a id="sec-4-19" name="sec-4-19"></a>
 
