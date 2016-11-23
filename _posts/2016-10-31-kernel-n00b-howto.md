@@ -27,12 +27,13 @@ Steps:
 ### Get Linux kernel:<a id="sec-3" name="sec-3"></a>
 
     $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+    $ export KERNEL_ROOT=$PWD/linux
 
 ### Build kernel config<a id="sec-4" name="sec-4"></a>
 
-I have to mention that in my experience as a kernel n00b I used to get stuck in this step more often than I should have. I'd either end up double guessing myself about whether I'd need this new feature simply based on how well the one-line description looked in the menu or getting drowned in the kernel documentation rabbit-hole. But the kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply: <a id="sec-4-1" name="sec-4-1"></a>
+I have to mention that in my experience as a kernel n00b, I used to get stuck in this step more often than I should have. I'd end up double guessing myself about whether I'd need a config option that enables a cool new feature. This was simply based on the short description in config menu. Many times, I'd drown in the kernel documentation rabbit-hole, although kernel is one of the better documented software projects it is suited well to lookup something dictionary-style, that's for a different post. The kernel ships with a default config that is good enough to compile all the necessary features for booting a kernel while leaving the extra-luggage out by the door. Simply: <a id="sec-4-1" name="sec-4-1"></a>
 
-    cd KERNEL_ROOT/arch/<YOUR_MACHINE_ARCH_TYPE>/configs/
+    cd $KERNEL_ROOT/arch/<YOUR_MACHINE_ARCH_TYPE>/configs/
 
 You should make sure you know what your machine's "YOUR\_MACHINE\_ARCH\_TYPE" is.<a id="sec-4-2" name="sec-4-2"></a>
 Not sure?<a id="sec-4-3" name="sec-4-3"></a>
@@ -41,12 +42,13 @@ Not sure?<a id="sec-4-3" name="sec-4-3"></a>
 
 Even if you are running x86\_64 the config files are placed under<a id="sec-4-4" name="sec-4-4"></a>
 
-    ls KERNEL_ROOT/arch/x86/configs/
+    ls $KERNEL_ROOT/arch/x86/configs/
     # no suffix '_64' in dirname
 
 In my case, I'm running a x86\_64 machine for desktop. So,<a id="sec-4-5" name="sec-4-5"></a>
 
     # I will choose x86_64_defconfig
+    cd $KERNEL_ROOT
     make x86_64_defconfig
 
 Typically, I add a list of my favorite options to the kernel that I leave turned on by default in my kernels. Ex: CONFIG\_FUNCTION\_GRAPH\_TRACER, CONFIG\_PREEMPT\_TRACER, CONFIG\_IRQSOFF\_TRACER<a id="sec-4-6" name="sec-4-6"></a>
@@ -65,7 +67,7 @@ Ensure that the kernel compilation succeeded by looking for bzImage under KERNEL
 This will take several minutes for the first time, say about 6-7 mins in a normal case for an idle 4-core machine (for assumptions within reason)<a id="sec-4-9" name="sec-4-9"></a>
 
 ### Buildroot
-Now we have the kernel already compiled. However, remember kernel doesn't all by itself. We will need a shell running in user space for which you will need a sandbox userspace. One of the quickest options is to build an initial ramdisk, which basically provides a temporary root fs in memory.<a id="sec-4-10" name="sec-4-10"></a>
+Now we have the kernel already compiled. However, remember kernel doesn't run all by itself. We will need a shell running in user space for which you will need a sandbox userspace. One of the quickest options is to build an initial ramdisk, which basically provides a temporary root fs in memory.<a id="sec-4-10" name="sec-4-10"></a>
 The best option here is [buildroot](https://buildroot.org/), you don't have to click and get lost in the ocean of details (yet!). Here's an intro from it's official documentation: "Buildroot is a tool that simplifies and automates the process of building a complete Linux system for an embedded system, using cross-compilation.". OK! so you know enough to follow up on the details later. For now we have got to start compiling.<a id="sec-4-11" name="sec-4-11"></a>
 
     git clone git://git.buildroot.net/buildroot
