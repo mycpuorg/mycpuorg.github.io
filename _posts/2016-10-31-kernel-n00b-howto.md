@@ -162,7 +162,7 @@ This should boot your kernel with a print out of intial kernel logs on your scre
 
 That's it! you have successfully downloaded the absolute latest and greatest kernel from the source tree of Linus Torvalds and compiled it. This is really the basic building block of kernel hacking. Save this setup, play around with it until you have exactly what you are looking for, tweak kernel config options, add your own prints in the kernel for fun!<a id="sec-4-20" name="sec-4-20"></a>
 
-Caveat: Are you screaming "Woohoo! I never this powerful before"? or "Nothing works! This entry sucks"? Either way, this is just the start of something that can repay rich dividends for a programmer. Play around with everything mentioned above until it works for you. There's no shorter route. There's no substitute for your own work. Above steps assume that you are using a reasonably modern machine running Linux to compile. Also, if you don't make it in 60 mins don't sue me please.
+Caveat: Are you screaming "Woohoo! I never felt this powerful before"? or "Nothing works! This entry sucks"? Either way, this is just the start of something that can repay rich dividends for a programmer. Play around with everything mentioned above until it works for you. There's no shorter route. There's no substitute for your own work. Above steps assume that you are using a reasonably modern machine running Linux to compile. Also, if you don't make it in 60 mins don't sue me please.
 
 
 *Time to start growing a beard on your necks! Wait, what?!*
