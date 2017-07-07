@@ -6,13 +6,13 @@ tags: [Linux, Ubuntu, Android ]
 comments: true
 ---
 
-# Android related setup
+### Android related setup
 
-## adb, fastboot and a rooted device with SD card slot
+#### adb, fastboot and a rooted device with SD card slot
 
-# SDCARD or DATA partition preparation
+### SDCARD or DATA partition preparation
 
-## Create partitions
+#### Create partitions
 
 Use a 32-GB SD Card and partition into two:
 One with 4GB of VFAT (FAT32) type with initramfs/boot partition.
@@ -68,25 +68,25 @@ therefore the other block device under the same major device 28GB
 EXT4 partition enumerated as mmcblk1p2 device (179:130).
 `====================================================`
 
-# Debootstrap steps
+### Debootstrap steps
 
-## Commands for debootstrap and installing the debian/ubuntu file system on the SDCARD
+#### Commands for debootstrap and installing the debian/ubuntu file system on the SDCARD
 
-## First, you will need to install debootstrap on your desktop
+#### First, you will need to install debootstrap on your desktop
 
     sudo apt-get install debootstrap
 
-## After this, you can run debootstrap to download the first stage images of xenial (or other Ubuntu release of your choice)
+#### After this, you can run debootstrap to download the first stage images of xenial (or other Ubuntu release of your choice)
 
-# apt conf modification
+### apt conf modification
 
-## Configuring parameters such as environment variables etc to get Ubuntu up and running..
+#### Configuring parameters such as environment variables etc to get Ubuntu up and running..
 
-# Bonus points: Re-route X11 display to the screen
+### Bonus points: Re-route X11 display to the screen
 
-## A nice-to-have feature
+#### A nice-to-have feature
 
-# UBUNTU on SDCARD: Writing the initramfs on /init
+### UBUNTU on SDCARD: Writing the initramfs on /init
 
     #!/sbin/busybox sh
     
@@ -183,7 +183,7 @@ On your Android device
     
     # Now shutdown your device and remove the SDcard.
 
-# UBUNTU on SDCARD:: Problems faced with apt-get update
+### UBUNTU on SDCARD:: Problems faced with apt-get update
 
 I looked a little further into this and it's really baffling to me. I
 enabled the debug flags for apt commands and looked at the output,
@@ -194,7 +194,7 @@ Err:3 <http://91.189.88.150/ubuntu-ports> xenial Release
   Could not create a socket for 91.189.88.150 (f=2 t=1 p=6) - socket
 (13: Permission denied)
 
-## UBUNTU on SDCARD:
+### UBUNTU on SDCARD:
 
 `============================================`
 The difference, as far as I can tell thus far, seems to be in that the '_apt' user cannot read the 'pubring.gpg' file that is being created in a temporary directory, which means that gpgv cannot access it when it runs;
@@ -218,7 +218,7 @@ W: An error occurred during the signature verification. The repository is not up
 `=
 =============================================`
 
-## UBUNTU on SDCARD: Add details to the following solutions before putting them up on the wiki
+### UBUNTU on SDCARD: Add details to the following solutions before putting them up on the wiki
 
 I also installed the debian package called android-permissions.deb
 Here's my new apt.conf
