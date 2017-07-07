@@ -15,12 +15,4 @@ Another great goldmine is in the oh-my-zsh package that provides an endless list
 
 ![magit-blame](/images/magit-blame.jpeg)
 
-![banner-pic](/images/banner_pic.png)
-
-![direct_banner_pic](/banner_pic.png)
-
-![direct-magit-blame](/magit-blame.jpeg)
-
-![images-only](/images/)
-
 I was really happy to see this output. However, this entry goes with cavets: your experience might vary depending on the version of Emacs that you are running, the version of magit that's installed on your system. As a secondary note, each of the tools in open source world are configurable and if you have the interest and time you can end up achieving **your** perfect system by tweaking it and frankly that's what I'm accustomed to, but once in a while you run into these pleasant surprises where the default behavior alone exceeds your highest expectations. Then again, this was possible simply some developer in a different part of the world wanted this system and spent the time and effort developing system that made me go 'Aha!' Kudos to people who do this!
