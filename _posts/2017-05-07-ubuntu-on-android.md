@@ -1,54 +1,18 @@
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. Android related setup</a>
-<ul>
-<li><a href="#sec-1-1">1.1. adb, fastboot and a rooted device with SD card slot</a></li>
-</ul>
-</li>
-<li><a href="#sec-2">2. SDCARD or DATA partition preparation</a>
-<ul>
-<li><a href="#sec-2-1">2.1. Create partitions</a></li>
-</ul>
-</li>
-<li><a href="#sec-3">3. Debootstrap steps</a>
-<ul>
-<li><a href="#sec-3-1">3.1. Commands for debootstrap and installing the debian/ubuntu file system on the SDCARD</a></li>
-<li><a href="#sec-3-2">3.2. First, you will need to install debootstrap on your desktop</a></li>
-<li><a href="#sec-3-3">3.3. After this, you can run debootstrap to download the first stage images of xenial (or other Ubuntu release of your choice)</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">4. apt conf modification</a>
-<ul>
-<li><a href="#sec-4-1">4.1. Configuring parameters such as environment variables etc to get Ubuntu up and running..</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">5. Bonus points: Re-route X11 display to the screen</a>
-<ul>
-<li><a href="#sec-5-1">5.1. A nice-to-have feature</a></li>
-</ul>
-</li>
-<li><a href="#sec-6">6. UBUNTU on SDCARD: Writing the initramfs on /init</a></li>
-<li><a href="#sec-7">7. UBUNTU on SDCARD:: Problems faced with apt-get update</a>
-<ul>
-<li><a href="#sec-7-1">7.1. UBUNTU on SDCARD:</a></li>
-<li><a href="#sec-7-2">7.2. UBUNTU on SDCARD: Add details to the following solutions before putting them up on the wiki</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
+---
+layout: post
+title: "Ubuntu Installation on Android"
+excerpt: "Install Ubuntu on Android system"
+tags: [Linux, Ubuntu, Android ]
+comments: true
+---
 
-Ubuntu Installation on Android
+# Android related setup
 
-# Android related setup<a id="sec-1" name="sec-1"></a>
+## adb, fastboot and a rooted device with SD card slot
 
-## adb, fastboot and a rooted device with SD card slot<a id="sec-1-1" name="sec-1-1"></a>
+# SDCARD or DATA partition preparation
 
-# SDCARD or DATA partition preparation<a id="sec-2" name="sec-2"></a>
-
-## Create partitions<a id="sec-2-1" name="sec-2-1"></a>
+## Create partitions
 
 Use a 32-GB SD Card and partition into two:
 One with 4GB of VFAT (FAT32) type with initramfs/boot partition.
@@ -104,25 +68,25 @@ therefore the other block device under the same major device 28GB
 EXT4 partition enumerated as mmcblk1p2 device (179:130).
 `====================================================`
 
-# Debootstrap steps<a id="sec-3" name="sec-3"></a>
+# Debootstrap steps
 
-## Commands for debootstrap and installing the debian/ubuntu file system on the SDCARD<a id="sec-3-1" name="sec-3-1"></a>
+## Commands for debootstrap and installing the debian/ubuntu file system on the SDCARD
 
-## First, you will need to install debootstrap on your desktop<a id="sec-3-2" name="sec-3-2"></a>
+## First, you will need to install debootstrap on your desktop
 
     sudo apt-get install debootstrap
 
-## After this, you can run debootstrap to download the first stage images of xenial (or other Ubuntu release of your choice)<a id="sec-3-3" name="sec-3-3"></a>
+## After this, you can run debootstrap to download the first stage images of xenial (or other Ubuntu release of your choice)
 
-# apt conf modification<a id="sec-4" name="sec-4"></a>
+# apt conf modification
 
-## Configuring parameters such as environment variables etc to get Ubuntu up and running..<a id="sec-4-1" name="sec-4-1"></a>
+## Configuring parameters such as environment variables etc to get Ubuntu up and running..
 
-# Bonus points: Re-route X11 display to the screen<a id="sec-5" name="sec-5"></a>
+# Bonus points: Re-route X11 display to the screen
 
-## A nice-to-have feature<a id="sec-5-1" name="sec-5-1"></a>
+## A nice-to-have feature
 
-# UBUNTU on SDCARD: Writing the initramfs on /init<a id="sec-6" name="sec-6"></a>
+# UBUNTU on SDCARD: Writing the initramfs on /init
 
     #!/sbin/busybox sh
     
@@ -219,7 +183,7 @@ On your Android device
     
     # Now shutdown your device and remove the SDcard.
 
-# UBUNTU on SDCARD:: Problems faced with apt-get update<a id="sec-7" name="sec-7"></a>
+# UBUNTU on SDCARD:: Problems faced with apt-get update
 
 I looked a little further into this and it's really baffling to me. I
 enabled the debug flags for apt commands and looked at the output,
@@ -230,15 +194,15 @@ Err:3 <http://91.189.88.150/ubuntu-ports> xenial Release
   Could not create a socket for 91.189.88.150 (f=2 t=1 p=6) - socket
 (13: Permission denied)
 
-## UBUNTU on SDCARD:<a id="sec-7-1" name="sec-7-1"></a>
+## UBUNTU on SDCARD:
 
 `============================================`
-The difference, as far as I can tell thus far, seems to be in that the '<sub>apt'</sub> user cannot read the 'pubring.gpg' file that is being created in a temporary directory, which means that gpgv cannot access it when it runs;
+The difference, as far as I can tell thus far, seems to be in that the '_apt' user cannot read the 'pubring.gpg' file that is being created in a temporary directory, which means that gpgv cannot access it when it runs;
 
 ==
-[pid 10149] stat("/etc/apt/trusted.gpg", {st<sub>mode</sub>=S<sub>IFREG|0644</sub>, st<sub>size</sub>=12255, &#x2026;}) = 0
-[pid 10149] faccessat(AT<sub>FDCWD</sub>, "/etc/apt/trusted.gpg", R<sub>OK</sub>) = 0
-[pid 10149] open("*tmp/tmp.OcaWlGuT32/pubring.gpg", O<sub>WRONLY|O</sub><sub>CREAT|O</sub><sub>APPEND</sub>, 0666) = -1 EACCES (Permission denied)
+[pid 10149] stat("/etc/apt/trusted.gpg", {st_mode=S_IFREG|0644, st_size=12255, &#x2026;}) = 0
+[pid 10149] faccessat(AT_FDCWD, "/etc/apt/trusted.gpg", R_OK) = 0
+[pid 10149] open("*tmp/tmp.OcaWlGuT32/pubring.gpg", O_WRONLY|O_CREAT|O_APPEND, 0666) = -1 EACCES (Permission denied)
 [pid 10149] write(2, "/usr/bin/apt-key: 309: /usr/bin*"&#x2026;, 41) = 41
 [pid 10149] write(2, "cannot create /tmp/tmp.OcaWlGuT3"&#x2026;, 64) = 64
 ==
@@ -254,7 +218,7 @@ W: An error occurred during the signature verification. The repository is not up
 `=
 =============================================`
 
-## UBUNTU on SDCARD: Add details to the following solutions before putting them up on the wiki<a id="sec-7-2" name="sec-7-2"></a>
+## UBUNTU on SDCARD: Add details to the following solutions before putting them up on the wiki
 
 I also installed the debian package called android-permissions.deb
 Here's my new apt.conf
