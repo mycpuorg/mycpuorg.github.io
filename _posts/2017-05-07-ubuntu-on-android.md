@@ -19,7 +19,6 @@ One with 4GB of VFAT (FAT32) type with initramfs/boot partition.
 The other with remaining storage as an ext4 partition. I used gparted to create partitions.
 After creating partitions mount the card on Android device.
 Now we need to bring Ubuntu filesystem on SDCARD.
-`====================================================`
 
     Output of mount shows this:
     # mount
@@ -66,7 +65,6 @@ Now we have to find out the corresponding block device name from /dev/block
 As we can see the 4GB partition on SDCARD corresponds to mmcblk1p1,
 therefore the other block device under the same major device 28GB
 EXT4 partition enumerated as mmcblk1p2 device (179:130).
-`====================================================`
 
 ### Debootstrap steps
 
@@ -196,16 +194,15 @@ Err:3 <http://91.189.88.150/ubuntu-ports> xenial Release
 
 ### UBUNTU on SDCARD:
 
-`============================================`
 The difference, as far as I can tell thus far, seems to be in that the '_apt' user cannot read the 'pubring.gpg' file that is being created in a temporary directory, which means that gpgv cannot access it when it runs;
 
-==
-[pid 10149] stat("/etc/apt/trusted.gpg", {st_mode=S_IFREG|0644, st_size=12255, &#x2026;}) = 0
-[pid 10149] faccessat(AT_FDCWD, "/etc/apt/trusted.gpg", R_OK) = 0
-[pid 10149] open("*tmp/tmp.OcaWlGuT32/pubring.gpg", O_WRONLY|O_CREAT|O_APPEND, 0666) = -1 EACCES (Permission denied)
-[pid 10149] write(2, "/usr/bin/apt-key: 309: /usr/bin*"&#x2026;, 41) = 41
-[pid 10149] write(2, "cannot create /tmp/tmp.OcaWlGuT3"&#x2026;, 64) = 64
-==
+    ==
+    [pid 10149] stat("/etc/apt/trusted.gpg", {st_mode=S_IFREG|0644, st_size=12255, &#x2026;}) = 0
+    [pid 10149] faccessat(AT_FDCWD, "/etc/apt/trusted.gpg", R_OK) = 0
+    [pid 10149] open("*tmp/tmp.OcaWlGuT32/pubring.gpg", O_WRONLY|O_CREAT|O_APPEND, 0666) = -1 EACCES (Permission denied)
+    [pid 10149] write(2, "/usr/bin/apt-key: 309: /usr/bin*"&#x2026;, 41) = 41
+    [pid 10149] write(2, "cannot create /tmp/tmp.OcaWlGuT3"&#x2026;, 64) = 64
+    ==
 
 This problem does not occur when root is the sandbox user, set via 'APT::Sandbox::User "root";' in '/etc/apt/apt.conf'. It's the only setting present. Disable that setting and the problem returns, while running the same thing interactively works without any issues.
 
@@ -216,7 +213,6 @@ The warning we're seeing looks as follows;
 ==
 W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: <https://apt-cache.domain.example/cache/us-east-1.ec2.archive.ubuntu.com/ubuntu> xenial InRelease: Unknown error executing apt-key
 `=
-=============================================`
 
 ### UBUNTU on SDCARD: Add details to the following solutions before putting them up on the wiki
 
