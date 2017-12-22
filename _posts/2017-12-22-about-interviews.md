@@ -14,4 +14,4 @@ It's mostly an informal conversation with the guest that I have for anywhere bet
 
 My aim is to have a podcast that you could play on your commute and come out of it learning a new trick or being motivated, inspired to do a little bit more with your day.
 
-I have learned that getting the audio at the right levels without blowing out ears, yet, getting that 'podcast quality' in a simple audio recording of a conversation can be quite tough.
+I have learned that getting the audio at the right levels without blowing out ears, yet, getting that 'podcast quality' in a simple audio recording of a conversation can be quite tough. However, it was a lot of fun! Hopefully, it is equally fun for you folks to listen to the show as well.
