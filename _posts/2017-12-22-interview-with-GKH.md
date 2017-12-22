@@ -6,6 +6,8 @@ tags: [Interview, Podcast, VoidStar, Linux, GKH, Kernel]
 comments: true
 ---
 
+![Towering-GKH](/images/GKH-Manoj.gif)
+
 ### My Interview with Greg Kroah-Hartman (GKH)
 <audio controls>
   <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" type="audio/mpeg">
