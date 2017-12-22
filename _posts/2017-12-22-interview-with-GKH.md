@@ -23,11 +23,15 @@ comments: true
 </div>
 </div>
 
+Void Star Podcast - Interview with GKH
+<audio controls>
+  <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio> 
+
 Hello Folks,
 
-Welcome to the Void Star Podcast Series. My conversation with Greg was thoroughly refreshing.
-
-If you are not sure who GKH is, I'll save you the trouble of looking him up. Here is the excerpt from GKH's Wikipedia page:
+Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Greg Kroah-Hartman. If you are not sure who GKH is, I'll save you the trouble of looking him up. Here is the excerpt from GKH's Wikipedia page:
 
     Greg Kroah-Hartman (GKH) is a Linux kernel developer. He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (with Hans J. Koch), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He worked for Novell in the SUSE Labs division and, as of 1 February 2012, works at the Linux Foundation.
     
@@ -36,8 +40,6 @@ If you are not sure who GKH is, I'll save you the trouble of looking him up. Her
     Kroah-Hartman frequently helps in the documentation of the kernel and driver development through talks and tutorials. In 2006, he released a CD image of material to introduce a programmer to working on Linux device driver development.
     
     Kroah-Hartman has been a strong advocate of a stable kernel–user space API.
-
-[Void Star Podcast - Interview with GKH](https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3)
 
 # Show Notes:<a id="sec-1" name="sec-1"></a>
 
