@@ -1,29 +1,12 @@
 ---
 layout: post
-title: "My Interview with Greg Kroah-Hartman (GKH)"
+title: "Void Star Podcast - Interview with Greg Kroah-Hartman (GKH)"
 excerpt: "Interview from the Void Star Podcast Series"
 tags: [Interview, Podcast, VoidStar, Linux, GKH, Kernel]
 comments: true
 ---
 
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. Show Notes:</a>
-<ul>
-<li><a href="#sec-1-1">1.1. Greg's Git Config:</a></li>
-<li><a href="#sec-1-2">1.2. Greg's VIM config:</a></li>
-<li><a href="#sec-1-3">1.3. Greg's Kernel Coding Style Plugin:</a></li>
-<li><a href="#sec-1-4">1.4. The plugin Greg uses for Editing files under git</a></li>
-<li><a href="#sec-1-5">1.5. Other plugins Greg uses:</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-
-# Void Star Podcast - Interview with GKH
+### My Interview with Greg Kroah-Hartman (GKH)
 <audio controls>
   <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
