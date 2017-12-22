@@ -33,13 +33,10 @@ Hello Folks,
 
 Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Greg Kroah-Hartman. If you are not sure who GKH is, I'll save you the trouble of looking him up. Here is the excerpt from GKH's Wikipedia page:
 
-    Greg Kroah-Hartman (GKH) is a Linux kernel developer. He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (with Hans J. Koch), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He worked for Novell in the SUSE Labs division and, as of 1 February 2012, works at the Linux Foundation.
-    
-    He is a co-author of Linux Device Drivers (3rd Edition) and author of Linux Kernel in a Nutshell, and used to be a contributing editor for Linux Journal. He also contributes articles to LWN.net, the computing news site.
-    
-    Kroah-Hartman frequently helps in the documentation of the kernel and driver development through talks and tutorials. In 2006, he released a CD image of material to introduce a programmer to working on Linux device driver development.
-    
-    Kroah-Hartman has been a strong advocate of a stable kernel–user space API.
+"Greg Kroah-Hartman (GKH) is a Linux kernel developer. He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (with Hans J. Koch), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He worked for Novell in the SUSE Labs division and, as of 1 February 2012, works at the Linux Foundation.
+He is a co-author of Linux Device Drivers (3rd Edition) and author of Linux Kernel in a Nutshell, and used to be a contributing editor for Linux Journal. He also contributes articles to LWN.net, the computing news site. 
+Kroah-Hartman frequently helps in the documentation of the kernel and driver development through talks and tutorials. In 2006, he released a CD image of material to introduce a programmer to working on Linux device driver development.
+Kroah-Hartman has been a strong advocate of a stable kernel–user space API."
 
 # Show Notes:<a id="sec-1" name="sec-1"></a>
 
@@ -60,10 +57,9 @@ Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews)
     match WhitespaceEOL /\s\+$/
 
 ## Greg's Kernel Coding Style Plugin:<a id="sec-1-3" name="sec-1-3"></a>
+Greg uses the linux coding style addon for proper kernel formatting and to highlight when going over 80 columsn:
 
-    I use the linux coding style addon for proper kernel formatting and to
-    let me know when I go over 80 columns, it is at:
-            http://github.com/vivien/vim-addon-linux-coding-style
+    http://github.com/vivien/vim-addon-linux-coding-style
 
 ## The plugin Greg uses for Editing files under git<a id="sec-1-4" name="sec-1-4"></a>
 
