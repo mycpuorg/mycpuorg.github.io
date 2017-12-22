@@ -5,16 +5,17 @@ excerpt: "Interview from the Void Star Podcast Series"
 tags: [Interview, Podcast, VoidStar, Linux, GKH, Kernel]
 comments: true
 ---
-
-![Towering-GKH](/images/GKH-Manoj.gif)
-
 ### My Interview with Greg Kroah-Hartman (GKH)
 <audio controls>
   <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio> 
 
-Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Greg Kroah-Hartman. If you are not sure who GKH is, I'll save you the trouble of looking him up. Here is the excerpt from GKH's Wikipedia page:
+Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Greg Kroah-Hartman. If you are not sure who GKH is, I'll save you the trouble of looking him up.
+
+![Towering-GKH](/images/GKH-Manoj.gif)
+
+Here is the excerpt from GKH's Wikipedia page:
 
 "Greg Kroah-Hartman (GKH) is a Linux kernel developer. He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (with Hans J. Koch), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He worked for Novell in the SUSE Labs division and, as of 1 February 2012, works at the Linux Foundation.
 He is a co-author of Linux Device Drivers (3rd Edition) and author of Linux Kernel in a Nutshell, and used to be a contributing editor for Linux Journal. He also contributes articles to LWN.net, the computing news site. 
