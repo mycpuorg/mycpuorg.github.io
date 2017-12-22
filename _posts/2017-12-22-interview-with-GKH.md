@@ -23,13 +23,11 @@ comments: true
 </div>
 </div>
 
-Void Star Podcast - Interview with GKH
+# Void Star Podcast - Interview with GKH
 <audio controls>
   <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio> 
-
-Hello Folks,
 
 Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Greg Kroah-Hartman. If you are not sure who GKH is, I'll save you the trouble of looking him up. Here is the excerpt from GKH's Wikipedia page:
 
