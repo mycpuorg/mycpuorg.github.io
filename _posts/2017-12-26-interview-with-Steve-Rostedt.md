@@ -5,7 +5,7 @@ excerpt: "Interview from the Void Star Podcast Series"
 tags: [Interview, Podcast, VoidStar, Linux, Steve Rostedt, Kernel, ftrace, RT scheduler]
 comments: true
 ---
-Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Steve Rostedt. Steve is Linux Kernel Programmer and he's one of the most prolific contributors in the Linux Kernel Community. He has authored several features in the Linux Kernel including the super popular ftrace, trace-cmd, kernelshark, localmodconfig, ktest. He's also a key contributor to Linux's RT scheduler.
+Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Steve Rostedt. Steve is a Linux Kernel Programmer and he's one of the most prolific contributors in the Linux Kernel Community. He has authored several features in the Linux Kernel including the super popular ftrace, trace-cmd, kernelshark, localmodconfig, ktest. He's also a key contributor to Linux's RT scheduler.
 
 ### My Interview with Steve Rostedt
 <audio controls>
