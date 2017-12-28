@@ -7,6 +7,8 @@ comments: true
 ---
 Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Steve Rostedt. Steve is a Linux Kernel Programmer and he's one of the most prolific contributors in the Linux Kernel Community. He has authored several features in the Linux Kernel including the super popular ftrace, trace-cmd, kernelshark, localmodconfig, ktest. He's also a key contributor to Linux's RT scheduler.
 
+I try to uncover the secrets behind Steve's ability to solve with extremely complex problems in the Linux Kernel. We discuss about a ton of topics from his favorite editor and shortcuts, shell hacks, routines, habits, books, his approach to solving complex problems, his cheat sheet to remain productive, his knack to come up with clear thoughts while debugging knotty issues.
+
 ### My Interview with Steve Rostedt
 <audio controls>
   <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3" type="audio/mpeg">
