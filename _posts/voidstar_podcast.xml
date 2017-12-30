@@ -1,0 +1,90 @@
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/" version="2.0">
+    <channel>
+        <title>VoidStar Podcast</title>
+        <link>http://www.voidstarpodcast.com</link>
+        <image>
+            <url>http://www.mycpu.org/images/voidstar.png</url>
+            <title>VoidStar Podcast</title>
+            <link>http://www.voidstarpodcast.com</link>
+        </image>
+        <description>
+          VoidStar Podcast is series where we talk to the top class achievers in tech and take a peek at the secrets to their excellence.
+	  I have constantly wondered how top achievers in tech, especially, people who have proven track record of being excellent at say coding and developing huge open projects. Are they gifted people with extra-terrestrial abilities or are they mere mortals who share several drawbacks with the rest of us but do just enough things right, consistently. In early 2017, I set myself to start a podcast series where I would talk to top class achievers in tech and try to uncover any patterns in their habits, routines and approach. The interview format is an informal conversation with the guest for anywhere between 45 minutes to 90 minutes. If it’s much longer the episode is split into smaller chunks. My aim is to have a podcast that helps developers learn a new trick, be motivated to solve an important problem or simply do a bit more with your day. Hopefully, the show is as fun and exciting to listen to as it was for me.
+        </description>
+        <language>en-us</language>
+        <copyright>Manoj Rao copyright 2017</copyright>
+        <atom:link href="http://www.mycpu.org/podcast.xml" rel="self" type="application/rss+xml"/>
+        <lastBuildDate>Fri, 29 Dec 2017 06:00:00 PDT</lastBuildDate>
+        <itunes:author>Manoj Rao</itunes:author>
+        <itunes:summary>
+          VoidStar Podcast is series where we talk to the top class achievers in tech and take a peek at the secrets to their excellence.
+	  A bit more: http://www.mycpu.org/about-interviews/
+        </itunes:summary>
+        <itunes:subtitle>VoidStar Podcast is series where we talk to the top class achievers in tech and take a peek at the secrets to their excellence</itunes:subtitle>
+        <itunes:owner>
+          <itunes:name>Manoj Rao</itunes:name>
+          <itunes:email>mail@mycpu.org</itunes:email>
+        </itunes:owner>
+        <itunes:explicit>No</itunes:explicit>
+        <itunes:keywords>
+          linux, kernel, developers, java, android, business, entrpreneurship, tech, interview, top-class, software, development, coding, source code, open source, hacks, hacking
+        </itunes:keywords>
+        <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+        <rawvoice:rating>TV-G</rawvoice:rating>
+        <rawvoice:location>San Jose, California</rawvoice:location>
+        <rawvoice:frequency>Monthly</rawvoice:frequency>
+        <itunes:category text="Technology"/>
+        <lastBuildDate>Fri, 29 Dec 2017 06:00:00 PDT</lastBuildDate>
+        <pubDate>Fri, 29 Dec 2017 06:00:00 PDT</pubDate>
+	<item>
+	  <title>VSP: #001: Change The World, While Having Fun - with GKH of Linux Kernel</title>
+	  <link>
+	    https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3
+	  </link>
+	  <pubDate>Fri, 29 Dec 2017 16:00:00 PDT</pubDate>
+	  <description>
+	    Welcome to the Void Star Podcast Series. This episode contains my conversation with Greg Kroah-Hartman. Also known as GKH in the Linux Kernel Community. He is "Mr. Linux Device Drivers". He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (co-owned), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He is a Fellow at the Linux Foundation. He is a co-author of the most famous Linux Device Drivers (3rd Edition) book and author of Linux Kernel in a Nutshell, and used to be a contributing editor for Linux Journal.
+	    We talk about Greg's secrets to being so productive, his tricks to staying on top over a thousand emails per day, his favorite editor, his favorite hacks, his system for staying focused, daily habits, routines and much more. Greg, lets us in on how to get super-human amounts of work done while not even really trying.
+	  </description>
+	  <enclosure url="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" length="76151389" type="audio/mpeg"/>
+	  <guid>
+            https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3
+	  </guid>
+	  <itunes:duration>79:22</itunes:duration>
+	  <itunes:summary>
+	    VoidStar Podcast - Interview with GKH of Linux Kernel
+	  </itunes:summary>
+	  <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+	  <itunes:keywords>
+	    Interview, Podcast, VoidStar, Linux, GKH, Kernel, Device Drivers, kobj, open source, Linus, Torvalds, Coding, source code, open source, Linus, Torvalds, Coding, source code, git, debug, debugging, emacs, vim, bash, tracing, eBPF
+	  </itunes:keywords>
+	  <itunes:explicit>no</itunes:explicit>
+	</item>
+
+	<item>
+	  <title>VSP: #002: Debugging At The Deep End, One Candlelight At A Time - with Steve Rostedt of Linux Kernel</title>
+	  <link>
+	    https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3
+	  </link>
+	  <pubDate>Fri, 29 Dec 2017 16:00:00 PDT</pubDate>
+	  <description>
+	    Welcome to the Void Star Podcast Series. This episode contains my conversation with Steve Rostedt. Steve is a Linux Kernel Programmer and he’s one of the most prolific contributors in the Linux Kernel Community. He has authored several features in the Linux Kernel including the super popular ftrace, trace-cmd, kernelshark, localmodconfig, ktest. He’s also a key contributor to Linux’s RT scheduler.
+
+	    I try to uncover the secrets behind Steve’s ability to solve with extremely complex problems in the Linux Kernel. We discuss about a ton of topics from his favorite editor and shortcuts, shell hacks, routines, habits, books, his approach to solving complex problems, his cheat sheet to remain productive, his knack to come up with clear thoughts while debugging knotty issues. There is a huge secret that Steve lets us in on, that has helped him solve extremely complex problems in a short time while having all the fun.
+	  </description>
+	  <enclosure url="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3" length="187564593" type="audio/mpeg"/>
+	  <guid>
+	    https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3
+	  </guid>
+	  <itunes:duration>78:09</itunes:duration>
+	  <itunes:summary>
+	    VoidStar Podcast - Interview with Steve Rostedt of Linux Kernel
+	  </itunes:summary>
+	  <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+	  <itunes:keywords>
+	    Interview, Podcast, VoidStar, Linux, Steve Rostedt, Kernel, ftrace, trace-cmd, scheduler, real-time, RT, RTLinux, RT scheduler, open source, Linus, Torvalds, Coding, source code, git, debug, debugging, emacs, vim, bash, tracing, eBPF
+	  </itunes:keywords>
+	  <itunes:explicit>no</itunes:explicit>
+	</item>
+      </channel>
+</rss>
