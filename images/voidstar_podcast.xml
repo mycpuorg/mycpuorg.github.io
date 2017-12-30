@@ -9,7 +9,7 @@
         </image>
         <description>
           VoidStar Podcast is series where we talk to the top class achievers in tech and take a peek at the secrets to their excellence.
-	  I have constantly wondered how top achievers in tech, especially, people who have proven track record of being excellent at say coding and developing huge open projects. Are they gifted people with extra-terrestrial abilities or are they mere mortals who share several drawbacks with the rest of us but do just enough things right, consistently. In early 2017, I set myself to start a podcast series where I would talk to top class achievers in tech and try to uncover any patterns in their habits, routines and approach. The interview format is an informal conversation with the guest for anywhere between 45 minutes to 90 minutes. If it’s much longer the episode is split into smaller chunks. My aim is to have a podcast that helps developers learn a new trick, be motivated to solve an important problem or simply do a bit more with your day. Hopefully, the show is as fun and exciting to listen to as it was for me.
+	  I have constantly wondered how top achievers in tech, especially, people who have proven track record of being excellent at say coding and developing huge open projects. Are they gifted people with extra-terrestrial abilities or are they mere mortals who share several drawbacks with the rest of us but do just enough things right, consistently. In early 2017, I set myself to start a podcast series where I would talk to top class achievers in tech and try to uncover any patterns in their habits, routines and approach. The interview format is an informal conversation with the guest for anywhere between 45 minutes to 90 minutes. If it’s much longer the episode is split into smaller chunks. My aim is to have a podcast that helps developers learn a new trick, be motivated to solve an important problem or simply do a bit more with your day. Hopefully, the show is as fun and exciting to listen to as it was for me. Please Subscribe.
         </description>
         <language>en-us</language>
         <copyright>Manoj Rao copyright 2017</copyright>
@@ -45,6 +45,7 @@
 	  <description>
 	    Welcome to the Void Star Podcast Series. This episode contains my conversation with Greg Kroah-Hartman. Also known as GKH in the Linux Kernel Community. He is "Mr. Linux Device Drivers". He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (co-owned), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He is a Fellow at the Linux Foundation. He is a co-author of the most famous Linux Device Drivers (3rd Edition) book and author of Linux Kernel in a Nutshell, and used to be a contributing editor for Linux Journal.
 	    We talk about Greg's secrets to being so productive, his tricks to staying on top over a thousand emails per day, his favorite editor, his favorite hacks, his system for staying focused, daily habits, routines and much more. Greg, lets us in on how to get super-human amounts of work done while not even really trying.
+	    You can also visit: http://www.mycpu.org/interview-with-GKH
 	  </description>
 	  <enclosure url="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3" length="76151389" type="audio/mpeg"/>
 	  <guid>
@@ -71,6 +72,8 @@
 	    Welcome to the Void Star Podcast Series. This episode contains my conversation with Steve Rostedt. Steve is a Linux Kernel Programmer and he’s one of the most prolific contributors in the Linux Kernel Community. He has authored several features in the Linux Kernel including the super popular ftrace, trace-cmd, kernelshark, localmodconfig, ktest. He’s also a key contributor to Linux’s RT scheduler.
 
 	    I try to uncover the secrets behind Steve’s ability to solve with extremely complex problems in the Linux Kernel. We discuss about a ton of topics from his favorite editor and shortcuts, shell hacks, routines, habits, books, his approach to solving complex problems, his cheat sheet to remain productive, his knack to come up with clear thoughts while debugging knotty issues. There is a huge secret that Steve lets us in on, that has helped him solve extremely complex problems in a short time while having all the fun.
+
+	    You can also visit: http://www.mycpu.org/interview-with-Steve-Rostedt
 	  </description>
 	  <enclosure url="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3" length="187564593" type="audio/mpeg"/>
 	  <guid>
