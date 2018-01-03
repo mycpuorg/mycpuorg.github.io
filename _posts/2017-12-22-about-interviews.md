@@ -19,5 +19,5 @@ I have learned that getting the audio at the right levels without blowing out ea
 # Please subscribe via your favorite podcast app (Coming Soon on iTunes):
 
 <div>
-<iframe scrolling="no" frameborder="0" style="width:360px;height:180px;border:0;overflow:hidden;" width="360" height="180" src="https://app.stitcher.com/splayer/f/162759?el=1&refid=stpr"></iframe>
+<iframe scrolling="no" frameborder="0" style="width:720px;height:360px;border:0;overflow:hidden;" width="720" height="360" src="https://app.stitcher.com/splayer/f/162759?el=1&refid=stpr"></iframe>
 </div>
