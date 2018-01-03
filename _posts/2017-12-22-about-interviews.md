@@ -6,7 +6,7 @@ tags: [Interview, Podcast, VoidStar, Tech, Achievers, Excellence]
 comments: true
 ---
 
-I have constantly wondered how top achievers in tech, especially, people who have proven track record of being excellent at say coding and developing huge open projects. Are they gifted people with extra-terrestrial abilities or are they mere mortals who share several drawbacks with the rest of us but do just enough things right, consistently.
+I have always wanted to ask about the key strengths of top class achievers, especially, people who have a proven track record of being excellent at coding, design, and developing huge open projects. Are they gifted people with extra-terrestrial abilities or are they mere mortals who share several drawbacks with the rest of us but do just enough things right, consistently.
 Earlier this year I set myself to start a podcast series where I would talk to top class achievers in tech and take a peek at the secrets to their excellence.
 
 The interview format is the following:
@@ -19,5 +19,6 @@ I have learned that getting the audio at the right levels without blowing out ea
 # Please subscribe via your favorite podcast app (Coming Soon on iTunes):
 
 <div>
-<iframe scrolling="no" frameborder="0" style="width:720px;height:360px;border:0;overflow:hidden;" width="720" height="360" src="https://app.stitcher.com/splayer/f/162759?el=1&refid=stpr"></iframe>
+<iframe scrolling=”no” frameborder=”0” style=”width:300px;height:180px;border:0;overflow:hidden;” width=”300” height=”180” src=”http://app.stitcher.com/widget/f/162759></iframe>
+<!--iframe scrolling="no" frameborder="0" style="width:720px;height:360px;border:0;overflow:hidden;" width="720" height="360" src="https://app.stitcher.com/splayer/f/162759?el=1&refid=stpr"></iframe-->
 </div>
