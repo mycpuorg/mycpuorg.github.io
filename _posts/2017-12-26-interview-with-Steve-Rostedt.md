@@ -10,10 +10,9 @@ Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews)
 I try to uncover the secrets behind Steve's ability to solve with extremely complex problems in the Linux Kernel. We discuss about a ton of topics from his favorite editor and shortcuts, shell hacks, routines, habits, books, his approach to solving complex problems, his cheat sheet to remain productive, his knack to come up with clear thoughts while debugging knotty issues.
 
 ### My Interview with Steve Rostedt
-<audio controls>
-  <source src="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
+<div>
+<iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/52752916" width="220" height="150" frameborder="0" scrolling="no"></iframe>
+</div>
 
 ![At Linux Plumbers Conference, 2017](/images/Steve_Rostedt-Manoj.jpg)
 
