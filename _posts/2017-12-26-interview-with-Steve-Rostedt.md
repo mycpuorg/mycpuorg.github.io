@@ -11,7 +11,7 @@ I try to uncover the secrets behind Steve's ability to solve with extremely comp
 
 ### My Interview with Steve Rostedt
 <div>
-<iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/52752916" width="220" height="150" frameborder="0" scrolling="no"></iframe>
+<iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/52752916" width="400" height="200" frameborder="0" scrolling="no"></iframe>
 </div>
 
 ![At Linux Plumbers Conference, 2017](/images/Steve_Rostedt-Manoj.jpg)

@@ -15,7 +15,7 @@ Kroah-Hartman has been a strong advocate of a stable kernel–user space API."
 
 ### My Interview with Greg Kroah-Hartman (GKH)
 <div>
-<iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/52752915" width="220" height="150" frameborder="0" scrolling="no"></iframe>
+<iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/52752915" width="400" height="200" frameborder="0" scrolling="no"></iframe>
 </div>
 
 ![Towering-GKH](/images/GKH-Manoj.gif)
