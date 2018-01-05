@@ -22,6 +22,10 @@ Please visit Void Star Podcast's page on Sticher. Subscribe on the app and leave
 
 # Please search and subscribe via your favorite podcast app:
 	You should be able to search for 'VoidStar Podcast' on your favorite app
+        We are now available on Google Play Music too!
+<div>
+<a href='https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&amp;isi=691797987&amp;ius=googleplaymusic&amp;apn=com.google.android.music&amp;link=https://play.google.com/music/m/I46jz5f2f345iw4a5kw3umtbela?t%3DVoidStar_Podcast%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16' rel='nofollow'><img width='125px' alt='Listen on Google Play Music' src='https://play.google.com/intl/en_us/badges-music/images/badges/en_badge_web_music.png'/></a>
+</div>
 
 <div>
 <iframe scrolling="no" frameborder="0" style="width:720px;height:360px;border:0;overflow:hidden;" width="720" height="360" src="https://app.stitcher.com/splayer/f/162759?el=1&refid=stpr"></iframe>
