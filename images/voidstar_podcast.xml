@@ -36,7 +36,7 @@
         <itunes:category text="Technology"/>
         <pubDate>Fri, 29 Dec 2017 06:00:00 PDT</pubDate>
 	<item>
-	  <title>VSP: #001: Change The World, While Having Fun - with GKH of Linux Kernel</title>
+	  <title>VSP-001: Change The World, While Having Fun - with GKH of Linux Kernel</title>
 	  <link>
 	    http://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Greg+Kroah-Hartman.mp3
 	  </link>
@@ -52,7 +52,9 @@
 	  </guid>
 	  <itunes:duration>79:22</itunes:duration>
 	  <itunes:summary>
-	    VoidStar Podcast - Interview with GKH of Linux Kernel
+	    Welcome to the Void Star Podcast Series. This episode contains my conversation with Greg Kroah-Hartman. Also known as GKH in the Linux Kernel Community. He is "Mr. Linux Device Drivers". He is the current Linux kernel maintainer for the -stable branch, the staging subsystem, USB, driver core, debugfs, kref, kobject, and the sysfs kernel subsystems, Userspace I/O (co-owned), and TTY layer. He also created linux-hotplug, the udev project, and the Linux Driver Project. He is a Fellow at the Linux Foundation. He is a co-author of the most famous Linux Device Drivers (3rd Edition) book and author of Linux Kernel in a Nutshell, and used to be a contributing editor for Linux Journal.
+	    We talk about Greg's secrets to being so productive, his tricks to staying on top over a thousand emails per day, his favorite editor, his favorite hacks, his system for staying focused, daily habits, routines and much more. Greg, lets us in on how to get super-human amounts of work done while not even really trying.
+	    You can also visit: http://www.mycpu.org/interview-with-GKH
 	  </itunes:summary>
 	  <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
 	  <itunes:keywords>
@@ -62,7 +64,7 @@
 	</item>
 
 	<item>
-	  <title>VSP: #002: Debugging At The Deep End, One Candlelight At A Time - with Steve Rostedt of Linux Kernel</title>
+	  <title>VSP-002: Debugging At The Deep End, One Candlelight At A Time - with Steve Rostedt of Linux Kernel</title>
 	  <link>
 	    http://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Steven+Rostedt.mp3
 	  </link>
@@ -80,7 +82,11 @@
 	  </guid>
 	  <itunes:duration>78:09</itunes:duration>
 	  <itunes:summary>
-	    VoidStar Podcast - Interview with Steve Rostedt of Linux Kernel
+	    Welcome to the Void Star Podcast Series. This episode contains my conversation with Steve Rostedt. Steve is a Linux Kernel Programmer and he’s one of the most prolific contributors in the Linux Kernel Community. He has authored several features in the Linux Kernel including the super popular ftrace, trace-cmd, kernelshark, localmodconfig, ktest. He’s also a key contributor to Linux’s RT scheduler.
+
+	    I try to uncover the secrets behind Steve’s ability to solve with extremely complex problems in the Linux Kernel. We discuss about a ton of topics from his favorite editor and shortcuts, shell hacks, routines, habits, books, his approach to solving complex problems, his cheat sheet to remain productive, his knack to come up with clear thoughts while debugging knotty issues. There is a huge secret that Steve lets us in on, that has helped him solve extremely complex problems in a short time while having all the fun.
+
+	    You can also visit: http://www.mycpu.org/interview-with-Steve-Rostedt
 	  </itunes:summary>
 	  <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
 	  <itunes:keywords>
