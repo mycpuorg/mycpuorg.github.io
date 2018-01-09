@@ -18,6 +18,7 @@ I have learned that getting the audio at the right levels without blowing out ea
 
 ### Available on iTunes Podcast
 Visit Void Star Podcast's page on iTunes Podcast Portal. Please Click 'Subscribe', leave a comment.
+
 [![Get it iTunes](/images/itunes.svg)](https://itunes.apple.com/us/podcast/voidstar-podcast/id1332549527)
 
 ### Available on Google Play Music
@@ -34,5 +35,9 @@ Visit Void Star Podcast's page on Sticher. Please Click 'Subscribe' and leave a 
 <a href="https://www.stitcher.com/s?fid=162759&refid=stpr"><img src="https://secureimg.stitcher.com/promo.assets/stitcher-banner-180x120.jpg" width="180" height="120" alt="Listen to Stitcher"></a>
 </div>
 
-# Please search and subscribe via your favorite podcast app:
-You should be able to search for 'VoidStar Podcast' on your favorite app
+
+## Your app not listed here? Not an issue..
+You should be able to search for 'VoidStar Podcast' on your favorite app.
+Most apps use one of the above sources for listing podcasts. This was tested on
+'Podcast Addict' (where you can also specify the search engine) and RatPoison on Android.
+
