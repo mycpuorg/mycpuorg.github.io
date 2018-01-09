@@ -18,7 +18,7 @@ I have learned that getting the audio at the right levels without blowing out ea
 
 ### Available on iTunes Podcast
 Visit Void Star Podcast's page on iTunes Podcast Portal. Click 'Subscribe', leave a comment.
-[images/itunes.svg](https://itunes.apple.com/us/podcast/voidstar-podcast/id1332549527)
+[![Get it on iTunes](/images/itunes.svg)](https://itunes.apple.com/us/podcast/voidstar-podcast/id1332549527)
 ### Available on Google Play Music
 Visit Void Star Podcast's page on Google Play Music. Subscribe on the app and leave a comment.
 [Click here to listen on Google Play Music](https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&isi=691797987&ius=googleplaymusic&apn=com.google.android.music&link=https://play.google.com/music/m/I46jz5f2f345iw4a5kw3umtbela?t%3DVoidStar_Podcast%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16)
