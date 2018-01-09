@@ -17,19 +17,18 @@ My aim is to have a podcast that you could play on your commute and come out of 
 I have learned that getting the audio at the right levels without blowing out ears, yet, getting that 'podcast quality' in a simple audio recording of a conversation can be quite tough. However, it was a lot of fun! Hopefully, it is equally fun for you folks to listen to the show as well.
 
 ### Available on iTunes Podcast
-Visit Void Star Podcast's page on iTunes Podcast Portal. Click 'Subscribe', leave a comment.
-[![Get it on iTunes](/images/itunes.svg)](https://itunes.apple.com/us/podcast/voidstar-podcast/id1332549527)
+Visit Void Star Podcast's page on iTunes Podcast Portal. Please Click 'Subscribe', leave a comment.
+[![Get it iTunes](/images/itunes.svg)](https://itunes.apple.com/us/podcast/voidstar-podcast/id1332549527)
+
 ### Available on Google Play Music
-Visit Void Star Podcast's page on Google Play Music. Subscribe on the app and leave a comment.
-[Click here to listen on Google Play Music](https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&isi=691797987&ius=googleplaymusic&apn=com.google.android.music&link=https://play.google.com/music/m/I46jz5f2f345iw4a5kw3umtbela?t%3DVoidStar_Podcast%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16)
+Visit Void Star Podcast's page on Google Play Music. Please Click 'Subscribe' and leave a comment.
 
 <div>
 <a href='https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&amp;isi=691797987&amp;ius=googleplaymusic&amp;apn=com.google.android.music&amp;link=https://play.google.com/music/m/I46jz5f2f345iw4a5kw3umtbela?t%3DVoidStar_Podcast%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16' rel='nofollow'><img width='125px' alt='Listen on Google Play Music' src='https://play.google.com/intl/en_us/badges-music/images/badges/en_badge_web_music.png'/></a>
 </div>
 
 ### Available on Stitcher
-Please visit Void Star Podcast's page on Sticher. Subscribe on the app and leave a comment.
-[Click here to listen on Stitcher app](http://stitcher.com/s?fid=162759&refid=stpr)
+Visit Void Star Podcast's page on Sticher. Please Click 'Subscribe' and leave a comment.
 
 <div>
 <a href="https://www.stitcher.com/s?fid=162759&refid=stpr"><img src="https://secureimg.stitcher.com/promo.assets/stitcher-banner-180x120.jpg" width="180" height="120" alt="Listen to Stitcher"></a>
@@ -37,5 +36,3 @@ Please visit Void Star Podcast's page on Sticher. Subscribe on the app and leave
 
 # Please search and subscribe via your favorite podcast app:
 You should be able to search for 'VoidStar Podcast' on your favorite app
-
-#### Coming Soon on iTunes too!
