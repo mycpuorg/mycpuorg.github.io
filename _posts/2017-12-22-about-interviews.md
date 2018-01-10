@@ -40,10 +40,3 @@ Visit Void Star Podcast's page on Sticher. Please Click 'Subscribe' and leave a 
 You should be able to search for 'VoidStar Podcast' on your favorite app.
 Most apps use one of the above sources for listing podcasts. This was tested on
 'Podcast Addict' (where you can also specify the search engine) and RatPoison on Android.
-
-
-<div class="subscribe_podcast">  <div class="container" style="padding:0">
-		<li><a href='https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&amp;isi=691797987&amp;ius=googleplaymusic&amp;apn=com.google.android.music&amp;link=https://play.google.com/music/m/I46jz5f2f345iw4a5kw3umtbela?t%3DVoidStar_Podcast%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16' rel='nofollow'><img width='125px' alt='Listen on Google Play Music' src='https://play.google.com/intl/en_us/badges-music/images/badges/en_badge_web_music.png'/></a></li>
-		<li><a><a href="https://www.stitcher.com/s?fid=162759&refid=stpr"><img src="https://secureimg.stitcher.com/promo.assets/stitcher-banner-180x120.jpg" width="180" height="120" alt="Listen to Stitcher"></a>
-</a></li>
-</div>
