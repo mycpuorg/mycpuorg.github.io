@@ -6,15 +6,16 @@ tags: [Interview, Podcast, VoidStar, Tech, Achievers, Excellence]
 comments: true
 ---
 
-I have always wanted to ask about the key strengths of top class achievers, especially, people who have a proven track record of being excellent at coding, design, and developing huge open projects. Are they gifted people with extra-terrestrial abilities or are they mere mortals who share several drawbacks with the rest of us but do just enough things right, consistently.
+I have always wanted to ask about the key strengths of top class achievers, especially, people who have a proven track record of being excellent at coding, design, and developing huge projects. Are they gifted people with extra-terrestrial abilities?
+Or are they mere mortals who share most of our drawbacks, but get just enough things right, consistently.
 Earlier this year I set myself to start a podcast series where I would talk to top class achievers in tech and take a peek at the secrets to their excellence.
 
-The interview format is the following:
-It's mostly an informal conversation with the guest that I have for anywhere between 45 minutes to 90 minutes. If it's much longer I will split the episode into smaller chunks.
+The interview format is mostly an informal conversation with the guest for anywhere between 45 minutes and 90 minutes.
+If it's much longer I will split the episode into smaller chunks.
 
-My aim is to have a podcast that you could play on your commute and come out of it learning a new trick or being motivated, inspired to do a little bit more with your day.
+My aim is to have a podcast that you could play on your commute. Hopefully you come out of it learning a new trick or be motivated/inspired to do a little bit more with your day.
 
-I have learned that getting the audio at the right levels without blowing out ears, yet, getting that 'podcast quality' in a simple audio recording of a conversation can be quite tough. However, it was a lot of fun! Hopefully, it is equally fun for you folks to listen to the show as well.
+I'm not a professional sound engineer. Trust me, it will become apparent. But doing this over my spare time is a lot of fun! Hopefully, it is equally fun for you folks to listen to the show.
 
 ### Available on iTunes Podcast
 Visit Void Star Podcast's page on iTunes Podcast Portal. Please Click 'Subscribe', leave a comment.
