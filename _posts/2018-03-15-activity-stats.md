@@ -23,7 +23,8 @@ comments: true
 </div>
 </div>
 
-### Emacs offers you extreme configurability without depending solely on pre-defined functions and variables. Perhaps, the most significant characteristic of vim is its blazing speed and almost no burden from adding bells and whistles. And one of my favorite features in Vim is the relative numbering of the lines. This allows you to almost instantly use Vim's commands with lines/numbers as arguments. In the code snippet below (Linux Kernel), say, you wanted to remove the comment with "TODO" since the comment is no longer valid in the context. You do not have to start calculating<a id="sec-1" name="sec-1"></a>
+### Emacs:
+Emacs offers you extreme configurability without depending solely on pre-defined functions and variables. Perhaps, the most significant characteristic of vim is its blazing speed and almost no burden from adding bells and whistles. And one of my favorite features in Vim is the relative numbering of the lines. This allows you to almost instantly use Vim's commands with lines/numbers as arguments. In the code snippet below (Linux Kernel), say, you wanted to remove the comment with "TODO" since the comment is no longer valid in the context. You do not have to start calculating<a id="sec-1" name="sec-1"></a>
 
     void update_rq_clock(struct rq *rq)
     {
@@ -48,21 +49,29 @@ comments: true
             update_rq_clock_task(rq, delta);
     }
 
-### This came out my interview for the VoidStar Podcast Series with Joe Armstrong.<a id="sec-2" name="sec-2"></a>
+### Voidstar Podcast:
+This came out my interview for the VoidStar Podcast Series with Joe Armstrong.<a id="sec-2" name="sec-2"></a>
 
-### The idea is to track your activity via Emacs. Given that Emacs is more of "an OS that lacks a good editor" this is actually possible.<a id="sec-3" name="sec-3"></a>
+### Idea:
+The idea is to track your activity via Emacs. Given that Emacs is more of "an OS that lacks a good editor" this is actually possible.<a id="sec-3" name="sec-3"></a>
 
-### Here I give you the outline of how to setup your Emacs system so that you can try and track your activity too.<a id="sec-4" name="sec-4"></a>
+### Outline:
+Here I give you the outline of how to setup your Emacs system so that you can try and track your activity too.<a id="sec-4" name="sec-4"></a>
 
-### The primary idea is to track which file you have been spending the most time on per week.<a id="sec-5" name="sec-5"></a>
+### Tracking:
+The primary idea is to track which file you have been spending the most time on per week.<a id="sec-5" name="sec-5"></a>
 
-### For this you will need an Emacs plugin that can keep track of when you opened a file and when you closed it.<a id="sec-6" name="sec-6"></a>
+### Plugin:
+For this you will need an Emacs plugin that can keep track of when you opened a file and when you closed it.<a id="sec-6" name="sec-6"></a>
 
-### Here's my code to do this, but before that, I have to disclose that a part of this code was lifted from some response to StackOverflow question etc.<a id="sec-7" name="sec-7"></a>
+### Emacs Config:
+Here's my code to do this, but before that, I have to disclose that a part of this code was lifted from some response to StackOverflow question etc.<a id="sec-7" name="sec-7"></a>
 
-### Reference: <https://www.gnu.org/software/emacs/manual/html_node/elisp/Visiting-Functions.html#Visiting-Functions><a id="sec-8" name="sec-8"></a>
+### Reference:
+<https://www.gnu.org/software/emacs/manual/html_node/elisp/Visiting-Functions.html#Visiting-Functions><a id="sec-8" name="sec-8"></a>
 
-### This does not handle closing Emacs altogether, and killing Emacs all of a sudden. Frankly neither of these are an occurence in my system. So here goes.<a id="sec-9" name="sec-9"></a>
+### Emacs Lisp:
+This does not handle closing Emacs altogether, and killing Emacs all of a sudden. Frankly neither of these are an occurence in my system. So here goes.<a id="sec-9" name="sec-9"></a>
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;;;;;;;;;;;; My edits to track the files I use
