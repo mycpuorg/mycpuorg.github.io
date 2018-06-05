@@ -12,6 +12,10 @@ In this first part in two episode series, we talk about his early years as a stu
 
 ## My Interview with James Gosling
 
+<audio controls src="james_gosling.mp3">
+   <a href="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+James+Gosling_PART_I.mp3">Play Episode</a>
+</audio>
+
 ### Available on iTunes Podcast
 Visit Void Star Podcast's page on iTunes Podcast Portal. Please Click 'Subscribe', leave a comment.
 
