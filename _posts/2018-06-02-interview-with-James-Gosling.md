@@ -9,8 +9,9 @@ Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews)
 
 In this first part in two episode series, we talk about his early years as a student during which he may or may not have faked his age to get access to computers to practice programming, the true story behind the motivation for Java Language, his experiences programming the Ocean Robots, his take on A.I. and ramifications on our future.
 
-
 ## My Interview with James Gosling
+
+[![Play Episode](https://play.google.com/music/m/Dki5hgpe6nh46wq5kbei6ytrdpa?t=VSP-003_How_to_Start_Small_and_Win_Big_-_with_James_Gosling_the_Father_of_Java_-_Part_I-VoidStar_Pod)
 
 ### Available on iTunes Podcast
 Visit Void Star Podcast's page on iTunes Podcast Portal. Please Click 'Subscribe', leave a comment.
