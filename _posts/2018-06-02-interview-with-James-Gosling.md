@@ -12,9 +12,9 @@ In this first part in two episode series, we talk about his early years as a stu
 
 ## My Interview with James Gosling
 
-<audio controls src="james_gosling.mp3">
+<!--audio controls src="james_gosling.mp3">
    <a href="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+James+Gosling_PART_I.mp3">Play Episode</a>
-</audio>
+</audio-->
 
 <div>
 <iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/54742524" width="220" height="150" frameborder="0" scrolling="no"></iframe>
