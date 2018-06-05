@@ -17,7 +17,7 @@ In this first part in two episode series, we talk about his early years as a stu
 </audio>
 
 <div>
-<iframe scrolling=”no” frameborder=”0” style=”width:300px;height:180px;border:0;overflow:hidden;” width=”300” height=”180” src=”http://app.stitcher.com/widget/f/162759></iframe>
+<iframe style="border: solid 1px #dedede;"  src="https://app.stitcher.com/splayer/f/162759/52752915" width="220" height="150" frameborder="0" scrolling="no"></iframe>
 </div>
 
 ### Available on iTunes Podcast
