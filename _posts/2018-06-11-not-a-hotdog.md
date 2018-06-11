@@ -41,11 +41,18 @@ All that happened was I came across a few things on the Internet and turns out t
 
 ### My results:
 
+#### Hot Dog
 ![img](/images/hotdog1.png)
+
+#### Hot Dog
 ![img](/images/hotdog2.png)
+
+#### Not A Hot Dog
 ![img](/images/not_hotdog1.png)
+
+#### Not A Hot Dog
 ![img](/images/not_hotdog2.png)
 
 If you are interested, you can find more raw notes from my exercise and Jupyter Notebooks from the available too:
-![TF Keras experiments](https://github.com/mycpuorg/tensorflow-keras-musings)
+[TF Keras experiments](https://github.com/mycpuorg/tensorflow-keras-musings)
 
