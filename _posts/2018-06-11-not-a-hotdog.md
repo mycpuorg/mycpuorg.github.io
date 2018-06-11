@@ -41,8 +41,11 @@ All that happened was I came across a few things on the Internet and turns out t
 
 ### Here are my results:
 
-![img](./hotdog1.png)
-![img](./hotdog2.png)
-![img](./not_hotdog1.png)
-![img](./not_hotdog2.png)
+![img](/images/hotdog1.png)
+![img](/images/hotdog2.png)
+![img](/images/not_hotdog1.png)
+![img](/images/not_hotdog2.png)
+
+If you are interested, you can find more raw notes from my exercise and Jupyter Notebooks from the available too:
+![TF Keras experiments](https://github.com/mycpuorg/tensorflow-keras-musings)
 
