@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Not a HotDog - My musings with TF and Keras"
-excerpt: "Playing with TF and Keras in Silicon Valley"
+title: "Not a HotDog - My musings with TensorFlow and Keras"
+excerpt: "Playing with TensorFlow and Keras in Silicon Valley"
 tags: [TensorFlow, Emacs, Python, Keras, Deep Learning, Machine Learning, Technology, Robotics, Artifical Intelligence, Silicon Valley, HotDog]
 comments: true
 ---
@@ -16,7 +16,7 @@ comments: true
 
 <a id="org53673f1"></a>
 
-I was playing around trying to build (really) basic models from Convolutions and I came across an article that caught my eye and one thing led to another and pretty soon I was watching snippets of the HBO series Silicon Valley. Turns out there is a trained model on TF + Keras with training data consisting of food images. Dan Becker (a Data Scientist and contributor to Keras) has built the core engine for this app.
+Over the weekend, I was playing around trying to build (really) basic models with convolutions and I came across an article that caught my eye and one thing led to another and pretty soon I was watching snippets of the HBO series Silicon Valley. Turns out there is a trained model on TensorFlow + Keras with training data consisting of food images. Dan Becker (a Data Scientist and contributor to Keras) has built the core engine for this app.
 
 <a id="orgea4a740"></a>
 
@@ -28,13 +28,13 @@ I was playing around trying to build (really) basic models from Convolutions and
 
 <a id="org711f5f2"></a>
 ### Passing Fad.. Not.
-After watching this video, I was certain it was based on the modern apps like 'Yo'. But the far reaching use cases from democratizing such a pwoerful combination of TF + Keras APIs cannot be overstated.
+After watching this video, I was certain it was based on the modern apps like 'Yo'. But the far reaching use cases from democratizing such a pwoerful combination of TensorFlow + Keras APIs cannot be overstated.
 
 
 <a id="org98c69f5"></a>
 ### Building Complex Things Easily
 
-All that happened was I came across a few things on the Internet and turns out there is a pre-trained Keras model that can be used with TensorFlow to basically code up the heart of a ridiculous app from Silicon Valley TV series. With this I'm convinced most of research involved in making Silicon Valley is rooted in reality. Maybe, I should watch Black Mirror next!
+All I had to do was figure out there is a pre-trained Keras model that can be used with TensorFlow to basically code up the heart of a ridiculous app from Silicon Valley TV series. With this I'm convinced most of research involved in making Silicon Valley is rooted in reality. Maybe, I should watch Black Mirror next!
 
 
 <a id="org8697a19"></a>
@@ -53,6 +53,6 @@ All that happened was I came across a few things on the Internet and turns out t
 #### Not A Hot Dog
 ![img](/images/not_hotdog2.png)
 
-If you are interested, you can find more raw notes from my exercise and Jupyter Notebooks from the available too:
-[TF Keras experiments](https://github.com/mycpuorg/tensorflow-keras-musings)
+If you are interested, you can find more raw notes from my exercise and my forked Jupyter Notebooks are available too:
+[TensorFlow Keras experiments](https://github.com/mycpuorg/tensorflow-keras-musings)
 
