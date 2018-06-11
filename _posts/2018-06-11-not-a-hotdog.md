@@ -8,11 +8,10 @@ comments: true
 
 # Table of Contents
 
-1.  [Preface](#org53673f1)
-    1.  ['SeeFood' from Silicon Valley](#orgea4a740)
-        1.  [Passing Fad?](#org711f5f2)
-        2.  [Building Applications](#org98c69f5)
-        3.  [My results:](#org8697a19)
+1.  ['SeeFood' from Silicon Valley](#orgea4a740)
+2.  [Passing Fad?](#org711f5f2)
+3.  [Building Applications](#org98c69f5)
+4.  [My results:](#org8697a19)
 
 
 <a id="org53673f1"></a>
@@ -28,18 +27,19 @@ I was playing around trying to build (really) basic models from Convolutions and
 </div>
 
 <a id="org711f5f2"></a>
-
+### Passing Fad.. Not.
 After watching this video, I was certain it was based on the modern apps like 'Yo'. But the far reaching use cases from democratizing such a pwoerful combination of TF + Keras APIs cannot be overstated.
 
 
 <a id="org98c69f5"></a>
+### Building Complex Things Easily
 
 All that happened was I came across a few things on the Internet and turns out there is a pre-trained Keras model that can be used with TensorFlow to basically code up the heart of a ridiculous app from Silicon Valley TV series. With this I'm convinced most of research involved in making Silicon Valley is rooted in reality. Maybe, I should watch Black Mirror next!
 
 
 <a id="org8697a19"></a>
 
-### Here are my results:
+### My results:
 
 ![img](/images/hotdog1.png)
 ![img](/images/hotdog2.png)
