@@ -6,7 +6,7 @@ tags: [TensorFlow, Emacs, Python, Keras, Deep Learning, Machine Learning, Techno
 comments: true
 ---
 
-# Table of Contents
+## Table of Contents
 
 1.  ['SeeFood' from Silicon Valley](#orgea4a740)
 2.  [Passing Fad?](#org711f5f2)
