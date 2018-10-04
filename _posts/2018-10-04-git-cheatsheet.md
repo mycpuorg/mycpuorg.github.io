@@ -17,8 +17,9 @@ But it also helps you get a step closer to becoming a git Guru.
 Git cheat list
 
 -   name of the current branch and nothing else (for automation)
-    
-    bash Emacs git rev-parse &#x2013;abbrev-ref HEAD
+```
+git rev-parse &#x2013;abbrev-ref HEAD
+```
 
 -   all commits that your branch has that are not yet in master
     
