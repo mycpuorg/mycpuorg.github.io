@@ -18,101 +18,132 @@ Git cheat list
 
 -   name of the current branch and nothing else (for automation)
 
-    bash Emacs git rev-parse --abbrev-ref HEAD
+```
+git rev-parse --abbrev-ref HEAD
+```
 
 <!-- -->
 
 -   all commits that your branch has that are not yet in master
 
-    bash Emacs git log master..&lt;HERE\_COMES\_YOUR\_BRANCH\_NAME&gt;
+```
+git log master..&lt;HERE\_COMES\_YOUR\_BRANCH\_NAME&gt;
+```
 
 <!-- -->
 
 -   setting up a character used for comments
 
-    bash Emacs git config core.commentchar
-    &lt;HERE\_COMES\_YOUR\_COMMENT\_CHAR&gt;
+```
+git config core.commentchar &lt;HERE\_COMES\_YOUR\_COMMENT\_CHAR&gt;
+```
+
 
 <!-- -->
 
 -   fixing \`fatal: Could not parse object\` after unsuccessful revert
 
-    bash Emacs git revert --quit
+```
+git revert --quit
+```
 
 <!-- -->
 
 -   view diff with inline changes
 
-    bash Emacs git diff --word-diff=plain master
+```
+git diff --word-diff=plain master
+```
 
 <!-- -->
 
 -   view quick stat of a diff
 
-    bash Emacs git diff --shortstat master git diff --numstat master git
-    diff --dirstat master
+```
+git diff --shortstat master
+git diff --numstat master
+git diff --dirstat master
+```
+
 
 <!-- -->
 
 -   undo last just made commit
 
-    bash Emacs git reset HEAD\~
+```
+git reset HEAD\~
+```
 
 <!-- -->
 
 -   list last 20 hashes in reverse
 
-    bash Emacs git log --format="%p..%h %cd %&lt;(17)%an %s"
-    --date=format:"%a %m/%d %H:%M" --reverse -n 20
+```
+git log --format="%p..%h %cd %&lt;(17)%an %s"--date=format:"%a %m/%d %H:%M" --reverse -n 20
+```
+
 
 <!-- -->
 
 -   list commits between
 
-    bash Emacs git log --format="%p..%h %cd %&lt;(17)%an %s"
-    --date=format:"%a %m/%d %H:%M" --reverse
-    --after=2016-11-09T00:00:00-05:00 --before=2016-11-10T00:00:00-05:00
+```
+git log --format="%p..%h %cd %&lt;(17)%an %s"--date=format:"%a %m/%d %H:%M" --reverse --after=2016-11-09T00:00:00-05:00 --before=2016-11-10T00:00:00-05:00
+```
+
 
 <!-- -->
 
 -   try a new output for
 
-    bash Emacs git diff --compaction-heuristic ... --color-words ...
+```
+git diff --compaction-heuristic ... --color-words ...
+```
 
 <!-- -->
 
 -   enable more thorough comparison
 
-    bash Emacs git config --global diff.algorithm patience
+```
+git config --global diff.algorithm patience
+```
 
 <!-- -->
 
 -   restoring a file from a certain commit relative to the latest
 
-    bash Emacs git checkout HEAD\~&lt;NUMBER&gt; --
-    &lt;RELATIVE\_PATH\_TO\_FILE&gt;
+```
+git checkout HEAD\~&lt;NUMBER&gt; --&lt;RELATIVE\_PATH\_TO\_FILE&gt;
+```
+
 
 <!-- -->
 
 -   restoring a file from a certain commit relative to the given commit
 
-    bash Emacs git checkout &lt;COMMIT\_HASH&gt;\~&lt;NUMBER&gt; --
-    &lt;RELATIVE\_PATH\_TO\_FILE&gt;
+```
+git checkout &lt;COMMIT\_HASH&gt;\~&lt;NUMBER&gt; --&lt;RELATIVE\_PATH\_TO\_FILE&gt;
+```
+
 
 <!-- -->
 
 -   restoring a file from a certain commit
 
-    bash Emacs git checkout &lt;COMMIT\_HASH&gt; --
-    &lt;RELATIVE\_PATH\_TO\_FILE&gt;
+```
+git checkout &lt;COMMIT\_HASH&gt; --&lt;RELATIVE\_PATH\_TO\_FILE&gt;
+```
+
 
 <!-- -->
 
 -   creating a diff file from unstaged changes for a \***specific
     folder**\*
 
-    bash Emacs git diff -- &lt;RELATIVE\_PATH\_TO\_FOLDER&gt;
-    changes.diff
+```
+git diff -- &lt;RELATIVE\_PATH\_TO\_FOLDER&gt;changes.diff
+```
+
 
 <!-- -->
 
@@ -122,13 +153,17 @@ Git cheat list
 
 -   go to the root directory of your repository
 
-    bash Emacs git apply changes.diff
+```
+git apply changes.diff
+```
 
 <!-- -->
 
 -   show differences between last commit and currrent changes:
 
-    bash Emacs git difftool -d
+```
+git difftool -d
+```
 
 <!-- -->
 
@@ -143,31 +178,42 @@ Git cheat list
 
 -   show the history of changes of a file
 
-    bash Emacs git log -p -- ./Scripts/Libs/select2.js
+```
+git log -p -- ./Scripts/Libs/select2.js
+```
 
 <!-- -->
 
 -   ignoring whitespaces
 
-    bash Emacs git rebase --ignore-whitespace &lt;BRANCH\_NAME&gt;
+```
+git rebase --ignore-whitespace &lt;BRANCH\_NAME&gt;
+```
 
 -   pulling for fast-forward only (eliminating a chance for
     unintended merging)
 
-    bash Emacs git pull --ff-only
+```
+git pull --ff-only
+```
 
 <!-- -->
 
 -   list of all tags
 
-    bash Emacs git fetch git tag -l
+```
+git fetch git tag -l
+```
 
 <!-- -->
 
 -   archive a branch using tags
 
-    bash Emacs git tag &lt;TAG\_NAME&gt; &lt;BRANCH\_NAME&gt; git push
-    origin --tags
+```
+git tag &lt;TAG\_NAME&gt; &lt;BRANCH\_NAME&gt;
+git push origin --tags
+```
+
 
     you can delete your branch now
 
@@ -175,41 +221,56 @@ Git cheat list
 
 -   get a tagged branch
 
-    bash Emacs git checkout -b &lt;BRANCH\_NAME&gt; &lt;TAG\_NAME&gt;
+```
+git checkout -b &lt;BRANCH\_NAME&gt; &lt;TAG\_NAME&gt;
+```
 
 <!-- -->
 
 -   list of all branches that haven't been merged to master
 
-    bash Emacs git branch --no-merge master
+```
+git branch --no-merge master
+```
 
 <!-- -->
 
 -   enable more elaborate diff algorithm by default
 
-    bash Emacs git config --global diff.algorithm histogram
+```
+git config --global diff.algorithm histogram
+```
 
 <!-- -->
 
 -   list of all developers
 
-    bash Emacs git shortlog -s -n -e
+```
+git shortlog -s -n -e
+```
 
 <!-- -->
 
 -   display graph of branches
 
-    bash Emacs git log --decorate --graph --all --date=relative
+```
+git log --decorate --graph --all --date=relative
+```
 
     or
 
-    bash Emacs git log --decorate --graph --all --oneline
+```
+git log --decorate --graph --all --oneline
+```
 
 <!-- -->
 
 -   remembering the password
 
-    bash Emacs git config --global credential.helper store git fetch
+```
+git config --global credential.helper store
+git fetch
+```
 
     the first command tells git to remember the credentials that you are
     going to provide for the second command
@@ -218,7 +279,9 @@ Git cheat list
 
 -   path to the global config
 
-    bash Emacs \~/.gitconfig
+```
+\~/.gitconfig
+```
 
 <!-- -->
 
@@ -226,54 +289,72 @@ Git cheat list
     \
 -   viewing differences between current and other branch
 
-    bash Emacs git difftool -d BRANCH\_NAME
+```
+git difftool -d BRANCH\_NAME
+```
 
 <!-- -->
 
 -   viewing differences between current and stash
 
-    bash Emacs git difftool -d stash
+```
+git difftool -d stash
+```
 
 <!-- -->
 
 -   viewing differences between several commits in a diff tool
 
-    bash Emacs git difftool -d HEAD@{2}...HEAD@{0}
+```
+git difftool -d HEAD@{2}...HEAD@{0}
+```
 
 <!-- -->
 
 -   view all global settings
 
-    bash Emacs git config --global -l
+```
+git config --global -l
+```
 
 -   delete tag
 
-    bash Emacs git tag -d my-tag git push origin :refs/tags/my-tag
+```
+git tag -d my-tag git push origin :refs/tags/my-tag
+```
 
 <!-- -->
 
 -   pushing tags
 
-    bash Emacs git push --tags
+```
+git push --tags
+```
 
 <!-- -->
 
 -   checking the history of a file or a folder
 
-    bash Emacs git log -- &lt;FILE\_OR\_FOLDER&gt;
+```
+git log -- &lt;FILE\_OR\_FOLDER&gt;
+```
 
 <!-- -->
 
 -   disabling the scroller
 
-    bash Emacs git --no-pager &lt;...&gt;
+```
+git --no-pager &lt;...&gt;
+```
 
 <!-- -->
 
 -   who pushed last which branch
 
-    bash Emacs git for-each-ref --format="%(committerdate)
-    %09 %(refname) %09 %(authorname)"
+```
+git for-each-ref --format="%(committerdate)%09 %(refname) %09 %(authorname)"
+```
+
 
 <!-- -->
 
