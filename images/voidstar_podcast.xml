@@ -126,5 +126,39 @@
       </itunes:keywords>
       <itunes:explicit>no</itunes:explicit>
     </item>
+
+    <item>
+      <title>VSP-004: How to playfully toy with big ideas - with Laurent Pinchart </title>
+      <link>
+	https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Laurent+Pinchart.mp3
+      </link>
+      <pubDate>Wed, 16 Jan 2019 07:00:00 PDT</pubDate>
+      <description>
+	Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Laurent Pinchart.
+	If you searched Laurent on the Internet:
+	"Laurent Pinchart has been a Linux kernel developer since 2001. He has written media-related Linux drivers for consumer and embedded devices and is one of the V4L core developers. Laurent is the founder and owner of Ideas on board, a company specialized in embedded Linux design and development. He has given Linux kernel-related talks at the FOSDEM, LPC and ELC. He currently works with the Renesas Linux kernel team where he develops a wide range of embedded drivers including DRM/KMS and V4L."
+
+ His work in V4L, fbdev, DRM/KMS, UVC, and others have made it convenient, in some cases just possible, to build products that include cameras on Linux Systems. As always, we try to find out what makes Laurent tick, the tools he uses, how he approaches problem solving, how he manages email overload and stress.
+
+	You can also visit: http://www.mycpu.org/interview-with-Laurent-Pinchart
+      </description>
+      <enclosure url="https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Laurent+Pinchart.mp3" length="56427725" type="audio/mpeg"/>
+
+      <guid>
+	https://s3-us-west-1.amazonaws.com/voidstarpodcast/Season+1/Void+Star+Podcast+-+Laurent+Pinchart.mp3
+      </guid>
+      <itunes:duration>58:46</itunes:duration>
+      <itunes:summary>
+	Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews). This episode contains my conversation with Laurent Pinchart. Laurent is not your regular Kernel Hacker (if there's such a thing..) He has worked from a very young age on several critical projects such as V4L, fbdev, DRM/KMS, UVC, and others. These projects have made it convenient, in some cases just possible, to build products that include cameras, smart displays, and other multimedia devices on Linux Systems. As always, we try to find out what makes Laurent tick, the tools he uses, how he approaches problem solving, how he manages email overload and stress.
+
+	You can also visit: http://www.mycpu.org/interview-with-Laurent-Pinchart
+      </itunes:summary>
+      <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+      <itunes:keywords>
+	Interview, Podcast, VoidStar, Linux, Laurent, USB, Camera, Multimedia, UVC, Kernel, display, smart devices, kidwiz, wizard, genius
+      </itunes:keywords>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
+
   </channel>	      
 </rss>
