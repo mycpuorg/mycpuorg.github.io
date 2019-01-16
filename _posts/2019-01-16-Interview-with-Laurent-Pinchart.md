@@ -11,7 +11,7 @@ If you searched Laurent on the Internet:
 
 Laurent is not your regular Kernel Hacker (if there's such a thing..) He has worked from a very young age on several critical projects such as V4L, fbdev, DRM/KMS, UVC, and others. These projects have made it convenient, in some cases just possible, to build products that include cameras, smart displays, and other multimedia devices on Linux Systems. As always, we try to find out what makes Laurent tick, the tools he uses, how he approaches problem solving, how he manages email overload and stress.
 
-        You can also visit: http://www.mycpu.org/interview-with-Laurent-Pinchart
+You can also visit: http://www.mycpu.org/interview-with-Laurent-Pinchart
 
 As always, we try to find out what makes Laurent tick, the tools he uses, how he approaches problem solving, how he manages email overload and stress. His work in V4L, libuvc, and others have made it convenient, in some cases just possible, to build products that include cameras on Linux Systems.
 
