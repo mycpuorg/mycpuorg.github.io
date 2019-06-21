@@ -157,27 +157,6 @@ y.shape
     + Create a subclass of nn.Block and implement two methods:
          + \_\_init\_\_ create the layers
          + forward define the forward function
-```
-
-class MixMLP(nn.Block):
-    def __init__(self, **kwargs):
-        # Run `nn.Block`'s init method
-        super(MixMLP, self).__init__(**kwargs)
-        self.blk = nn.Sequential()
-        self.blk.add(nn.Dense(3, activation='relu'),
-                     nn.Dense(4, activation='relu'))
-        self.dense = nn.Dense(5)
-    def forward(self, x):
-        y = nd.relu(self.blk(x))
-        print(y)
-        return self.dense(y)
-
-net = MixMLP()
-net
-
-
-```
-
 
 ```python
 
