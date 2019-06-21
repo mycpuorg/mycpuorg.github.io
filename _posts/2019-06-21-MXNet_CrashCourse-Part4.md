@@ -29839,21 +29839,3 @@ help(mx.nd.waitall)
         This function is used for benchmarking only.
     
 
-
-
-```python
-
-```
-
-
-      File "<ipython-input-28-2ef26d6ff8c9>", line 1
-        help nd
-              ^
-    SyntaxError: invalid syntax
-
-
-
-
-```python
-
-```
