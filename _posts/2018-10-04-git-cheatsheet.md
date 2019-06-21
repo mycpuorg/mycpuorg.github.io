@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Yeat Another Git CheatSheet"
+title: "Yet Another Git CheatSheet"
 excerpt: "Super helpful Git CheatSheet stolen from the Internet"
 tags: [Git, Emacs, Linux, Magit, CheatSheet ]
 comments: true
