@@ -160,5 +160,39 @@
       <itunes:explicit>no</itunes:explicit>
     </item>
 
+    <item>
+      <title>VSP-005: Announcing New Format </title>
+      <link>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/new_format_announcement.mp3
+      </link>
+      <pubDate>Mon, 22 Jul 2019 07:00:00 PDT</pubDate>
+      <description>
+	Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews).
+	This is voidstar podcast where we talk to the top class achievers in tech and I’m your host Manoj Rao.
+
+	This is an announcement about the new format that this podcast is going to assume. So far we have had the best in the business talk about so many topics. The feedback I got is that people loved the content but not the format. The consistent feedback was: “It was too long and too detailed.“
+
+	The new format is going to be experimental, but it is going to be shorter we will keep it under 20 mins and it will be on a single topic. Say, for ex, I might ask them about how they go about their problem solving routine, is there a goto design principle they begin with, or favorite shortcuts in their development environment.
+
+	We have some great set of people lined up for you this time around:
+	“Peter Z from Linux Scheduler, Late Joe Armstrong of Erlang (RIP), Adam Fineberg and more”
+
+	Please leave a comment about the new format on iTunes, Google Podcasts, or www.voidstarpodcast.com
+      </description>
+      <enclosure url="https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/new_format_announcement.mp3" length="3680912" type="audio/mpeg"/>
+
+      <guid>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/new_format_announcement.mp3"
+      </guid>
+      <itunes:duration>58:46</itunes:duration>
+      <itunes:summary>
+	You can also visit: http://www.voidstarpodcast.com
+      </itunes:summary>
+      <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+      <itunes:keywords>
+	Interview, Podcast, VoidStar, format
+      </itunes:keywords>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
   </channel>	      
 </rss>
