@@ -194,5 +194,36 @@
       </itunes:keywords>
       <itunes:explicit>no</itunes:explicit>
     </item>
+    <item>
+      <title>VSP-006: Interview with Adam Fineberg - Part I</title>
+      <link>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/Adam_Fineberg_part1_plus_outro.mp3
+      </link>
+      <pubDate>Sat, 03 Aug 2019 07:00:00 PDT</pubDate>
+      <description>
+	Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews).
+	This is voidstar podcast where we talk to the top class achievers in tech and I’m your host Manoj Rao.
+
+	This is the first episode with the new format [previously announced](http://www.mycpu.org/announcing-new-format/). I speak with Adam Fineberg in this episode, Adam is a leading engineer in the Silicon Valley with varied interests. He has led innovations in places like Apple, Amazon, Palm, and several startups. He is also a flight enthusiast and flies regularly.
+
+	In this episode, we talk about secrets that help startups click and many that don't. We talk about how the ambitious technology behind the devices running on Palm's WebOS were ahead of their times (to think that wasn't a long time ago!) Some of his favorite startup endeavours that him gave immense satisfaction.
+
+	Please leave a comment about the new format on iTunes, Google Podcasts, or www.voidstarpodcast.com
+      </description>
+      <enclosure url="https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/Adam_Fineberg_part1_plus_outro.mp3" length="42607476" type="audio/mpeg"/>
+
+      <guid>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/Adam_Fineberg_part1_plus_outro.mp3
+      </guid>
+      <itunes:duration>17:46</itunes:duration>
+      <itunes:summary>
+	You can also visit: http://www.voidstarpodcast.com
+      </itunes:summary>
+      <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+      <itunes:keywords>
+	Interview, Podcast, VoidStar, format
+      </itunes:keywords>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
   </channel>	      
 </rss>
