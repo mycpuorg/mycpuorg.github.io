@@ -1,0 +1,7 @@
+<h2 class="entry-title">
+  {% if post.title %}
+    <a href="{{ root_url }}{{ post.url }}" id="recent_post">{{ post.title }}</a>
+  {% endif %}
+</h2>
+<div class="entry-content">{{ content | excerpt }}</div>
+<a class="btn btn-default" href="{{ root_url }}{{ post.url }}">{{ site.excerpt_link }}</a>
