@@ -190,6 +190,12 @@
   ga('send', 'pageview');
 
 </script>
+<div class="blog-index">
+  {% assign post = site.posts.first %}
+  {% assign content = post.content %}
+  <!--{% include custom/asides/recent_post.html %}-->
+  {% include _layouts/post-index.html %}
+</div>
 
 <!--a href="//www.bluehost.com/track/commonmansoptions/" target="_blank">
 <img border="0" src="//bluehost-cdn.com/media/partner/images/commonmansoptions/120x120/bh-120x120-03-dy.png">
