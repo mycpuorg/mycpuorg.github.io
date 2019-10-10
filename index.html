@@ -153,11 +153,18 @@
 
   </div>
 
-<div class="index">
+<!--div class="index">
   {% assign post = site.posts.first %}
   {% assign content = post.content %}
   {% include _layouts/recent_post.html %}
-</div>
+</div-->
+  <ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
 
   <!--div id="index">
     <h3><a href="http://www.mycpu.org/posts/">Popular Posts</a></h3>
