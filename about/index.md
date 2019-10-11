@@ -14,3 +14,34 @@ image:
 
 * Log of my experiences and findings in the tech world
 * A Collection if tiny nuggets of useful information for devs
+
+## Recommendations:
++ GKH
+```
+"OK"
+```
+
++ Brendan Gregg
+```
+"I've got a cold"
+```
+
++ Steve Rostdet
+```
+"Hello"
+```
+
++ James Gosling
+```
+"No, I haven't heard about that"
+```
+
++ Adam Fineberg
+```
+"Who are you?"
+```
+
++ Many other famous people
+```
+"Go Away"
+```
