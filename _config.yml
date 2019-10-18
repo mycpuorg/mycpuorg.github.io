@@ -1,6 +1,6 @@
 # Site wide configuration
 
-title:            Yet Another Technical Blog
+title:            A Tech Blog
 locale:           en_US
 url:             http://www.mycpu.org
 #url:             http://localhost:4000
