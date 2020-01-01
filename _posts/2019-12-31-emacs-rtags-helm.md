@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Emacs as C++ IDE - Baby Steps"
+title: "Emacs as C++ IDE - First Step: rtags"
 excerpt: "Emacs"
 tags: [Emacs, Linux, Code, IDE, source code navigation]
 comments: true
 ---
 For years, I have been battling hard to find an optimal setup on my Emacs. 
-Finally, after sufficient __grit__ I think I have found a tags setup that is not
+Finally, after sufficient __patience__ I think I have found a tags setup that is not
 too crufty to navigate. I have visited [rtags home
 page](https://github.com/Andersbakken/rtags) for long enough, I even watched
 [the famous cmake-ide evangelist's
@@ -26,8 +26,16 @@ have a working out of the box rtags/cmake-ide setup. I'm sharing the final
 output here. I am running Emacs 26.1 compiled from source.
 
 ### tl;dr: The complete code to get rtags working out of the box
+First clone the rtags repo inside your ``~/.emacs.d`` directory and build the
+repo based on the instructions provided in the [rtags home
+page](https://github.com/Andersbakken/rtags)
 
 ```elisp
+(require 'rtags)
+(cmake-ide-setup)
+(add-hook 'c-mode-hook 'rtags-start-process-unless-running)
+(add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
+
 (use-package rtags
   :ensure t
   :hook (c++-mode . rtags-start-process-unless-running)
