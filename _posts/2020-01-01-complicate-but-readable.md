@@ -53,22 +53,22 @@ significantly from the original source.
 
 There's a lot going on with the code here, let's try to unravel bit by bit.
 
-```c++
-	// pop_map is the map containing 
-	// resources and their popularities
-    using map_pair_type = decltype(pop_map)::value_type;
-    std::sort(
-		std::begin(pop_map), std::end(pop_map),
-		[] (const map_pair_type & p1, const map_pair_type & p2) {
-			return p1.second < p2.second;
-		}
-	);
+```C++
+// pop_map is the map containing 
+// resources and their popularities
+using map_pair_type = decltype(pop_map)::value_type;
+std::sort(
+	std::begin(pop_map), std::end(pop_map),
+	[] (const map_pair_type & p1, const map_pair_type & p2) {
+		return p1.second < p2.second;
+	}
+);
 
-    for (auto d : pop_map) {
-		pop_resources.push_back(d);
-    }
+for (auto d : pop_map) {
+	pop_resources.push_back(d);
+}
 
-    return pop_resources;
+return pop_resources;
 ```
 
 ### ``decltype``
