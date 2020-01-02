@@ -89,7 +89,7 @@ cdecl>
 ``map::value_type`` returns ``pair<const key_type, mapped_type>``. This always
 results in a ``it.first`` and ``it.second`` pair containing the key and value respectively.
 
-### Powerful ``sort`` method
+### Powerful ``sort()`` method
 Here we are trying to sort a container which is not single dimensional (since
 it's a ``map``, it has a hierarchy that cannot be simply iterated over like an
 array or a vector). The condition or the predicate to be applied to this sorting
