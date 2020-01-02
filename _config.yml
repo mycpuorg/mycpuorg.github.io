@@ -10,7 +10,8 @@ url:             http://www.mycpu.org
 
 permalink:   /:categories/:title/
 markdown:    kramdown
-highlighter: pygments
+input:	     GFM
+highlighter: rouge
 sass:
   sass_dir: _sass
   style: compressed

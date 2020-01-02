@@ -53,7 +53,7 @@ significantly from the original source.
 
 There's a lot going on with the code here, let's try to unravel bit by bit.
 
-```C++
+```c++
 // pop_map is the map containing 
 // resources and their popularities
 using map_pair_type = decltype(pop_map)::value_type;
