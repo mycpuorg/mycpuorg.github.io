@@ -131,8 +131,8 @@ It is interactive, you could click on a tile to zoom in and reset the zoom.
 <div
 style="float:right;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
 href="/images/vec_fg.svg"><img
-src="/images/vec_fg-crop-500.png" width="250" height="254"
-style="padding-bottom:3px"/></a><br><center><font size=-1><i>Flame Graphs for Vector Ops</i></font></center></div>
+src="/images/vec_fg-crop-500.png" width="300" height="354"
+style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for Vector Ops</i></center></div>
 
 I will leave this here to whet your appetite for more. If you are not familiar
 with any of this, do not worry. It is not as important to know each and every
