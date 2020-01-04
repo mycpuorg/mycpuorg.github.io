@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Generate Statistics For C++ Applications"
+title: "Performance Analysis For C++ Applications"
 excerpt: "C++ Profiling with Perf"
 tags: [Linux, Code, C++, Perf, Profiling]
 comments: true
