@@ -23,23 +23,18 @@ that indicate the application's performance.
 (Yes, this is a dummy piece of code with no real utility)
 
 ```cpp
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+
+using namespace std;
+
 void foo()
 {
     std::vector<int> my_vec;
 
-    my_vec.push_back(5);
-    my_vec.push_back(6);
-    my_vec.push_back(7);
-    my_vec.push_back(8);
-    my_vec.push_back(9);
-    my_vec.push_back(0);
-    my_vec.push_back(1);
-    my_vec.push_back(1);
-    my_vec.push_back(4);
-    my_vec.push_back(5);
-
     for (int i = 0; i < 100; i++)
-        my_vec.push_back(i - 4);
+      my_vec.push_back(i - (rand() % 42));
 
 }
 
@@ -85,31 +80,31 @@ $ perf stat -d -d -d -r 5 ./bench
 
  Performance counter stats for './bench' (5 runs):
 
-        254.533527      task-clock (msec)         #    0.958 CPUs utilized            ( +-  0.87% )
-                 1      context-switches          #    0.005 K/sec                    ( +- 16.67% )
+       1365.631381      task-clock (msec)         #    0.991 CPUs utilized            ( +-  0.39% )
+                 2      context-switches          #    0.002 K/sec                    ( +- 10.21% )
                  0      cpu-migrations            #    0.000 K/sec                  
-               118      page-faults               #    0.465 K/sec                    ( +-  0.43% )
-       635,108,146      cycles                    #    2.495 GHz                      ( +-  5.06% )  (40.76%)
-         3,170,884      stalled-cycles-frontend   #    0.50% frontend cycles idle     ( +- 16.73% )  (42.14%)
-        22,419,357      stalled-cycles-backend    #    3.53% backend cycles idle      ( +- 14.04% )  (43.64%)
-     1,659,880,996      instructions              #    2.61  insn per cycle         
-                                                  #    0.01  stalled cycles per insn  ( +-  4.03% )  (44.76%)
-       491,582,686      branches                  # 1931.308 M/sec                    ( +-  3.95% )  (45.35%)
-         1,987,532      branch-misses             #    0.40% of all branches          ( +- 13.18% )  (45.71%)
-       614,620,488      L1-dcache-loads           # 2414.694 M/sec                    ( +-  4.77% )  (41.14%)
-            37,428      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  4.48% )  (39.76%)
+               118      page-faults               #    0.086 K/sec                    ( +-  0.60% )
+     3,254,406,172      cycles                    #    2.383 GHz                      ( +-  1.23% )  (40.00%)
+        16,719,210      stalled-cycles-frontend   #    0.51% frontend cycles idle     ( +-  2.46% )  (40.07%)
+         9,619,922      stalled-cycles-backend    #    0.30% backend cycles idle      ( +-  8.05% )  (40.19%)
+     7,019,806,957      instructions              #    2.16  insn per cycle         
+                                                  #    0.00  stalled cycles per insn  ( +-  1.18% )  (40.36%)
+     1,638,194,323      branches                  # 1199.587 M/sec                    ( +-  1.35% )  (40.54%)
+        17,047,391      branch-misses             #    1.04% of all branches          ( +-  1.03% )  (40.76%)
+     3,136,855,834      L1-dcache-loads           # 2297.000 M/sec                    ( +-  0.87% )  (40.04%)
+           123,738      L1-dcache-load-misses     #    0.00% of all L1-dcache hits    ( +-  0.63% )  (40.08%)
    <not supported>      LLC-loads                                                   
    <not supported>      LLC-load-misses                                             
-         9,669,527      L1-icache-loads           #   37.989 M/sec                    ( +- 58.22% )  (38.26%)
-            30,287      L1-icache-load-misses                                         ( +-  5.43% )  (37.13%)
-             2,853      dTLB-loads                #    0.011 M/sec                    ( +-  4.12% )  (36.54%)
-               565      dTLB-load-misses          #   19.81% of all dTLB cache hits   ( +-  5.73% )  (36.18%)
-                 0      iTLB-loads                #    0.000 K/sec                    (36.20%)
-                 0      iTLB-load-misses          #    0.00% of all iTLB cache hits   (36.21%)
-             6,326      L1-dcache-prefetches      #    0.025 M/sec                    ( +-  4.60% )  (36.20%)
+        15,360,647      L1-icache-loads           #   11.248 M/sec                    ( +- 17.92% )  (40.04%)
+           135,312      L1-icache-load-misses                                         ( +-  1.33% )  (39.99%)
+            17,324      dTLB-loads                #    0.013 M/sec                    ( +-  1.64% )  (39.89%)
+             2,957      dTLB-load-misses          #   17.07% of all dTLB cache hits   ( +-  9.26% )  (39.77%)
+                50      iTLB-loads                #    0.036 K/sec                    ( +- 27.03% )  (39.60%)
+                26      iTLB-load-misses          #   52.21% of all iTLB cache hits   ( +- 53.17% )  (39.42%)
+            52,568      L1-dcache-prefetches      #    0.038 M/sec                    ( +-  5.25% )  (39.23%)
    <not supported>      L1-dcache-prefetch-misses                                   
 
-       0.265622339 seconds time elapsed                                          ( +-  3.40% )
+       1.377694970 seconds time elapsed                                          ( +-  0.85% )
 
 
 ```
