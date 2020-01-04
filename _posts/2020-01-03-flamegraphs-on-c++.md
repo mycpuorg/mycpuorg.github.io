@@ -48,6 +48,12 @@ int main(int argc, char *argv[])
 
 ```
 
+### Compile
+The above application is compiled with the following flags.
+```bash
+clang++-7 -fno-rtti -O3 -std=c++17  -fno-omit-frame-pointer -fno-exceptions -pthreads -o bench ./vector.cpp
+```
+
 ### Perf Statistics: Measure First ...
 Here are the perf statistics from running the above code.
 
@@ -138,3 +144,8 @@ Coming up next is understanding the FlameGraphs really well and correlating with
 statistics.
 
 Happy whatever!
+
+Source:
++ Chandler Carruth's excellent 90min talk: https://youtu.be/nXaxk27zwlk
++ Brendan Gregg's Blog: www.brendangregg.com
++ http://www.mycpu.org/perf-events/
