@@ -129,7 +129,7 @@ with ``perf`` in this article, let's stick with
 It is interactive, you could click on a tile to zoom in and reset the zoom.
 
 ![FlameGraphs for Vector Ops](/images/vec_fg.svg)
-<img src="images/vec_fg.svg">
+<img src="/images/vec_fg.svg">
 
 I will leave this here to whet your appetite for more. If you are not familiar
 with any of this, do not worry. It is not as important to know each and every
