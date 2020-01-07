@@ -36,7 +36,8 @@ Here's the list, each of which we will cover in detail in future posts.
 
 If you think you need any further topics to apply Deep Learning it is likely to
 be answered
-[here](https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/index.html).
+[here](https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/index.html)
+or [here](https://www.deeplearningbook.org/contents/linear_algebra.html).
 
 As mentioned earlier, we will cover some or all of these topics in a bit more
 detail in separate tiny bite sized posts. Until then, happy whatever!
