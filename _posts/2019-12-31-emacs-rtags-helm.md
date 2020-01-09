@@ -26,7 +26,7 @@ have a working out of the box rtags/cmake-ide setup. I'm sharing the final
 output here. I am running Emacs 26.1 compiled from source.
 
 ### Demo
-![Rtags jump](./images/emacs-rtags-helm.gif)
+![Rtags jump](/images/emacs-rtags-helm.gif)
 
 ### tl;dr: The complete code to get rtags working out of the box
 First clone the rtags repo inside your ``~/.emacs.d`` directory and build the
