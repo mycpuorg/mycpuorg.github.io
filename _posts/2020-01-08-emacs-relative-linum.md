@@ -12,12 +12,15 @@ the things I missed dearly about ``vim`` was the ease with which you could use
 line numbers to move around and edit. I always found ``C-u`` preface very
 crufty. The implicit numeric argument that precedes a command is what makes you
 super fast with navigation in ``vim``. However, I had come to ~~like~~ *love*
-``Emacs`` to go back. So I ~~copied~~ some ``ELisp`` code from the Internet and
-modified it to achieve the exact result I wanted. This is something that works
-out of the box on my ``Emacs - 26.1``
+``Emacs`` to go back. So I ~~copied~~ took inspiration and wrote some ``ELisp``
+code from the Internet and modified it to achieve the exact result I
+wanted. This is something that works out of the box on my ``Emacs - 26.1``
 
 ### Demo
 ![Relative Line Numbers](/images/emacs_screencast_relative_num.gif)
+
+### Code
+Throw this in your ``.emacs`` and watch the magic!
 
 ```lisp
 (defvar my-linum-current-line-number 0)
