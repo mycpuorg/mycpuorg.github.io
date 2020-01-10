@@ -34,7 +34,7 @@ The below example is taken from [``C++ High Performance`` Book](https://www.amaz
 In a nutshell, the lambda function capability enables programmers to pass
 functions to regular functions, just as easily as a variable is passed.
 
-```C++
+```cpp
 // Prerequisite 
 auto vals = std::vector<int>{1, 3, 2, 5, 4}; 
  
@@ -54,7 +54,7 @@ We pass a variable to run with ``std::count()`` and a function called
 
 We can put an argument or a variable into the lambda function just like an
 argument in to an equation.
-```C++
+```cpp
 auto num_3 = std::count(vals.begin(), vals.end(), 3); 
 auto num_above_3 = std::count_if(vals.begin(), vals.end(), [](int v){ 
   return v > 3; 
