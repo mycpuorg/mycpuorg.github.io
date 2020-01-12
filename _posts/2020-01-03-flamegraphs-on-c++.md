@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Performance Analysis For C++ Applications"
-excerpt: "C++ Profiling with Perf"
+excerpt: "C++ Profiling with Perf and Flamegraphs"
 tags: [Linux, Code, C++, Perf, Profiling]
 comments: true
 ---
