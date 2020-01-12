@@ -14,13 +14,13 @@ comes to the rescue again.
 
 ### Intent of the exercise
 I wanted to quickly understand the time spent in my application and see how for
-deep I can go with profiling such a system. So I wrote a small function which
+deep I can go with profiling such a system. So, I wrote a small function which
 simply pushes elements to a vector. But before we go too deep into the weeds, we
 would like to see some system level statistics on critical events in the system
 that indicate the application's performance.
 
 #### Sample Application
-(Yes, this is a dummy piece of code with no real utility)
+Let's start with some dummy piece of code, the focus is simplicity.
 
 ```cpp
 #include <iostream>
@@ -32,17 +32,14 @@ using namespace std;
 void foo()
 {
     std::vector<int> my_vec;
-
     for (int i = 0; i < 100; i++)
-      my_vec.push_back(i - (rand() % 42));
-
+		my_vec.push_back(i - (rand() % 42));
 }
 
 int main(int argc, char *argv[])
 {
     for (int i = 0; i < 1000000; i++)
-        foo();
-
+		foo();
     return 0;
 }
 
