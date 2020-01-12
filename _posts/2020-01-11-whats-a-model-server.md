@@ -81,7 +81,7 @@ of features.
 ### Model Archive:
 It offers a feature to archive the model into a common format/representation
 which allows it to support Models from various Deep Learning Frameworks.
-https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2017/12/07/model-server-2.gif
+![Model Export and Archive](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2017/12/07/model-server-2.gif)
 
 #### Source:
 + [Article from a couple of years ago](https://medium.com/@vikati/the-rise-of-the-model-servers-9395522b6c58)
