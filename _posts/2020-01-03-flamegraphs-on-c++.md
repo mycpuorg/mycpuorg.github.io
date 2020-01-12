@@ -33,13 +33,13 @@ void foo()
 {
     std::vector<int> my_vec;
     for (int i = 0; i < 100; i++)
-		my_vec.push_back(i - (rand() % 42));
+        my_vec.push_back(i - (rand() % 42));
 }
 
 int main(int argc, char *argv[])
 {
     for (int i = 0; i < 1000000; i++)
-		foo();
+        foo();
     return 0;
 }
 
