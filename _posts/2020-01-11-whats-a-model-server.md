@@ -9,6 +9,7 @@ A typical Deep Learning Workflow from a software engineering design perspective
 is shown in the figure below. This is a very high level overview of how a
 typical process flow works. There are exceptions to this when using Unsupervised
 Learning Techniques, but we will ignore them for sake of simplicity.
+
 ![Typical Deep Learning Workflow](https://d2l.ai/_images/data-collection.svg)
 
 In production systems, the most amount of time and compute resources are spent
