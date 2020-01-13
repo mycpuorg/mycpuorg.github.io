@@ -21,8 +21,11 @@ quality of your code:
 
 
 #### Meme:
+
 ``That's a rotate``
-__- Sean Parent__
+
+- Sean Parent
+
 Sean's frequent reference to his favorite algorithm during the talk gave rise to
 this meme. Oddly, it makes think of trying to randomly apply ``rotate()``. It's
 like I'm looking to apply ``rotate()`` only to have the satisfaction of somehow
