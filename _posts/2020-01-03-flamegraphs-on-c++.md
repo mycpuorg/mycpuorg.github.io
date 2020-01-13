@@ -13,7 +13,7 @@ job, and, surprise! I think we have a winner. It's the good old ``perf`` which
 comes to the rescue again.
 
 ### Intent of the exercise
-I wanted to quickly understand the time spent in my application and see how for
+I wanted to quickly understand the time spent in my application and see how far
 deep I can go with profiling such a system. So, I wrote a small function which
 simply pushes elements to a vector. But before we go too deep into the weeds, we
 would like to see some system level statistics on critical events in the system
@@ -133,7 +133,7 @@ $ perf stat -d -d -d -r 5 ./bench
 ```
 Note that the on 
 ```model name      : AMD EPYC 7571```
-the LLC statistic iss not generated. If the hardware supports it then there is a
+the LLC statistic is not generated. If the hardware supports it then there is a
 way to extract the PMU event with the right hexadecimal event descriptor
 passed.
 
