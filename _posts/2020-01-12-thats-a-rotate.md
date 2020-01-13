@@ -34,9 +34,11 @@ program, look for alternatives in the standard library since it typically has an
 optimized implementation without risk of introducing bugs.
 
 So a problem that came to mind is with the following input:
+
 ![](https://media.geeksforgeeks.org/wp-content/uploads/simplearray.png)
 
 Required Output is:
+
 ![](https://media.geeksforgeeks.org/wp-content/uploads/arrayRotation.png)
 
 ### Bad Solution:
@@ -51,17 +53,7 @@ auto move_n_elements_to_back(Container& c, size_t n) {
     c.erase(c.begin(), std::next(c.begin(), n));
 }
 ```
-
-### Good Solution:
-```cpp
-template <typename Container>
-auto move_n_elements_to_back(Container& c, size_t n) {
-     auto new_begin = std::next(c.begin(), n);
-     std::rotate(c.begin(), new_begin, c.end());
-}
-```
-
-### Clever Solution:
+### Clever Solution (didn't know ``rotate()``):
 Even if you did not know about the existence of ``rotate`` algorithm
 implementation you could solve the problem with
 ```cpp
@@ -72,5 +64,14 @@ auto move_n_elements_to_back(Container& c, size_t n) {
 	split_point++;
 	std::reverse(split_point, c.end());	
 	std::reverse(c.begin(), c.end());	
+}
+```
+
+### Good Solution:
+```cpp
+template <typename Container>
+auto move_n_elements_to_back(Container& c, size_t n) {
+     auto new_begin = std::next(c.begin(), n);
+     std::rotate(c.begin(), new_begin, c.end());
 }
 ```
