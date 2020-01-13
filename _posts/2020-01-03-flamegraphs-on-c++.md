@@ -51,9 +51,6 @@ The above application is compiled with the following flags.
 clang++-7 -fno-rtti -O3 -std=c++17  -fno-omit-frame-pointer -fno-exceptions -pthreads -o bench ./vector.cpp
 ```
 
-### Perf Statistics: Measure First ...
-Here are the perf statistics from running the above code.
-
 ### Flamegraphs for C++:
 Flamegraphs are a good option to visually identify bottlenecks within the
 system. There might be another tracing tool which provides a similar visual cue
@@ -73,6 +70,9 @@ I will leave this here to whet your appetite for more. If you are not familiar
 with any of this, do not worry. It is not as important to know each and every
 detail as it is to know that a tool exists that can easily generate all this
 information when the need arises.
+
+### Perf Statistics: Measure First ...
+Here are the perf statistics from running the above code.
 
 #### Exotic options for ``perf stat``
 ``perf`` supports a slew of Hardware and Software Events that it can
