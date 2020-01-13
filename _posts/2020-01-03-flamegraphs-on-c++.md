@@ -54,6 +54,26 @@ clang++-7 -fno-rtti -O3 -std=c++17  -fno-omit-frame-pointer -fno-exceptions -pth
 ### Perf Statistics: Measure First ...
 Here are the perf statistics from running the above code.
 
+### Flamegraphs for C++:
+Flamegraphs are a good option to visually identify bottlenecks within the
+system. There might be another tracing tool which provides a similar visual cue
+for doing performance analysis on your system. Since we are going to be dealing
+with ``perf`` in this article, let's stick with
+[flamegraphs](http://www.brendangregg.com/flamegraphs.html) here.
+
+It is interactive, you could click on a tile to zoom in and reset the zoom.
+
+<div
+style="float:right;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
+href="/images/vec_fg.svg"><img
+src="/images/vec_fg-crop-500.png" width="300" height="354"
+style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for Vector Ops</i></center></div>
+
+I will leave this here to whet your appetite for more. If you are not familiar
+with any of this, do not worry. It is not as important to know each and every
+detail as it is to know that a tool exists that can easily generate all this
+information when the need arises.
+
 #### Exotic options for ``perf stat``
 ``perf`` supports a slew of Hardware and Software Events that it can
 profile. You can list them all by ``perf list``. By default, ``stat`` option
@@ -117,28 +137,8 @@ the LLC statistic iss not generated. If the hardware supports it then there is a
 way to extract the PMU event with the right hexadecimal event descriptor
 passed.
 
-### Flamegraphs for C++:
-Flamegraphs are a good option to visually identify bottlenecks within the
-system. There might be another tracing tool which provides a similar visual cue
-for doing performance analysis on your system. Since we are going to be dealing
-with ``perf`` in this article, let's stick with
-[flamegraphs](http://www.brendangregg.com/flamegraphs.html) here.
-
-It is interactive, you could click on a tile to zoom in and reset the zoom.
-
-<div
-style="float:right;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
-href="/images/vec_fg.svg"><img
-src="/images/vec_fg-crop-500.png" width="300" height="354"
-style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for Vector Ops</i></center></div>
-
-I will leave this here to whet your appetite for more. If you are not familiar
-with any of this, do not worry. It is not as important to know each and every
-detail as it is to know that a tool exists that can easily generate all this
-information when the need arises.
-
-Coming up next is understanding the FlameGraphs really well and correlating with
-statistics.
+In the near future I will write a post about understanding the FlameGraphs
+really well and correlating with statistics.
 
 Happy whatever!
 
