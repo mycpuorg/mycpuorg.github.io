@@ -14,15 +14,15 @@ Consider the following code
 ```cpp
 vector<int> foo() {
     // initialize a very large vector
-	vector<int> my_vec = {/* VERY VERY LARGE AMOUNTS OF DATA */};
+    vector<int> my_vec = {/* VERY VERY LARGE AMOUNTS OF DATA */};
 
-	// ... do something
-	
-	return my_vec;
+    // ... do something
+
+    return my_vec;
 }
 
 void foo_caller() {
-	// I'm screwed!
+    // I'm screwed!
     vector<int> ret_foo_vec = foo();
 }
 ```
@@ -43,16 +43,16 @@ interface for this:
 
 ```python
 def foo() -> Generator[int]:
-	# large list my_arr
-	for i in my_arr:
-		yield i
+    # large list my_arr
+    for i in my_arr:
+        yield i
 
-	# foo done
+    # foo done
 	
 def foo_caller():
-	# handles elements one by one
-	for gen_item in foo():
-		print(gen_item)
+    # handles elements one by one
+    for gen_item in foo():
+        print(gen_item)
 ```
 
 ### Brave Generators in C++ Pre-processor:
@@ -74,18 +74,18 @@ start employing where it makes sense and/or the code more elegant.
 
 ```cpp
 std::function<int(vector<int>)> generator = [] (container) {
-  auto iter = std::begin(container);
-  return [=]() mutable {
-    return (iter != std::end(container)) ? iter++ : nullptr;
-  };
+    auto iter = std::begin(container);
+    return [=]() mutable {
+        return (iter != std::end(container)) ? iter++ : nullptr;
+    };
 };
 
 // the large structure - my_vec from earlier
 while ((i = generator(my_vec)) != nullptr)
-	std::cout << "generator: " << i << std::endl;
+    std::cout << "generator: " << i << std::endl;
 ```
 
-### That was a thinker!
+### That is quirky syntax
 For folks unfamiliar with the syntactic sugar of C++, we basically defined a
 [a general purpose function
 wrapper](https://en.cppreference.com/w/cpp/utility/functional/function) and
