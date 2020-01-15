@@ -190,14 +190,14 @@ this output, instead we simply pretty-print the stats on stdout.
 auto instrns = bpf.get_hash_table<event_t, uint64_t>("ref_count");
 auto misses = bpf.get_hash_table<event_t, uint64_t>("miss_count");
 for (auto it : instrns.get_table_offline()) {
-uint64_t hit;
-try {
-	auto miss = misses[it.first];
-	hit = miss <= it.second ? it.second - miss : 0;
-} catch (...) {
-	hit = it.second;
-}
-double ratio = (double(hit) / double(it.second)) * 100.0;
+    uint64_t hit;
+    try {
+    	auto miss = misses[it.first];
+    	hit = miss <= it.second ? it.second - miss : 0;
+    } catch (...) {
+    	hit = it.second;
+    }
+    double ratio = (double(hit) / double(it.second)) * 100.0;
 
 // ...
 
