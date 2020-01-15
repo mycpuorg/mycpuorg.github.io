@@ -40,7 +40,6 @@ and you should see something like (copied from my machine):
 <details><summary><b>CLICK COLLAPSE/UNCOLLAPSE FULL PERF LIST</b></summary>
 <p>
 
-```
   branch-instructions OR branches                    [Hardware event]
   branch-misses                                      [Hardware event]
   cache-references                                   [Hardware event]
@@ -419,8 +418,6 @@ other:
 
 Metric Groups:
 
-
-```
 
 </p>
 </details>
