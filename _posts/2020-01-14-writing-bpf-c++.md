@@ -5,12 +5,6 @@ excerpt: "A walk-through of my understanding of the BCC"
 tags: [Linux, Code, C++, BPF, eBPF, BCC, tracing, LLVM]
 comments: true
 ---
-```
-Disclaimer: [Brendan Gregg](http://www.brendangregg.com) is a leading expert on
-this topic. This post is an attempt to try and simplify things for a mortal like
-myself. If you want authoritative content on anything BCC, BPF, or tracing
-please visit Brendan's site.
-```
 ### Why is BCC?
 Writing BPF Programs can be hard, so we needed a toolkit that makes writing them
 easier, at least, to a certain extent.
@@ -258,6 +252,12 @@ Happy Whatever!
 + http://www.mycpu.org/flamegraphs-on-c++/
 + http://www.mycpu.org/perf-events/
 
+```
+Disclaimer: [Brendan Gregg](http://www.brendangregg.com) is a leading expert on
+this topic. This post is an attempt to try and simplify things for a mortal like
+myself. If you want authoritative content on anything BCC, BPF, or tracing
+please visit Brendan's site.
+```
 <details><summary><b>CLICK COLLAPSE/UNCOLLAPSE FULL PERF LIST</b></summary>
 <p>
 
