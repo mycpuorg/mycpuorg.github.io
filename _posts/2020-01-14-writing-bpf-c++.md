@@ -208,7 +208,9 @@ In the above code, we are retrieving the hash tables via BPF's
 ``get_hash_table()`` API. Note that the arg passed to this API contains the
 string literal which were the names of the hash tables in our BPF program which
 was attached earlier. Now we iterate through the hash tables and calculate the
-Branch Hit Ratio and Branch Miss Ratio from the given counters.
+Branch Hit Ratio and Branch Miss Ratio from the given counters. Refer to [this
+post](http://www.mycpu.org/complicate-but-readable/) for a better understanding
+of the iteration.
 
 The complete code can be downloaded from [here](/images/BranchPrediction.cc)
 
