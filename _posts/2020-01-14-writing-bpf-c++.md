@@ -133,19 +133,19 @@ and stored like ``String`` objects?
 
 #### Init and Attach Events:
 ```cpp
-     ebpf::BPF bpf;
-     auto init_res = bpf.init(BPF_PROGRAM);
-	 // ...
+ebpf::BPF bpf;
+auto init_res = bpf.init(BPF_PROGRAM);
+// ...
 
-    auto attach_ref_res =
-	  bpf.attach_perf_event(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_INSTRUCTIONS,
-				"on_branch_ref", 100, 0);
+auto attach_ref_res =
+bpf.attach_perf_event(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_INSTRUCTIONS,
+		"on_branch_ref", 100, 0);
 
-	// ...
-    
-    auto attach_miss_res = bpf.attach_perf_event(PERF_TYPE_HARDWARE,
-		PERF_COUNT_HW_BRANCH_MISSES, "on_branch_miss", 100, 0);
-	// ...
+// ...
+
+auto attach_miss_res = bpf.attach_perf_event(PERF_TYPE_HARDWARE,
+PERF_COUNT_HW_BRANCH_MISSES, "on_branch_miss", 100, 0);
+// ...
 
 ```
 ``BPF`` is the Class defined by the BCC toolkit which provides a lot of
@@ -176,8 +176,8 @@ time.
 After the specified amout of time is finished, we detach our handlers by
 calling:
 ```cpp
-     bpf.detach_perf_event(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_INSTRUCTIONS);
-     bpf.detach_perf_event(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_MISSES);
+bpf.detach_perf_event(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_INSTRUCTIONS);
+bpf.detach_perf_event(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_MISSES);
 ```
 
 #### Process the output
@@ -187,21 +187,21 @@ meaningful or even there. In this example, we don't automate the processing of
 this output, instead we simply pretty-print the stats on stdout.
 
 ```cpp
-     auto instrns = bpf.get_hash_table<event_t, uint64_t>("ref_count");
-     auto misses = bpf.get_hash_table<event_t, uint64_t>("miss_count");
-     for (auto it : instrns.get_table_offline()) {
-	  uint64_t hit;
-	  try {
-	       auto miss = misses[it.first];
-	       hit = miss <= it.second ? it.second - miss : 0;
-	  } catch (...) {
-	       hit = it.second;
-	  }
-	  double ratio = (double(hit) / double(it.second)) * 100.0;
-	  
-	  // ...
-	  
-	  // pretty-print the results
+auto instrns = bpf.get_hash_table<event_t, uint64_t>("ref_count");
+auto misses = bpf.get_hash_table<event_t, uint64_t>("miss_count");
+for (auto it : instrns.get_table_offline()) {
+uint64_t hit;
+try {
+	auto miss = misses[it.first];
+	hit = miss <= it.second ? it.second - miss : 0;
+} catch (...) {
+	hit = it.second;
+}
+double ratio = (double(hit) / double(it.second)) * 100.0;
+
+// ...
+
+// pretty-print the results
 ```
 
 In the above code, we are retrieving the hash tables via BPF's
