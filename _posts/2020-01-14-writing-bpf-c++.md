@@ -17,36 +17,38 @@ easier, at least, to a certain extent.
 
 ### What is BCC?
 [BCC](https://github.com/iovisor/bcc) is a toolkit for creating frontend
-programs that can efficiently perform Kernel and User Level tracing. The toolkit
-comes with several useful tools and examples. This toolkit makes writing BPF
-programs easier (and includes a C wrapper around LLVM), and front-ends in Python
-and lua.
+programs that can efficiently perform Kernel and User Level tracing. It comes
+with several useful tools and examples. BCC makes writing BPF programs
+less painful (and includes a C wrapper around LLVM), and front-ends in Python, Lua,
+and C++
 
 #### But ... Perf?
 With ``perf`` you can [Debug
 Applications](http://www.mycpu.org/flamegraphs-on-c++/) or [capture events for
-the fun of it](http://www.mycpu.org/perf-events/). However, it is sampling
-profiler which collects events periodically and "estimates" the system
-performance and statistics based on these samples and Hardware Based Performance
-Monitoring Counters. This can add non-trivial amounts of overhead, and we are
-not even talking about compute spent post-processing the captured samples.
+the fun of it](http://www.mycpu.org/perf-events/). However, it is a sampling
+profiler which collects events periodically. It then "estimates" the system
+performance statistics based on collected samples and Hardware Based Performance
+Monitoring Counters. Perf (and any sampling profiler) can add non-trivial
+amounts of overhead, and we are not even talking about compute spent
+post-processing the captured samples.
 
 ### Pre-requisites
 For you to walk through the examples, you will need to [install BCC
 tools](https://github.com/iovisor/bcc/blob/master/INSTALL.md). To find out the
 list of Hardware Events supported in your machine you could run ``perf list``
-and you should see something like the output under towards the end of this page
-(copied verbatim from my machine).
+and you should see something like the output at the end of this page
+copied verbatim from my machine (search for 'COLLAPSE')
 
-You should see the support for below two events:
+To be able to successfully run the Branch Prediction example illustrated here
+make sure you see the support for below two hardware events:
 ```
   branch-instructions OR branches                    [Hardware event]
   branch-misses                                      [Hardware event]
 ```
 
-I am running my Linux Kernel and [you can too, if you have an
+I am running a spanking new Linux Kernel I built and [you can too, if you have an
 hour](http://www.mycpu.org/kernel-n00b-howto/).
-```zsh
+```bash
 ╭─ ~/s/bcc/bcc/build   master ● ? ⍟1                                                                                      ✔  26.99G RAM  0.20 L
 ╰─ cat /proc/version 
 Linux version 5.5.0-rc4+ (manoj@manoj-desktop) (gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04.1)) #1 SMP Fri Jan 3 00:01:03 PST 2020
@@ -54,7 +56,6 @@ Linux version 5.5.0-rc4+ (manoj@manoj-desktop) (gcc version 7.4.0 (Ubuntu 7.4.0-
 
 I also compiled the perf binary from the same Kernel Tree since perf requires
 you to install the Kernel headers for the same version.
-
 
 ### Show Me The Code!
 A BCC program tends to have a common structure which is mostly along the lines
