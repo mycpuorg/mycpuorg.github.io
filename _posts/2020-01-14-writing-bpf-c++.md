@@ -37,8 +37,10 @@ tools](https://github.com/iovisor/bcc/blob/master/INSTALL.md). To find out the
 list of Hardware Events supported in your machine you could run ``perf list``
 and you should see something like (copied from my machine):
 
-<details><summary>*__CLICK COLLAPSE/UNCOLLAPSE FULL PERF LIST__*</summary>
+<details><summary>__CLICK COLLAPSE/UNCOLLAPSE FULL PERF LIST__</summary>
 <p>
+
+```
   branch-instructions OR branches                    [Hardware event]
   branch-misses                                      [Hardware event]
   cache-references                                   [Hardware event]
@@ -416,6 +418,9 @@ other:
   mem:<addr>[/len][:access]                          [Hardware breakpoint]
 
 Metric Groups:
+
+
+```
 
 </p>
 </details>
