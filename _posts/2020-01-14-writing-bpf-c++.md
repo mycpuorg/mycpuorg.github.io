@@ -35,9 +35,9 @@ not even talking about compute spent post-processing the captured samples.
 For you to walk through the examples, you will need to [install BCC
 tools](https://github.com/iovisor/bcc/blob/master/INSTALL.md). To find out the
 list of Hardware Events supported in your machine you could run ``perf list``
-and you will see something like:
+and you should see something like (copied from my machine):
 
-<details><summary>CLICK ME</summary>
+<details><summary>*__CLICK COLLAPSE/UNCOLLAPSE FULL PERF LIST__*</summary>
 <p>
   branch-instructions OR branches                    [Hardware event]
   branch-misses                                      [Hardware event]
