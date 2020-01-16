@@ -5,7 +5,7 @@ excerpt: "Emacs"
 tags: [Emacs, Linux, Code, IDE, source code navigation, tramp, remote]
 comments: true
 ---
-In an [earlier post on Emacs as C++ IDE], I had shown how to get up and running
+In an [earlier post on Emacs as C++ IDE](http://www.mycpu.org/emacs-rtags-helm/), I had shown how to get up and running
 very quickly out of the box with rtags. While that setup is fantastic, a lot of
 my code is running remote machines too. This is specially true at work and it
 frequently cheats me off using my Emacs on the same level of satisfaction that I
