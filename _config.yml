@@ -25,8 +25,6 @@ kramdown:
   toc_levels: 1..6
   use_coderay: true
 
-minimal_mistakes_skin: sunrise
-
 # Site owner
 owner:
   name: Manoj Rao
