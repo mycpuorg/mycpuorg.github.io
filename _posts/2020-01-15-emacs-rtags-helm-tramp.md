@@ -39,7 +39,7 @@ it in an accessible path to Emacs. I put it in ``$HOME/.emacs.d/rtags/bin/``
 Although, you can install rtags seperately over in the destination separately
 you need to be very careful to install the same versions of the package down to
 the last bit. Without this ``rtags`` starts crying about this mismatch.
-```
+```lisp
 (setq rtags-autostart-diagnostics t)
 (setq rtags-tramp-enabled t)
 
