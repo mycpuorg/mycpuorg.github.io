@@ -24,14 +24,14 @@ to stay away from phrases like "simply works".
 
 So I did what any ~~in~~sane Emacs user would do. Waste several hours searching
 for solutions on SO, Github etc and Voila! I found enough people with the same
-problems but alas none with a solution that works out of the box.
+problems but alas none with a solution that works out of the box:
 
-[How can I use tramp mode with
++ [How can I use tramp mode with
 rtags](https://github.com/Andersbakken/rtags/issues/477)
-[rtags-socket-address support for remote code browsing](https://github.com/Andersbakken/rtags/pull/1303)
-[Let rtags handle the project that sits remotely](https://github.com/Andersbakken/rtags/pull/546)
-[How can I use rtags in TRAMP mode?](https://github.com/Andersbakken/rtags/issues/1206)
-[Using rtags with Tramp](https://github.com/Andersbakken/rtags/issues/1240)
++ [rtags-socket-address support for remote code browsing](https://github.com/Andersbakken/rtags/pull/1303)
++ [Let rtags handle the project that sits remotely](https://github.com/Andersbakken/rtags/pull/546)
++ [How can I use rtags in TRAMP mode?](https://github.com/Andersbakken/rtags/issues/1206)
++ [Using rtags with Tramp](https://github.com/Andersbakken/rtags/issues/1240)
 
 ### The Steps (to be verified) that you need to get rtags working on TRAMP
 Copy the ``rtags`` binaries from your machine over to the remote machine and set
