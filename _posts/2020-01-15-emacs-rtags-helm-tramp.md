@@ -13,8 +13,7 @@ use it otherwise.
 
 ```
 This is a WIP, which needs to be verified on my setup that I cannot get to until
-tomorrow.
-If you see an error please leave a comment else, wait for the verification results.
+this is solved in the community https://github.com/Andersbakken/rtags/issues/1206#issuecomment-575368669
 ```
 
 ### Wild Emacs + Tags Goose Chase Again??
@@ -68,3 +67,4 @@ the steps to verify if your installation is successful.
   tells you about the error.
 
 ### Demo!
+Some day...
