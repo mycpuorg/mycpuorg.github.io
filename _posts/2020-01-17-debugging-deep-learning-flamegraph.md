@@ -111,13 +111,13 @@ The training loop is simple enough to understand from the code and comments.
     }
 ```
 
-### Perf Output and Flamegraph:
-
 <div
 style="float:right;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
 href="/images/mlp_cpu.svg"><img
 src="/images/mlp_cpu_preview.png" width="600" height="500"
-style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for Vector Ops</i></center></div>
+style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for a Multi Layer Perceptron</i></center></div>
+
+### Perf Output and Flamegraph:
 
 A huge amount of time is spent in Data Iterator or handling page faults
 resulting in using the data iterator. ``MKLDNN`` makes things much more
