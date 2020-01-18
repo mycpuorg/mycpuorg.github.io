@@ -112,15 +112,15 @@ The training loop is simple enough to understand from the code and comments.
 ```
 
 ### Perf Output and Flamegraph:
+
+<div
+style="float:right;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
+href="/images/mlp_cpu.svg"><img
+src="/images/mlp_cpu_preview.png" width="600" height="500"
+style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for Vector Ops</i></center></div>
+
 A huge amount of time is spent in Data Iterator or handling page faults
 resulting in using the data iterator. ``MKLDNN`` makes things much more
 efficient. Almost all of them end up in ``jit_avx32_gemm_``. The data loader
 causes the thread to yield. The other important part of the Control Flow Graph
 where a lot of time is spent is ``Threads``
-
-<div
-style="float:right;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
-href="/images/mlp_cpu.svg"><img
-src="/images/mlp_cpu_preview.png" width="300" height="354"
-style="padding-bottom:3px"/></a><br><center><i>Flame Graphs for Vector Ops</i></center></div>
-
