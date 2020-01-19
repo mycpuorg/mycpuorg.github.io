@@ -22,7 +22,9 @@ monotonicity"
 
 The figure shows linear correlation between input and output, for example, when
 the output is a linear transformation of the input like below.
+
 ![sotfmax](/images/softmax.png)
+
 ![Single Layer Perceptron (source: www.d2l.ai)](https://d2l.ai/_images/singlelayer.svg)
 
 Problems that are of the following nature can benefit from linear correlations:
@@ -50,6 +52,7 @@ more general class of functions.
 
 #### Linear to NonLinear Correlation
 This should make it clearer.
+
 ![Linear to Non-Linear](/images/lin-to-nonlinear.png)
 
 In the near future, we will look into Activation Functions and such.
