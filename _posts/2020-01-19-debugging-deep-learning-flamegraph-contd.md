@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ""
+title: "Useful Marriage of Deep Learning and Systems Profilers"
 excerpt: "Profiling with Perf and Flamegraphs (Contd.)"
 tags: [Linux, Code, C++, Perf, Profiling, Deep Learning]
 comments: true
