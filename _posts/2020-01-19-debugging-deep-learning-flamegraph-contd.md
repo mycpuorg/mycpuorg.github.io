@@ -45,9 +45,9 @@ open source library of Linear Algebra Programs that are optimized in software
 (not hardware target based).
 
 ![Fully Connected on CPU with MKLDNN library](/images/fc_exec_on_cpu.png)
-Once you reach the top of the graph below.
+Once you reach the top of the [graph](/images/mlp_cpu.svg) below.
 
-![orig flamegraph](http://www.mycpu.org/images/mlp_cpu.svg) you will start to see calls to
+![orig flamegraph](/images/mlp_cpu.svg) you will start to see calls to
 ``jit_avx_gemm_f32`` which is a call to Intel's Hardware that provides
 acceleration for ``MKL`` or ``Math Kernel Library``. The source code can be
 found [here](https://github.com/intel/mkl-dnn/blob/master/src/cpu/gemm/f32/jit_avx_gemm_f32.cpp)
