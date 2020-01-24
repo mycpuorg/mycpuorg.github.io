@@ -61,3 +61,6 @@ is a bad idea or not.
 
 When possible, it is recommended to use ``std::make_unique`` and
 ``std::make_shared`` instead of ``new``
+
+### Sources:
++ Effective Modern C++
