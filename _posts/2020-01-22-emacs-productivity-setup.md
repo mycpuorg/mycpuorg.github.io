@@ -163,3 +163,33 @@ is sort of non-trivial (my case at least). Lack of good Email Clients on Emacs
 not alone, and someone else (thankfully, smarter and more skilled) felt this needed to be solved
 too. ``mu4e`` along with ``offlineimap`` have given me an in-Emacs solution to
 writing emails that I actually enjoy.
+
+# My Podcast!
+If you like topics such as this then please consider subscribing to my
+podcast. I talk to some of the stalwarts in tech and ask them what their
+favorite productivity hacks are:
+
+### Available on iTunes Podcast
+Visit Void Star Podcast's page on iTunes Podcast Portal. Please Click 'Subscribe', leave a comment.
+
+[![Get it iTunes](/images/itunes.svg)](https://itunes.apple.com/us/podcast/voidstar-podcast/id1332549527)
+
+### Available on Google Play Music
+Visit Void Star Podcast's page on Google Play Music. Please Click 'Subscribe' and leave a comment.
+
+<div>
+<a href='https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&amp;isi=691797987&amp;ius=googleplaymusic&amp;apn=com.google.android.music&amp;link=https://play.google.com/music/m/I46jz5f2f345iw4a5kw3umtbela?t%3DVoidStar_Podcast%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16' rel='nofollow'><img width='125px' alt='Listen on Google Play Music' src='https://play.google.com/intl/en_us/badges-music/images/badges/en_badge_web_music.png'/></a>
+</div>
+
+### Available on Stitcher
+Visit Void Star Podcast's page on Sticher. Please Click 'Subscribe' and leave a comment.
+
+<div>
+<a href="https://www.stitcher.com/s?fid=162759&refid=stpr"><img src="https://secureimg.stitcher.com/promo.assets/stitcher-banner-180x120.jpg" width="180" height="120" alt="Listen to Stitcher"></a>
+</div>
+
+
+## Your app not listed here? Not an issue..
+You should be able to search for 'VoidStar Podcast' on your favorite app.
+Most apps use one of the above sources for listing podcasts. This was tested on
+``Podcast Addict`` (where you can also specify the search engine) and ``RatPoison`` on Android.
