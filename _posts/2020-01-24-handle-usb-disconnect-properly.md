@@ -89,26 +89,19 @@ Bus 001 Device 036: ID 045e:07fd Microsoft Corp. Nano Transceiver 1.1
 ```
 Then I disconnect the mouse connected over a USB hub.
 ```bash
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                        ✔  28.15G RAM  0.16 L
 ╰─ lsusb| grep 045e
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                    0|1 ↵  28.15G RAM  0.16 L
 ╰─ cat /tmp/usb_disc.log 
 USB disconnected at Fri Jan 24 23:33:19 PST 2020
 USB disconnected at Fri Jan 24 23:33:19 PST 2020
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                        ✔  28.15G RAM  0.15 L
 ╰─ 
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                        ✔  28.15G RAM  0.15 L
 ╰─ 
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                        ✔  28.15G RAM  0.15 L
 ╰─ lsusb| grep 045e     
 Bus 001 Device 037: ID 045e:07fd Microsoft Corp. Nano Transceiver 1.1
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                        ✔  28.15G RAM  0.14 L
 ╰─ cat /tmp/usb_disc.log
 USB disconnected at Fri Jan 24 23:33:19 PST 2020
 USB disconnected at Fri Jan 24 23:33:19 PST 2020
 USB inserted at Fri Jan 24 23:33:42 PST 2020
 USB inserted at Fri Jan 24 23:33:42 PST 2020
-╭─ ~/my/m/m/_posts   master ● ? ⍟2                                                                                        ✔  28.15G RAM  0.14 L
 ╰─ 
 ```
 
