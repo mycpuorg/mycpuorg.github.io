@@ -1,10 +1,14 @@
 ---
 layout: post
-title: "Automatically Detecting a USB disconnection"
+title: "Detecting a USB disconnection in a Hurry"
 excerpt: "Detect a dead USB conn"
 tags: [USB, Linux, OS]
 comments: true
 ---
+```
+This post works for a quick hack but it is inefficient. An efficient way to do
+the same is written in 
+```
 I used have laptop which was my favorite for the longest time. It survived
 through my grad school abuse and many years before and after. However, I had
 some useful scripts and other files that I wanted to occasionally access
