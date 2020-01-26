@@ -254,4 +254,21 @@ It is prime!
 
 ```
 
+## Conclusion
+The above two runs show a substantial difference in the ``L1 Data Cache Miss
+Rates``, this is inline with our expectation that a deferred execution allows
+for other processes and data items to be brought in to the ``L1 Data
+Cache``. Therefore, asynchronous execution trigger in a separate thread tends to
+benefit from spatial and temporal locality of memory. What's interessting is to
+see the difference in the number of ``fork`` and ``exit`` counts within the
+profiled time window.
+
+In all, the intuition behind using deferred execution can spread out the system
+load slightly better and allow the application to control the trigger of the
+execution, however, if the impetus is to cache the results for multiple
+concurrent fetches (of the result) at a later point, say, something like the
+result of an expensive operation that you would like to have handy at the time
+of request, deferred launch for non-blocking applications will serve the
+purpose, especially such differences in perf can accumulate over time.
+
 [Full Code Here:](/images/my_future_async.cpp)
