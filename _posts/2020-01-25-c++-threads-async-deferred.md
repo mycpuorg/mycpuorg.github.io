@@ -156,7 +156,14 @@ clang++ -fno-omit-frame-pointer -o mfa ./my_future_async.cpp -lpthread
 
 ## Run
 There's some magic here showing the nuances of how to efficiently measure the
-performance of your program. Here, I'm capturing
+performance of your program. 
+
+Before we go deep into the weeds with perf numbers, here's the topology of my
+processor:
+![machine topo](/images/lstopo.png)
+
+Here, I'm capturing the following stats, if you are interested in more such
+captures visit: [here](http://www.mycpu.org/flamegraphs-on-c++/) and [here](http://www.mycpu.org/writing-bpf-c++/)
 
 ```bash
 sudo perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles" -d -d -d ./mfa 2
@@ -256,12 +263,19 @@ It is prime!
 
 ## Conclusion
 The above two runs show a substantial difference in the ``L1 Data Cache Miss
-Rates``, this is inline with our expectation that a deferred execution allows
+Rates`` (approx ``6% miss rates in L1 with async unspecified vs 11% miss rates
+with async deferred``), this is inline with our expectation that a deferred execution allows
 for other processes and data items to be brought in to the ``L1 Data
 Cache``. Therefore, asynchronous execution trigger in a separate thread tends to
 benefit from spatial and temporal locality of memory. What's interessting is to
 see the difference in the number of ``fork`` and ``exit`` counts within the
-profiled time window.
+profiled time window. 
+
+Refer for typical memory heirarchy: ![Mem Hierarchy](https://static.lwn.net/images/cpumemory/cpumemory.2.png)
+
+For a detailed description about Memory Hierarchy and how
+it affects your application's performance I receommend slow reading
+[this](https://lwn.net/Articles/250967/)
 
 In all, the intuition behind using deferred execution can spread out the system
 load slightly better and allow the application to control the trigger of the
