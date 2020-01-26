@@ -30,25 +30,25 @@ object. Accessing the _shared state_ of this ``future`` object joins the
 thread.
 
 ```cpp
-    // *try* and flush the caches
-    my_mem_flush(stack_start, flush_size);
+// *try* and flush the caches
+my_mem_flush(stack_start, flush_size);
 
-    // ...
+// ...
 
-    for ([[maybe_unused]] auto i : {1, 2, 3, 4, 5}) {
-        // policy for async() is unspecified
-        std::future<bool> fut = std::async(prime_lambda, prime_candidate);
-        auto f =
-            [&ret, &fut]() -> bool {
-                // gets the result from the future
-                // if this accesses the shared state here
-                // then this is the equivalent of calling "deferred"
-                ret = fut.get();
-                return ret;
-            };
-        total += timed_lambda(f, "unspecified");
-    }
-    // print avg of times here
+for ([[maybe_unused]] auto i : {1, 2, 3, 4, 5}) {
+	// policy for async() is unspecified
+	std::future<bool> fut = std::async(prime_lambda, prime_candidate);
+	auto f =
+		[&ret, &fut]() -> bool {
+			// gets the result from the future
+			// if this accesses the shared state here
+			// then this is the equivalent of calling "deferred"
+			ret = fut.get();
+			return ret;
+		};
+	total += timed_lambda(f, "unspecified");
+}
+// print avg of times here
 ```
 
 ### **Deferred**
@@ -64,24 +64,24 @@ the shared state contains the value returned by provided function and is made
 ready.
 
 ```cpp
-    std::future<bool> def_fut = std::async(launch::deferred,
-                       prime_lambda, prime_candidate);
+std::future<bool> def_fut = std::async(launch::deferred,
+					prime_lambda, prime_candidate);
 
-    // ... Lot of things can happen here with no concurrent computation on going
+// ... Lot of things can happen here with no concurrent computation on going
 
-    // *try* and flush the cache to get unbiased perf numbers
-    auto foo_cache_flush = [&stack_start, &flush_size]() {
-                my_mem_flush(stack_start, flush_size);
-                };
+// *try* and flush the cache to get unbiased perf numbers
+auto foo_cache_flush = [&stack_start, &flush_size]() {
+			my_mem_flush(stack_start, flush_size);
+			};
 
-    // explained shortly ...
-    timed_lambda(foo_cache_flush, "cacheflush");
+// explained shortly ...
+timed_lambda(foo_cache_flush, "cacheflush");
 
-    auto foo_deferred_fut_get = [&ret, &def_fut]() {
-                    ret = def_fut.get();
-                    };
-    auto tt = timed_lambda(foo_deferred_fut_get, "deferred");
-    std::cout << "deferred took " << tt << "us on avg" << std::endl;
+auto foo_deferred_fut_get = [&ret, &def_fut]() {
+				ret = def_fut.get();
+				};
+auto tt = timed_lambda(foo_deferred_fut_get, "deferred");
+std::cout << "deferred took " << tt << "us on avg" << std::endl;
 ```
 
 
@@ -94,29 +94,29 @@ We select a large prime number and purposely write the prime checker to be
 inefficient.
 
 ```cpp
-    auto prime_candidate = 313222313;
+auto prime_candidate = 313222313;
 
-    // purposely slow primality lambda
-    auto prime_lambda = [](auto x) {
-                std::cerr << "Wait ..." << x << std::endl;
-                for (int i = 2; i < x; ++i) if ((x % i) == 0) return false;
-                return true;
-            };
+// purposely slow primality lambda
+auto prime_lambda = [](auto x) {
+			std::cerr << "Wait ..." << x << std::endl;
+			for (int i = 2; i < x; ++i) if ((x % i) == 0) return false;
+			return true;
+		};
 ```
 
 ### Lambda to measure time taken
 If not for anything else, I want to record my lambda to simply measure the time
 taken by a given piece of execution (this could be a Lambda too!).
 ```cpp
-    auto timed_lambda = [](auto lam, auto mod_name) -> long {
-                auto before = std::chrono::steady_clock::now();
-                lam();
-                auto after = std::chrono::steady_clock::now();
+auto timed_lambda = [](auto lam, auto mod_name) -> long {
+			auto before = std::chrono::steady_clock::now();
+			lam();
+			auto after = std::chrono::steady_clock::now();
 
-                // pretty prints the time take and the module name
-                auto t = print_ts(string(mod_name), before, after);
-                return t;
-            };
+			// pretty prints the time take and the module name
+			auto t = print_ts(string(mod_name), before, after);
+			return t;
+		};
 
 ```
 
