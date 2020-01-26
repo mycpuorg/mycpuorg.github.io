@@ -159,7 +159,7 @@ There's some magic here showing the nuances of how to efficiently measure the
 performance of your program. Here, I'm capturing
 
 ```bash
-sudo /home/manoj/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles" -d -d -d ./mfa 2
+sudo perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles" -d -d -d ./mfa 2
 ```
 
 ### Perf Results for ``Deferred`` ``async()`` Call
