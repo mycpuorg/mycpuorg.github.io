@@ -40,11 +40,11 @@ thread.
         std::future<bool> fut = std::async(prime_lambda, prime_candidate);
         auto f =
             [&ret, &fut]() -> bool {
-			    // gets the result from the future
-				// if this accesses the shared state here
-				// then this is the equivalent of calling "deferred"
+                // gets the result from the future
+                // if this accesses the shared state here
+                // then this is the equivalent of calling "deferred"
                 ret = fut.get();
-			    return ret;
+                return ret;
             };
         total += timed_lambda(f, "unspecified");
     }
@@ -74,7 +74,7 @@ ready.
                 my_mem_flush(stack_start, flush_size);
                 };
 
-    //
+    // explained shortly ...
     timed_lambda(foo_cache_flush, "cacheflush");
 
     auto foo_deferred_fut_get = [&ret, &def_fut]() {
@@ -113,7 +113,7 @@ taken by a given piece of execution (this could be a Lambda too!).
                 lam();
                 auto after = std::chrono::steady_clock::now();
 
-				// pretty prints the time take and the module name
+                // pretty prints the time take and the module name
                 auto t = print_ts(string(mod_name), before, after);
                 return t;
             };
@@ -163,81 +163,106 @@ sudo /home/manoj/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L
 ```
 
 ### Perf Results for ``Deferred`` ``async()`` Call
-```bash
-===========================
-unspecified: ran for 1057395us
+Note that ``Deferred`` flavor has the runs for both ``unspecified`` and
+``deferred`` for comaprison. Therefore, the ``perf`` stats output below are a
+combo of deferred and unspecified flavors.
+```text
 ===========================
 cacheflush: ran for 0us
 ===========================
-deferred: ran for 1072166us
+deferred: ran for 1062014us
+===========================
+cacheflush: ran for 0us
+===========================
+deferred: ran for 1058999us
+===========================
+cacheflush: ran for 0us
+===========================
+deferred: ran for 1064882us
+===========================
+cacheflush: ran for 0us
+===========================
+deferred: ran for 1062698us
+===========================
+cacheflush: ran for 0us
+===========================
+deferred: ran for 1074213us
 ===========================
 It is prime!
 
  Performance counter stats for './mfa 2' (5 runs):
 
-                 2      sched:sched_process_free                                      ( +- 36.85% )
-                 6      sched:sched_process_exit
-                 0      sched:sched_process_wait
-                 5      sched:sched_process_fork
-                 1      sched:sched_process_exec
-                 0      sched:sched_process_hang
-                 5      task:task_newtask
-                 1      task:task_rename
-    11,330,199,345      L1-dcache-loads                                               ( +-  0.06% )  (49.92%)
-           833,099      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  4.43% )  (50.09%)
-    27,403,478,438      cycles                                                        ( +-  0.06% )  (50.15%)
-    11,268,197,415      L1-dcache-loads                                               ( +-  0.06% )  (50.16%)
-           839,110      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  4.64% )  (50.17%)
-   <not supported>      LLC-loads
-   <not supported>      LLC-load-misses
-         8,183,188      L1-icache-loads                                               ( +-  5.49% )  (50.19%)
-           489,139      L1-icache-load-misses     #    5.98% of all L1-icache hits    ( +-  6.70% )  (50.08%)
-            37,963      dTLB-loads                                                    ( +- 23.22% )  (49.91%)
-             5,762      dTLB-load-misses          #   15.18% of all dTLB cache hits   ( +- 17.93% )  (49.85%)
-             1,483      iTLB-loads                                                    ( +- 49.34% )  (49.84%)
-               520      iTLB-load-misses          #   35.05% of all iTLB cache hits   ( +- 26.77% )  (49.83%)
-           130,655      L1-dcache-prefetches                                          ( +- 13.49% )  (49.81%)
-   <not supported>      L1-dcache-prefetch-misses
+                 0      sched:sched_process_free                                    
+                 1      sched:sched_process_exit                                    
+                 0      sched:sched_process_wait                                    
+                 0      sched:sched_process_fork                                    
+                 1      sched:sched_process_exec                                    
+                 0      sched:sched_process_hang                                    
+                 0      task:task_newtask                                           
+                 1      task:task_rename                                            
+     1,889,395,127      L1-dcache-loads                                               ( +-  0.18% )  (49.75%)
+           118,073      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  3.07% )  (50.09%)
+     4,560,776,662      cycles                                                        ( +-  0.08% )  (50.30%)
+     1,875,712,171      L1-dcache-loads                                               ( +-  0.03% )  (50.37%)
+           127,164      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  2.04% )  (50.44%)
+   <not supported>      LLC-loads                                                   
+   <not supported>      LLC-load-misses                                             
+         2,107,388      L1-icache-loads                                               ( +-  2.19% )  (50.46%)
+            85,975      L1-icache-load-misses     #    4.08% of all L1-icache hits    ( +-  3.68% )  (50.25%)
+             5,150      dTLB-loads                                                    ( +- 16.93% )  (49.91%)
+               800      dTLB-load-misses          #   15.53% of all dTLB cache hits   ( +- 35.91% )  (49.70%)
+               114      iTLB-loads                                                    ( +- 45.37% )  (49.63%)
+                65      iTLB-load-misses          #   57.57% of all iTLB cache hits   ( +- 68.39% )  (49.56%)
+            17,289      L1-dcache-prefetches                                          ( +-  6.06% )  (49.54%)
+   <not supported>      L1-dcache-prefetch-misses                                   
 
-           6.36034 +- 0.00639 seconds time elapsed  ( +-  0.10% )
+           1.06622 +- 0.00258 seconds time elapsed  ( +-  0.24% )
 
 
 ```
 
 ### Perf Results for ``Unspecified`` ``async()`` Call
-```bash
+```text
 ===========================
-unspecified: ran for 1054048us
+unspecified: ran for 1061725us
+===========================
+unspecified: ran for 1062709us
+===========================
+nspecified: ran for 1059767us
+===========================
+unspecified: ran for 1062675us
+===========================
+unspecified: ran for 1064872us
 ===========================
 It is prime!
 
  Performance counter stats for './mfa' (5 runs):
 
-                 1      sched:sched_process_free                                      ( +- 48.59% )
-                 6      sched:sched_process_exit
-                 0      sched:sched_process_wait
-                 5      sched:sched_process_fork
-                 1      sched:sched_process_exec
-                 0      sched:sched_process_hang
-                 5      task:task_newtask
-                 1      task:task_rename
-     9,435,133,920      L1-dcache-loads                                               ( +-  0.07% )  (49.88%)
-           730,119      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  1.61% )  (50.07%)
-    22,815,220,431      cycles                                                        ( +-  0.08% )  (50.15%)
-     9,384,105,495      L1-dcache-loads                                               ( +-  0.08% )  (50.19%)
-           736,150      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  1.59% )  (50.21%)
-   <not supported>      LLC-loads
-   <not supported>      LLC-load-misses
-         6,803,493      L1-icache-loads                                               ( +-  0.98% )  (50.23%)
-           383,948      L1-icache-load-misses     #    5.64% of all L1-icache hits    ( +-  3.07% )  (50.12%)
-            26,848      dTLB-loads                                                    ( +- 11.26% )  (49.93%)
-             4,331      dTLB-load-misses          #   16.13% of all dTLB cache hits   ( +- 10.54% )  (49.85%)
-               842      iTLB-loads                                                    ( +- 40.64% )  (49.81%)
-               205      iTLB-load-misses          #   24.34% of all iTLB cache hits   ( +- 20.22% )  (49.79%)
-            90,556      L1-dcache-prefetches                                          ( +-  5.35% )  (49.77%)
-   <not supported>      L1-dcache-prefetch-misses
+                 0      sched:sched_process_free                                    
+                 2      sched:sched_process_exit                                    
+                 0      sched:sched_process_wait                                    
+                 1      sched:sched_process_fork                                    
+                 1      sched:sched_process_exec                                    
+                 0      sched:sched_process_hang                                    
+                 1      task:task_newtask                                           
+                 1      task:task_rename                                            
+     1,891,466,777      L1-dcache-loads                                               ( +-  0.07% )  (49.88%)
+           207,342      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  1.42% )  (50.23%)
+     4,566,644,075      cycles                                                        ( +-  0.05% )  (50.37%)
+     1,877,795,438      L1-dcache-loads                                               ( +-  0.08% )  (50.37%)
+           210,596      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    ( +-  1.43% )  (50.37%)
+   <not supported>      LLC-loads                                                   
+   <not supported>      LLC-load-misses                                             
+         2,345,631      L1-icache-loads                                               ( +-  1.36% )  (50.37%)
+            78,357      L1-icache-load-misses     #    3.34% of all L1-icache hits    ( +-  1.64% )  (50.12%)
+             5,118      dTLB-loads                                                    ( +- 12.31% )  (49.77%)
+               863      dTLB-load-misses          #   16.87% of all dTLB cache hits   ( +- 19.21% )  (49.63%)
+                74      iTLB-loads                                                    ( +- 33.96% )  (49.63%)
+                39      iTLB-load-misses          #   53.12% of all iTLB cache hits   ( +- 44.41% )  (49.63%)
+            19,378      L1-dcache-prefetches                                          ( +-  4.27% )  (49.63%)
+   <not supported>      L1-dcache-prefetch-misses                                   
 
-           5.30487 +- 0.00630 seconds time elapsed  ( +-  0.12% )
+          1.064263 +- 0.000823 seconds time elapsed  ( +-  0.08% )
 
 
 ```
