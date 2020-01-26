@@ -163,28 +163,15 @@ sudo /home/manoj/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L
 ```
 
 ### Perf Results for ``Deferred`` ``async()`` Call
-Note that ``Deferred`` flavor has the runs for both ``unspecified`` and
-``deferred`` for comaprison. Therefore, the ``perf`` stats output below are a
-combo of deferred and unspecified flavors.
 ```text
-===========================
-cacheflush: ran for 0us
 ===========================
 deferred: ran for 1062014us
 ===========================
-cacheflush: ran for 0us
-===========================
 deferred: ran for 1058999us
-===========================
-cacheflush: ran for 0us
 ===========================
 deferred: ran for 1064882us
 ===========================
-cacheflush: ran for 0us
-===========================
 deferred: ran for 1062698us
-===========================
-cacheflush: ran for 0us
 ===========================
 deferred: ran for 1074213us
 ===========================
