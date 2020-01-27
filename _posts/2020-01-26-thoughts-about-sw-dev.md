@@ -5,13 +5,6 @@ excerpt: "Nuances of Skill Building"
 tags: [Programming, Skill Building, Learning, Linux, Code, C++, BPF, eBPF, BCC, tracing, LLVM, Threads, Concurrency, async]
 comments: true
 ---
-```
-This is not a technical topic although the lesson can apply anywhere. There is
-nothing terribly new in this post. I'd be shocked if I'm the first person to
-come up with this points in this essay. OK, with that said, I hope I can live to
-adopt this lesson and be even remotely successful in applying it to my life.
-```
-
 Learning a complex topic deeply is tied to the ability and practice of
 correlating the topic with prior knowledge at fundamental levels. This sounds
 sexy, but you won't get to this point without tackling some uncomfortable
@@ -76,3 +69,10 @@ omnipresent spanning multiple domains and fields.
 In short, once you start feeling comfortable with applying a set of patterns
 take up new projects that make you feel slightly less comfortable. Rinse and
 Repeat.
+
+```
+This is not a technical topic although the lesson can apply anywhere. There is
+nothing terribly new in this post. I'd be shocked if I'm the first person to
+come up with the points in this essay. OK, with that said, I hope I can live to
+adopt this lesson and be even remotely successful in applying it to my life.
+```
