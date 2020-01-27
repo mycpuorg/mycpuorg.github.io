@@ -43,14 +43,14 @@ are not deleting stuff! even if we did we would delete it awkwardly enough to
 cause troubles for 20 years. Or at least, that seemed to be the
 attitude. Basically, ``C++``'s efficiency came from the fact that there were no
 training wheels. The developer was always expected to keep track of resources
-allocated in their programs. This tooks sufficient time away from making the
+allocated in their programs. This took sufficient time away from making the
 core logic more robust.
 
 But what is ``C++``'s response? It's basically same as what was done earlier
-except with basic ref counting implemetned in the shared pointer it is possible
+except with basic ref counting implemented in the shared pointer it is possible
 to keep track of all active referrers to the object and simply call the supplied
 or default constructor. Actually, that's pretty clever! You are getting the best
-of both worlds in this case, right? The tradeoff is that this smart pointer
+of both worlds in this case, right? The trade-off is that this smart pointer
 requires additional memory for keeping ref count and requires updates to the ref
 counter be via atomic operations.
 
