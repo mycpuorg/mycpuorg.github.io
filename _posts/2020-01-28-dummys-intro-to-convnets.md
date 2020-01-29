@@ -5,12 +5,6 @@ excerpt: "Idea Behind ConvNets"
 tags: [Linux, Code, C++, MXNet, Deep Learning]
 comments: true
 ---
-```
-I was referring [Conv
-Nets](https://d2l.ai/chapter_convolutional-neural-networks/why-conv.html), if you have the ability to keep the focus, this book is fantastic. I try to
-simplify the material from this source, albeit poorly, here.
-```
-
 ## Where's Waldo?
 Before you go finding Waldo, just think consciously about how your mind and eyes
 are working to find Waldo in the image. In this image, Waldo is not the "odd man
@@ -33,3 +27,9 @@ image. chunk your eyes/you must rrespective on what's showing in the neighboring
 
 This is the heart of the idea behind ConvNets. We will look at the Maths behind
 it in the future post.
+
+```
+I was referring [Conv
+Nets](https://d2l.ai/chapter_convolutional-neural-networks/why-conv.html), if you have the ability to keep the focus, this book is fantastic. I try to
+simplify the material from this source, albeit poorly, here.
+```
