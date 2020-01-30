@@ -13,7 +13,7 @@ image:
 ## Yet Another Technical Blog:
 
 * Log of my experiences and findings in the tech world
-* A Collection if tiny nuggets of useful information for devs
+* A Collection of useful information for devs
 
 ## Recommendations:
 + GKH

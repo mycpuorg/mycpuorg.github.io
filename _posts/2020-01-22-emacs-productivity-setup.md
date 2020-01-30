@@ -14,15 +14,14 @@ IDE](http://www.mycpu.org/emacs-rtags-helm/),
 have been using Emacs for many other things. To be brutally honest, I would not
 have enjoyed using ``Emacs`` anywhere nearly as much if it wasn't for the
 features listed here. So, I decided to cover some of them. I will provide the
-configs that I have used to get them to work out of the box on my setup (as in,
-by literally copying from ``.emacs``)
+configs that works out-of-the-box on my setup (by literally copying from ``.emacs``)
 
 ### First things
 ``tl;dr:`` If you are impatient to get started skip this section and proceed to
 the first section with package ``Helm``
 
-I am running ``Emacs - 26.1`` compiled from source. You don't need this 
-All the packages were installed from ``Emacs`` package Manager. By running,
+I am running ``Emacs - 26.1`` compiled from source. You don't need to do this to
+get these features working. All the packages mentioned here were installed from ``Emacs`` package Manager. By running,
 ```
 M-x list-packages
 ```
@@ -33,10 +32,9 @@ distros. In this case, we get a long list of available packages like below:
 
 ![List Packages](/images/emacs-list-pkgs.gif)
 
-If you select a package then a new buffer with it's short description pops
-up. This buffer usually contains a "Quick Start" instruction. You can simply
-press ``i`` and then ``x`` to install the package. So if you like any of the
-following packages you could do that.
+If you select a package, a new buffer containing a short description pops up. It
+usually contains a "Quick Start" instruction for the package. You can simply
+press ``i`` and ``x`` to install a package.
 
 ### Helm
 If you don't know what this is, just drop whatever you are doing and give this a

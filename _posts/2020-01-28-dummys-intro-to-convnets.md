@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Baby Steps towards Convolution Nets"
+title: "Baby Steps towards Convolution Nets - I"
 excerpt: "Idea Behind ConvNets"
 tags: [Linux, Code, C++, MXNet, Deep Learning]
 comments: true
