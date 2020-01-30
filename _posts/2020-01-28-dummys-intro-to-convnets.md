@@ -5,6 +5,13 @@ excerpt: "Idea Behind ConvNets"
 tags: [Linux, Code, C++, MXNet, Deep Learning]
 comments: true
 ---
+## ConvNets
+ConvNets might be some boring concepts that are not worth paying too much
+attention. But, for now, let's assume they have some sort of advantage over
+[Multi-Layer
+Perceptrons](http://www.mycpu.org/debugging-deep-learning-flamegraph/) that make
+them worth understanding.
+
 ## Where's Waldo?
 Before you go finding Waldo, just think consciously about how your mind and eyes
 are working to find Waldo in the image. In this image, Waldo is not the "odd man
