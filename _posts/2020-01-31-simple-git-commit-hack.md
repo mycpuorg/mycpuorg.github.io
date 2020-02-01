@@ -15,17 +15,18 @@ not have made a better choice. In fact, some times you are confident you would
 have sucked in the situation that brought the orginal developer to make this
 "dumb" choice.
 
-I think a majority of times, the issue arisess from the fact that the original
+I think a majority of times, the issue arises from the fact that the original
 developer fails to convey their thoughts diligently. No matter how rich the
 documentation of a project is, the "feeling" of the developer while making the
 commit is never conveyed so intimately as the commit text.
 
 So, here's my "time machine" idea. Make the git commit text as rich and relevant
-as possible. This can be as crazy as [this]() in the Linux Kernel or something
-more moderate as [this](). In general, having a structure to the commit text
-always helps. It does not have to vex eloquent about the processs through which
-the solution or "solution" was arrived at. It can simply have a definitive
-structure, something as follows:
+as possible. This can be as crazy as you often find in the Linux Kernel or something
+more moderate as a 5-liner that succinctly describes all you need to know about
+the commit. In general, having a structure to the commit text
+always helps. It does not have to vex eloquent about the process through which
+the solution or "solution" was arrived at. It can simply have a predictable
+structure, something as follows might be worthwhile considering:
 
 ### Structure of a Good Commit Text:
 ```plain
