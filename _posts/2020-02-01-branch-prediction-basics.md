@@ -77,6 +77,12 @@ Prediction Buffer to cache the predicted sstates of recently executed
 conditional branches can reduce this cost. Branch History Table is
 accessed/indexed using the address of the conditional branch instructions.
 
+## Conclusion
+In simple CPU Pipeline designs, pipeline stalls can significantly impact
+instruction throughput. Implementing even simple branch prediction mechanisms
+can improve the performance substantially. The results are most pronounced in
+speculative execution strategies.
+
 ### Sources:
 + [CS Dept. at UCLA](http://web.cs.ucla.edu/~tamir/courses/)
 + [UW CSE378](https://courses.cs.washington.edu/courses/cse378/09wi/lectures/lec13.pdf)
