@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Branch Prediction - Fundamentals"
+title: "Branch Prediction - Fundamentals Every Programmer Need Not Know"
 excerpt: "A walk-through of Branch Prediction"
 tags: [Linux, Code, C++, BPF, eBPF, BCC, tracing, LLVM]
 comments: true
