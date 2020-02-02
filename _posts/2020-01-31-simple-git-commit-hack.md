@@ -5,10 +5,13 @@ excerpt: "Super helpful Git Hack"
 tags: [Git, Emacs, Linux, Magit, CheatSheet]
 comments: true
 ---
-The big challenge today's software developer faces is not about having to come
-up with his/her implementation of a problem. That's easy, not fast, but easy.
-The biggest challenge a developer faces is to do with inheriting/understanding
-a codebase. This typically entails looking at strange choices the original
+Before we begin if you are looking for any real tricks with ``git``, you should
+probably checkout my dump of [git
+cheatsheet](http://www.mycpu.org/git-cheatsheet/). The big challenge today's
+software developer faces is not about having to come up with his/her
+implementation of a problem. That's easy, not fast, but easy. The biggest
+challenge a developer faces is to do with inheriting/understanding a
+codebase. This typically entails looking at strange choices the original
 developer made and, let's face it, bitching about how bad the codebase is. Most
 times, you are consciously aware that you, in all your wisdom and hackery, would
 not have made a better choice. In fact, some times you are confident you would
