@@ -23,17 +23,17 @@ feeding punch cards into the massive machine to imagine that this machine would
 fit in their handbag by the time their children went to middle school. By
 extension, this will truer in the future. There's nothing that is convincingly
 evident of its permanence or longevity from today's perspective. To try and
-guess what sort of jobs that lose relevance we will need to list all the roles
+guess what sort of jobs will lose relevance we will need to list all the roles
 and responsibilities. Further, I will try and stick to job roles that are close
-to tech skills instead of roles that are not specific to tech industry ex:
-janitor, chef, barista etc.
+to tech skills. There are other job families that belong in this discussion but
+not in the scope of this post ex: janitor, chef, barista etc.
 
 With an infusion of intelligence into more software related domains, I think
 programming is the final frontier. Code writing Code, will be the final nail in
 the coffin of traditional jobs as we know today. However, the future is not all
 gloomy. Who would have thought Data Scientist would be such a high paying
 job today! Or niche domains like: audio editing outside of the film and broadcast
-industry would be a thing. So as long people are willing to [pick up new
+industry would be a thing. So long as people are willing to [pick up new
 skills](http://www.mycpu.org/thoughts-about-sw-dev/) it may not be such a big
 deal. As Naval Ravikant said, if we are automating away all the boring
 jobs then there will be room only for interesting and artistic jobs in the
