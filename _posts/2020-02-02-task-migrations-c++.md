@@ -200,7 +200,8 @@ side of things. Hardware Concurrency does imply that you can run separate
 threads of execution while benefiting from cached data Hits.
 
 ```
-These posts are purposely kept short while I try to give as much info for
-the reader to be informed the reader is expected to discern the data for
-themselves.
+These posts are purposely kept short, I try to give as much info within the
+window as possible. I'm happy that folks care enough to leave comments 
+but I request you that more specific your feedback is, more helpful
+it will be. As always, thanks for reading.
 ```
