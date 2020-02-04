@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Analyzing Effects of CPU Migration with Perf and Flamegraph"
+title: "Analyzing Effects of CPU Task Migration with Perf and Flamegraph"
 excerpt: "Performance Impact of Migration Via Async C++ Threads"
 tags: [Linux, Code, C++, BPF, eBPF, BCC, tracing, LLVM, Task, Migration, Scheduler]
 comments: true
