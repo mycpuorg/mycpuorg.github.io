@@ -8,8 +8,8 @@ comments: true
 In [earlier posts](http://www.mycpu.org/writing-bpf-c++/)
 [we](http://www.mycpu.org/flamegraphs-on-c++/) [explored
 ](http://www.mycpu.org/c++-threads-async-deferred/) impacts of
-parameters concurrency, on performance of C++ applications through observation
-of factors like Cache Hits, Branch Prediction Rates. In this post, I simply want to
+concurrency on performance of C++ applications through observation
+of indicators like Cache Hits, Branch Prediction Rates. In this post, I simply want to
 explore the impact of task migration and what we can glean from various
 Performance Counters.
 
