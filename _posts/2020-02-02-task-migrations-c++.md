@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Performance Impact of Migration Via Async C++ Threads"
-excerpt: "Explore Effects of Changing CPU Affinity"
+title: "Analyzing Effects of CPU Migration with Perf and Flamegraph"
+excerpt: "Performance Impact of Migration Via Async C++ Threads"
 tags: [Linux, Code, C++, BPF, eBPF, BCC, tracing, LLVM, Task, Migration, Scheduler]
 comments: true
 ---
@@ -152,11 +152,6 @@ Cache``, ``512kB of L2 Cache``, and ``8MB of L3 Cache``.
 ![Stats Overview](/images/task_migration_stats.png)
 
 ## Overall Performance Statistics:
-```
-These blogs are purposely kept short while I try to give as much info for
-the reader to be informed the reader is expected to discern the data for
-themselves.
-```
  Performance counter stats for './mtm 1000'
 
 ```
@@ -203,3 +198,9 @@ small when comapred to the delays caused by Cache Misses.  Hardware Concurrency
 does not always mean you should take a loss on the spatial and temporal locality
 side of things. Hardware Concurrency does imply that you can run separate
 threads of execution while benefiting from cached data Hits.
+
+```
+These posts are purposely kept short while I try to give as much info for
+the reader to be informed the reader is expected to discern the data for
+themselves.
+```
