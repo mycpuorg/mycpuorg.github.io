@@ -41,3 +41,6 @@ my_map[42] = my_val_obj;
 ```
 
 I'm making this a separate post as a note to self.
+
+PS: Look up ``Item 24`` on Scott Meyers' ``Effective STL`` book for more
+details.
