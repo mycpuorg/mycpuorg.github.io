@@ -32,14 +32,14 @@ method of moving this lens over the input matrix in full (left-to-right, then to
 In the fig, you can see the ``Kernel`` is the filter. For example: in this
 figure we use the shaded numbers as follows.
 ```
-0×0+1×1+3×2+4×3=19.
+0×0 + 1×1 + 3×2 + 4×3 = 19.
 ```
 
 Similarly, the rest of the output is computed:
 ```
-1×0+2×1+4×2+5×3=25
-3×0+4×1+6×2+7×3=37
-4×0+5×1+7×2+8×3=43
+1×0 + 2×1 + 4×2 + 5×3 = 25
+3×0 + 4×1 + 6×2 + 7×3 = 37
+4×0 + 5×1 + 7×2 + 8×3 = 43
 ```
 
 If the input size is ``H x W`` and filter/lens size is ``h x w`` then the output
