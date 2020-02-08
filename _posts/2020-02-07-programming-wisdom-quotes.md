@@ -8,7 +8,12 @@ comments: false
 
 ## Programming Wisdom
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">“Without requirements or design, programming is the art of adding bugs to an empty text file.” - Louis Srygley</p>&mdash; Programming Wisdom (@CodeWisdom) <a href="https://twitter.com/CodeWisdom/status/1225116924016840705?ref_src=twsrc%5Etfw">February 5, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+><blockquote class="twitter-tweet"><p lang="en" dir="ltr">“Without requirements
+or design, programming is the art of adding bugs to an empty text file.” - Louis
+Srygley</p>&mdash; Programming Wisdom (@CodeWisdom) <a
+href="https://twitter.com/CodeWisdom/status/1225116924016840705?ref_src=twsrc%5Etfw">February
+5, 2020</a></blockquote> 
+> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">“Every programmer is an author.” - Sercan Leylek</p>&mdash; Programming Wisdom (@CodeWisdom) <a href="https://twitter.com/CodeWisdom/status/1225841727195537408?ref_src=twsrc%5Etfw">February 7, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
