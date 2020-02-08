@@ -47,6 +47,7 @@ there " ideas.
 ```
 
 ## Programming Wisdom
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;If it doesn’t work, it doesn’t matter how fast it doesn’t work.&quot; - Mich Ravera</p>&mdash; Programming Wisdom (@CodeWisdom) <a href="https://twitter.com/CodeWisdom/status/1210555188731416577?ref_src=twsrc%5Etfw">December 27, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday&#39;s code.&quot; - Christopher Thompson</p>&mdash; Programming Wisdom (@CodeWisdom) <a href="https://twitter.com/CodeWisdom/status/1209105628762951681?ref_src=twsrc%5Etfw">December 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
