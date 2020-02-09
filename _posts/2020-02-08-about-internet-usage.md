@@ -109,7 +109,8 @@ IP" (ugh..isn't it a stupid phrase!):
 marginheight="0"
 src="https://www.google.com/publicdata/embed?ds=d5bncppjof8f9_&amp;ctype=l&amp;strail=false&amp;bcs=d&amp;nselm=h&amp;met_y=sp_pop_totl&amp;scale_y=lin&amp;ind_y=false&amp;rdim=country&amp;idim=country:CHN:IND:USA&amp;ifdim=country&amp;hl=en_US&amp;dl=en&amp;ind=false"></iframe>
 
-### "No Country for Old Men" [^6]
+### "No Country for Old Men"
+[^6]
 India is young democracy and has the potential to learn from the errors and
 mistakes of the mature ones.
 <iframe src="https://ourworldindata.org/grapher/age-of-democracies"
@@ -140,6 +141,5 @@ its potential.
 [^2]: https://esa.un.org/unpd/wpp/Download/Standard/Population/
 [^3]: http://data.worldbank.org/data-catalog/world-development-indicators
 [^4]: Generalizing for the sake of discussion
-[^5]: Yes, there are downsides and sources galore if you want to read about
-    them.
+[^5]: Yes, there are downsides and sources galore if you want to read about them.
 [^6]: Sorry about the figure of speech
