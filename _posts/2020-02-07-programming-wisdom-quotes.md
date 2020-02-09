@@ -27,3 +27,6 @@ I think it's far more important to write well than most people realize. Writing 
 ```
 It's not pleasant to feel like a noob. And the word "noob" is certainly not a compliment. And yet today I realized something encouraging about being a noob: the more of a noob you are locally, the less of a noob you are globally.
 ```
+
+## Deep Thoughts
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">MEGATHREAD TIME: In 40 tweets I will describe 40 powerful concepts for understanding the world. Some are complex so forgive me for oversimplifying, but the main purpose is to incite curiosity. Okay, here we go:</p>&mdash; Gurwinder (@G_S_Bhogal) <a href="https://twitter.com/G_S_Bhogal/status/1225561131122597896?ref_src=twsrc%5Etfw">February 6, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
