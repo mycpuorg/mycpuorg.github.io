@@ -13,7 +13,7 @@ find it very powerful to visualize some of the statistics which I had taken for
 granted about Internet usage and what that means for startups, policy makers
 etc.
 
-## History of Information
+## History of Information or Books
 After the failure of his [early entrepreneurial
 adventures](http://aca.st/aecb9c), Johannes Gutenberg invented the [printing
 press](https://en.wikipedia.org/wiki/Johannes_Gutenberg#Early_life). This was
