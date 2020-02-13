@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Rich Neighborhoods vs Poor Neighboorhoods"
+title: "Expensive Neighborhoods vs Inexpensive Neighboorhoods"
 excerpt: "Observations on unexpected impact of simple life choices"
 tags: [Programming, Voidstar, podcast, quotes, data science, visualization]
 comments: true
