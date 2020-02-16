@@ -13,7 +13,7 @@ achieve equal pay in tech.
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Pay inequality is a big problem in tech, especially for underrepresented groups like women and minorities. The best way you can help is by sharing yours. I’ll go first.<br><br>🏫: B.A. - C.S.<br>⏳: 5.5 years<br>🏷: Staff/G06<br>🌎: NYC<br>💸: $205k base, $500k equity over 4 yrs<a href="https://twitter.com/hashtag/KnowYourWorth?src=hash&amp;ref_src=twsrc%5Etfw">#KnowYourWorth</a></p>&mdash; Zac Sweers (@ZacSweers) <a href="https://twitter.com/ZacSweers/status/1228205724255154177?ref_src=twsrc%5Etfw">February 14, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 I absolutely support the idea that for a given role/responsibility if there's
-any version of pay dispairty between two people because of their gender or
+any version of pay disparity between two people because of their gender or
 social/cultural background it must be addressed immediately by the employer and
 the industry. If you are deciding not to pay people solely based on their output /
 work produced but by their physical, social, cultural, or ethnic attributes it
@@ -57,7 +57,7 @@ employer's bottom line.
 Instead of (or at least, in addition to!) putting your numbers out, I think the
 well meaning people should give out useful tips that they have applied in real
 life. Maybe, each person who is ready to share their Total Comp could share a
-salary neogitation tactic that has worked for them in the past or maybe share an
+salary negotiation tactic that has worked for them in the past or maybe share an
 easy skill that super-charged their career. Share your secrets, tricks, hacks
 that have gotten you to the fortunate position you are in, than simply brandishing
 the fruits of those works, albeit with good intentions.
