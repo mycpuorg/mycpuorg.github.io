@@ -30,11 +30,13 @@ semaphore, fence etc.
 ## Traditional Synch Primitives:
 ![synch primitives](/images/no_raw_synch_prims.png)
 
-**Single Queue Example - Don't try to speed the queue up, try to get off it**
+Single Queue Example - Don't try to speed the queue up, try to get off it
+
 
 ![single queue](/images/barely_moves_needle.png)
 
-**Try To Minimize the time spent in non parallelizable parts.**
+
+Try To Minimize the time spent in non parallelizable parts.
 
 
 ## Futures in C++
