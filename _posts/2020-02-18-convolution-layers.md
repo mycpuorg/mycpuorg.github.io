@@ -16,7 +16,7 @@ accepts the kernel and a scalar bias as inputs.
 class conv2D : public Block {
     conv2D(kernel_size, ...)
     {
-	    Shape s{1};
+        Shape s{1};
         my_weight = get_params("weight", kernel_size);
         my_bias = get_params("bias", s);
     }
