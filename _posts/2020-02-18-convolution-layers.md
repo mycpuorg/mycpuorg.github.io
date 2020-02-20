@@ -5,7 +5,7 @@ excerpt: "Convolution Layers"
 tags: [Linux, Code, C++, MXNet, Deep Learning]
 comments: true
 ---
-In an [earlier post]() we saw what a ``crosscorr2d()`` operator is. In this we will
+In an [earlier post](http://www.mycpu.org/building-block-convnets/) we saw what a ``crosscorr2d()`` operator is. In this we will
 see how it is applied.
 
 A convolution layer performs ``crosscorr2d()`` operation on the input and
