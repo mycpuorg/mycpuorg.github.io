@@ -10,9 +10,9 @@ stalwarts provide their insights into their process. In all their efforts, what
 I noticed was that they always communicated as their true self.
 
 It got me thinking about a few posts on this blog that have garnered
-attention. I think each of one of those have been honestly what I was dying to
-find out for myself. Those posts have resonated very well with the readers. The
-common theme has been to write with an honest voice.
+attention. I think each one of those posts have been honestly about what I was
+dying to find out for myself. Those posts have resonated very well with the
+readers. The common theme has been to write with an honest voice.
 
 What does that mean? Write like you speak. It is the only way to write when
 communicating some complex idea. For the most part, technical ideas that are
