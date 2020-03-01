@@ -225,6 +225,7 @@
       </itunes:keywords>
       <itunes:explicit>no</itunes:explicit>
     </item>
+    
     <item>
       <title>VSP-007: Taking Up Uncomfortable Projects</title>
       <link>
@@ -239,12 +240,74 @@
 	experiment. Let me know if you like it or hate it.
 	Please leave a comment about the new format on iTunes, Google Podcasts, or www.voidstarpodcast.com
       </description>
-      <enclosure url="https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/Adam_Fineberg_part1_plus_outro.mp3" length="42607476" type="audio/mpeg"/>
+      <enclosure url="https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-Uncomfortable-Projects.mp3" length="1799359" type="audio/mpeg"/>
 
       <guid>
 	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-Uncomfortable-Projects.mp3
       </guid>
       <itunes:duration>5:00</itunes:duration>
+      <itunes:summary>
+	You can also visit: http://www.voidstarpodcast.com
+      </itunes:summary>
+      <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+      <itunes:keywords>
+	Interview, Podcast, VoidStar, format
+      </itunes:keywords>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
+
+    <item>
+      <title>VSP-008: About Impostor Syndrome</title>
+      <link>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-impostor-syndrome.mp3
+      </link>
+      <pubDate>Sat, 29 Feb 2020 19:00:00 PDT</pubDate>
+      <description>
+	Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews).
+	This is voidstar podcast where we talk to the top class achievers in tech and I’m your host Manoj Rao.
+	This is a popular article on "Impostor Syndrome" from my blog http://www.mycpu.org that is
+	converted into a podcast episode.
+
+	This is a very special episode because I am running an experiment. Let me know if you like it or hate it.
+	Please leave a comment about the new format on iTunes, Google Podcasts, or www.voidstarpodcast.com
+      </description>
+      <enclosure url="https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-impostor-syndrome.mp3" length="1000796" type="audio/mpeg"/>
+
+      <guid>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-impostor-syndrome.mp3
+      </guid>
+      <itunes:duration>2:46</itunes:duration>
+      <itunes:summary>
+	You can also visit: http://www.voidstarpodcast.com
+      </itunes:summary>
+      <itunes:image href="http://www.mycpu.org/images/voidstar.png"/>
+      <itunes:keywords>
+	Interview, Podcast, VoidStar, format
+      </itunes:keywords>
+      <itunes:explicit>no</itunes:explicit>
+    </item>
+    
+    <item>
+      <title>VSP-009: About Writing Bravely</title>
+      <link>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-write-bravely.mp3
+      </link>
+      <pubDate>Sat, 29 Feb 2020 19:00:00 PDT</pubDate>
+      <description>
+	Welcome to the [Void Star Podcast Series](http://www.mycpu.org/about-interviews).
+	This is voidstar podcast where we talk to the top class achievers in tech and I’m your host Manoj Rao.
+	This is a popular article on "Writing Bravely" from my blog http://www.mycpu.org that is
+	converted into a podcast episode.
+
+	This is a very special episode because I am running a science
+	experiment. Let me know if you like it or hate it.
+	Please leave a comment about the new format on iTunes, Google Podcasts, or www.voidstarpodcast.com
+      </description>
+      <enclosure url="https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-write-bravely.mp3" length="1282761" type="audio/mpeg"/>
+      <guid>
+	https://voidstarpodcast.s3-us-west-1.amazonaws.com/Season+2/frompolly-write-bravely.mp3
+      </guid>
+      <itunes:duration>3:34</itunes:duration>
       <itunes:summary>
 	You can also visit: http://www.voidstarpodcast.com
       </itunes:summary>
