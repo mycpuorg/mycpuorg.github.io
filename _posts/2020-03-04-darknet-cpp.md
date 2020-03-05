@@ -228,3 +228,7 @@ TGID: 17976 (gnome-terminal-) made 59 was off CPU on the following stack:
 We have overcome all the obstacles for getting off CPU stack trace and the time
 spent on the glass. I think this is a highly useful tool. BPF allows you to
 generate such low level information without much experience.
+
+## Source
++ Brendan Gregg's website: http://www.brendangregg.com
++ IOVISOR/BCC Open Source Project on GitHub
