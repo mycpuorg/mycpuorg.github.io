@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Debugging C++ Applications with BPF"
+title: "Idea On Debugging C++ threads with BPF"
 excerpt: "Using BCC to debug in C++"
 tags: [Linux, Code, C++, BPF, eBPF, BCC, tracing, LLVM]
 comments: true
