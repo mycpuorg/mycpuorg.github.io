@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CMake Talks"
-excerpt: ""
+excerpt: "Talks On Using CMake Effectively"
 tags: [Linux, Code, CMake, C++]
 comments: true
 ---
