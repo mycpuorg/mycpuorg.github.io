@@ -6,8 +6,10 @@ tags: [Data, Programming, Health]
 comments: true
 ---
 ```
-PS: This is not the place for expert updates (or expert anything on this
-topic). For accurate, upt-o-date information, please go to [WHO's official page](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports)
+This is not the place for expert updates (or expert anything on this
+topic). For accurate, up-to-date information,
+please go to WHO's official page:
+https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports
 ```
 ## Show Me The Data
 ![Here it is](/images/COVID-19-WHO-data-Mar-8.png)
