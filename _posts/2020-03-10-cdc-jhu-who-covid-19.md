@@ -29,22 +29,29 @@ future more cautiously (call for paranoia).
 
 #### Estimated vs Reported Cases in China
 ![](https://systems.jhu.edu/wp-content/uploads/2020/01/projection_Jan29-768x399.png)
+This was pessimistic estimation.
 
 #### Importation Risk HeatMap:
 ![](https://systems.jhu.edu/wp-content/uploads/2020/01/world_risk-768x593.jpg)
+We ignored popular holiday spots as the favorite portals.
 
 #### Estimated Risk vs Reported Risk
 ![](https://systems.jhu.edu/wp-content/uploads/2020/01/Jan_31_reported-v-estimate-Jan-29-1.jpg)
+Notice Italy, Spain, and Germany.
 
 #### Estimated Risks of Airports
 ![](https://systems.jhu.edu/wp-content/uploads/2020/01/world_airports_rr-768x388.png)
+Notice how the World might have ignored the road taken for a thousand years by
+silk traders from China to enter the capital of the ancient world
+(Rome). Unbeknownst, the virus also took the 'Silk Road' to enter Rome??
 
 ### Exponential
-Remember the ``Big-O`` Comparison?
 This is a Multi-Variate Problem and rate of its spreading is just looking at the
 symptoms of the problem, nonetheless, it is useful to understand how fast it is
-actually spreading.
+actually spreading. While we have gotten many things wrong it is crucial to get
+this wrong on the side of caution because we could be playing with fire.
 
+Remember the ``Big-O`` Comparison?
 Here it is [^1]
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Comparison_computational_complexity.svg/512px-Comparison_computational_complexity.svg.png)
