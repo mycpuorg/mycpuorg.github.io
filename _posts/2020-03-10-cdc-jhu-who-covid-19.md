@@ -20,8 +20,10 @@ What we know are only the *confirmed* and *suspected* cases, not the total
 number of actually infected cases which could be **much** higher.
 
 ### Exponential
-Remember the ``Big-O`` Comparison? Here it is,
+Remember the ``Big-O`` Comparison? Here it is [^1]:
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Comparison_computational_complexity.svg/512px-Comparison_computational_complexity.svg.png)
 
 ### Johns Hopkins Dashboard
 <iframe src="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+
+[^1:] source wikipedia https://commons.wikimedia.org/wiki/File:Comparison_computational_complexity.svg
