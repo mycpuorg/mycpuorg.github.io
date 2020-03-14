@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Dive Into Stock Markets With C++"
+title: "Get Into Stock Markets Now?"
 excerpt: "Should We?"
 tags: [Data, Programming, Health]
 comments: true
