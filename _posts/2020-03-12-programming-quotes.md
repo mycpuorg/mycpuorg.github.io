@@ -19,4 +19,4 @@ src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 ```
 "...A.I. is not going to take over the world, morally bankrupt might..."
 ```
-- James Gosling on [VoidStar Podcast](www.voidstarpodcast.com)
+- James Gosling on [VoidStar Podcast](http://www.voidstarpodcast.com)
