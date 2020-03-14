@@ -17,5 +17,6 @@ href="https://twitter.com/CodeWisdom/status/1234168776087789569?ref_src=twsrc%5E
 src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ```
-...A.I. is not going to take over the world, morally bankrupt might..."
+"...A.I. is not going to take over the world, morally bankrupt might..."
+```
 - James Gosling on [VoidStar Podcast](www.voidstarpodcast.com)
