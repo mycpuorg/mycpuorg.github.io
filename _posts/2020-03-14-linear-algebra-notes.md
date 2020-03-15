@@ -13,6 +13,11 @@ verge of being trashed. So, I have decided to embarass myself and post them
 publicly until I get around to translating them into a traditional post.
 
 ## Raw Notes
+### Part 1
 ![](/images/LinAlg1.jpg)
+
+### Part 2
 ![](/images/LinAlg2.jpg)
+
+### Part 3
 ![](/images/LinAlg3.jpg)
