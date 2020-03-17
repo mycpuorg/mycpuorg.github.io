@@ -1,11 +1,17 @@
----
-layout: search
-title: Search Posts
-tags: [tech, linux, kernel, tracing, perf, filesystems, about, author]
-modified: 2020-03-17T20:53:07.573882-04:00
-comments: true
-image:
-  feature: voidstar_2000x2000.png
-  credit: 
-  creditlink:
----
+<!-- Html Elements for Search -->
+<div id="search-container">
+<input type="text" id="search-input" placeholder="search...">
+<ul id="results-container"></ul>
+</div>
+
+<!-- Script pointing to search-script.js -->
+<script src="/js/search-script.js" type="text/javascript"></script>
+
+<!-- Configuration -->
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('results-container'),
+  json: '/search.json'
+})
+</script>
