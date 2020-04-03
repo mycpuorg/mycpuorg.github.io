@@ -4,7 +4,7 @@ title: "Bash - Productivity Tricks/Hacks"
 excerpt: "Bash"
 tags: [Bash, Linux, Terminal, Console]
 comments: false
----
+--
 In [earlier](http://www.mycpu.org/emacs-productivity-setup)
 [posts](http://www.mycpu.org/git-aliases/), I have shared my productivity tricks
 with Emacs and Git. In this post, I will share some of the commonly used shell
