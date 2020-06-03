@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C++ Taskflow"
+title: "Taskflow - C++ Parallel Tasking System"
 excerpt: "Parallel Task Library"
 tags: [Linux, Code, C++, Promise, Future, STL, algorithms, tasks, concurrency]
 comments: true
