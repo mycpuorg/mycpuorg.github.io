@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C++ Concurrency Library"
+title: "Searching For A C++ Concurrency Library"
 excerpt: "In search of a good library"
 tags: [Linux, Code, C++, Promise, Future, STL, algorithms, tasks, concurrency]
 comments: true

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C++ Task System"
+title: "C++ Task System - Transwarp Talk"
 excerpt: "Talks On Using C++ 17 for Concurrent Programming"
 tags: [Linux, Code, CMake, C++]
 comments: true
