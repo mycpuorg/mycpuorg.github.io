@@ -23,15 +23,15 @@ Taskflow are its features like task graph visualization. I test drove the
 `kmeans` example I was able to look at the task graph pretty easily.
 
 ## Task Graph Visualization
-![](./images/outfile.svg)
+![](/images/outfile.svg)
 
 I tried out one of the examples and ran it on NVidia's Jetson Xavier AGX SDK
 that I [recently unpacked](http://www.mycpu.org/nvidia-xavier-gpu-agx/).
 
 ## TaskFlow Profiler
-![](./images/tfprof.png)
-![](./images/tfprof2.png)
-![](./images/tfprof3.png)
+![](/images/tfprof.png)
+![](/images/tfprof2.png)
+![](/images/tfprof3.png)
 
 ## Multiplying Matrices on NVidia Jetson Xavier AGX
 Because why not?
