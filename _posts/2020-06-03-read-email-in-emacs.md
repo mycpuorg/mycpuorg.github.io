@@ -27,6 +27,7 @@ thoughts in a detailed email response. Consider the following:
 
 ![](/images/emacs-mail-read.gif)
 
+### Note-Taking In Email
 Well it's not the best demo I guess, but what if you want to capture something
 from the email for future reference? Maybe, you want to stash an important TODO
 item from the email and keep notes for yourself. Furthermore, won't it nice to
@@ -41,11 +42,29 @@ motivate the right reader to think of using Emacs as their email client to boost
 your productivity, well at least to get to a point where you don't hate
 reading/writing emails.
 
-**LET US START BY READING EMAIL**
 ![](/images/emacs-mail-org-capture.gif)
 
+### Fewer Distractions
+If you want to minimize distractions (by avoiding an untimely email pop-up) then
+using `mu4e` on top of `offlineimap` is very effective, you get to check emails
+at your wish. Yes, you can turn off notifications or come up with several ways
+to avoid distractions. But the corollary of this is what makes this option more
+suitable for me, i.e., when I respond to an email I try to give it proper
+attention.
+
+### Easier Filtering
+It's stupid simple to filter email with two keystrokes
++ `j` : for `Jump To Folder`
++ `b`: for `Jump To Bookmark`
+
+![](/images/emacs-mail-jump.gif)
+
+Similarly, bookmarking is particularly useful to save your query filters across folders. For
+ex: "Jump to Mails From XYZ from 3 weeks ago"
+
 If you use [org-mode](https://orgmode.org/) on Emacs then you are
-in luck, you simply select the right keyword from [org-capture template](https://www.gnu.org/software/emacs/manual/html_node/org/Template-expansion.html#fn-3).
+in luck, you simply select the right keyword from [org-capture
+template](https://www.gnu.org/software/emacs/manual/html_node/org/Template-expansion.html#fn-3).
 
 OK, I will admit that I have spent unhealthy amounts of time tweaking my Emacs
 config over the years. If you like what you see then you can simply start by
