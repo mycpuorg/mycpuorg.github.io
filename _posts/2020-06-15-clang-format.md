@@ -5,6 +5,9 @@ excerpt: "One of the most useful tools ever!"
 tags: [clang-format, llvm, C++]
 comments: true
 ---
+Below I will share a bare minimum config with `clang-format` and `clang-tidy` to
+get started in a new project.
+### `clang-format`
 `clang-format` is easily one of the most useful tools for C++ developers. If you
 still haven't used it or heard of it, just whip up your favorite editor, type a
 `hello_world.cc`
@@ -15,6 +18,10 @@ purpose we never write bad looking code, right?). Now all you need is:
 ```bash
 clang-format -i hello_world.cc
 ```
+More generally, in a lager project:
+```bash
+find . -iname "*.cc" -o -iname "*.hpp" | xargs clang-format -i
+```
 
 And voila! your code gets automatically formatted to match the specifications
 set by default. I usually, have a small file with my favorite set of formatting
@@ -22,15 +29,10 @@ specifications. I will share them here, but in general, I try to make my code
 look closest to the `LLVM` coding style with a few major exceptions, I keep all
 the function names, variable names everything else in lower case.
 
-`clang-tidy` is one of the most versatile tools in the `llvm` tools package for
-C++ developers. For the most part, a whole lot of static analysis and other
-sanitizations can be run.
+I have installed `clang-format` package in Emacs which I can then run on a
+buffer from within my Emacs. I can map it to a single key but I haven't bothered
+doing it yet.
 
-In most cases you use `clang-format` and `clang-tidy` together.
-Below I will share a bare minimum config with `clang-format` and `clang-tidy` to
-get started in a new project.
-
-### `clang-format`
 ```
 BasedOnStyle: LLVM
 
@@ -45,6 +47,12 @@ TabWidth: 4
 ```
 
 ### `clang-tidy`
+`clang-tidy` is one of the most versatile tools in the `llvm` tools package for
+C++ developers. For the most part, a whole lot of static analysis and other
+sanitizations can be run.
+
+In most cases you use `clang-format` and `clang-tidy` together.
+
 ```
 Checks: '-*,readability-identifier-naming'
 CheckOptions:
