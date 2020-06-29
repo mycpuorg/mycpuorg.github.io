@@ -51,13 +51,14 @@ bool to_core_jump_and_check(unsigned core)
     // initialize
     cpu_set_t set;
     CPU_ZERO(&set);
-	
+    
     // this is where we are writing down
     // CPU Core number to be affined to
     CPU_SET(core, &set);
 
     // TODO gettid() should have worked
     // somehow doesn't find this decl
+    // not important, make a syscall directly
     // auto tid = gettid();
     #ifdef SYS_gettid
     pid_t tid = syscall(SYS_gettid);
@@ -98,23 +99,23 @@ std::future<bool> jump_fut = std::async(
     std::launch::async,
     [&arr, &r_cpu] (auto mod_name) {
         auto before = std::chrono::steady_clock::now();
-		
-		// request the scheduler by setting affinity
-		// some times the request can fail, so it's good
-		// to check if we succeeded
+        
+        // request the scheduler by setting affinity
+        // some times the request can fail, so it's good
+        // to check if we succeeded
         auto res = to_core_jump_and_check(r_cpu);
         if (!res)
             return res;
-		
-		// in this case, sort the array
+        
+        // in this case, sort the array
         do_strange_work(arr);
 
         auto after = std::chrono::steady_clock::now();
-		
-		// pretty print time taken
+        
+        // pretty print time taken
         auto t = print_ts(string(mod_name), before, after);
         return res;
-	}, string("foo")
+    }, string("foo")
     );
 ```
 
