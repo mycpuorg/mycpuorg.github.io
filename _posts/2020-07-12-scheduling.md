@@ -26,8 +26,8 @@ there are a ton of such policies:
 ## Earliest Deadline First (EDF)
 EDF has produces an optimal scheme for minimizing the maximum lateness.
 
-![](./images/EDD.png)
-[^source]
+![](/images/EDD.png)
+[^1]
 
 If your goal is to simply minimize the amount of lateness only, then this is
 it. It is the optimal scheme. However, this has the downside of producing a lot
@@ -40,8 +40,8 @@ first ordering the tasks as per EDF scheme then trying to spot a largest job tha
 results in delaying a later task in the pipeline. It then moves this large job
 to the end of the queue.
 
-![](./images/MooresAlgo.png)
-[^source]
+![](/images/MooresAlgo.png)
+[^1]
 
 You can break down a big problem into smaller tasks, by simply using the better
 of these two schemes recursively you have solved your schedule. You have even
@@ -50,4 +50,4 @@ underrated benefit is that you have drastically reduced your cognitive load on
 the planning/scheduling aspect. Instead you get to look deeper into the design
 and other technical parts of the project.
 
-[^source]: https://courses.cs.washington.edu/courses/csep521/03sp
+[^1]: https://courses.cs.washington.edu/courses/csep521/03sp
