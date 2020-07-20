@@ -29,14 +29,14 @@ powerful Jupyter notebook interface, which can be used to build models.
 ## How to Set this up in no time
 https://aws.amazon.com/blogs/machine-learning/build-amazon-sagemaker-notebooks-backed-by-spark-in-amazon-emr/
 
-## Why would use these combo technologies
+## Why should I use these combo technologies?
 I recently had a request to crunch through a huge dataset that had some strange
 requirements (not so strange actually). However, this got me smacking my lips to
 learn about Spark and actually have a project to show for it. I decided to use
 the bleeding edge.
 
-The initial set of questins had me asking - how should I allocate the number of
-nodes in the cluster? How should I split the work?
+After a moment of looking at the data I was asking myself - how should I
+allocate the number of nodes in the cluster? How should I split the work?
 
 ## What are RDDs?
 An RDD is a collection of elements in distributed systems context. In
@@ -90,7 +90,7 @@ directory/folder ``dir_name`` in S3's bucket ``bucket_name`` which is unique.
 
 ## How can you run queries on them?
 Spark makes it convenient to work with structured and semi-structured data using
-Spark SQL. Saprk SQL provides a DataFrame abstraction on the data loaded. This
+Spark SQL. Spark SQL provides a DataFrame abstraction on the data loaded. This
 can be viewed as a "poor man's" Pandas DataFrame since the access APIs are not
 as rich as Pandas' interface provides. But Spark's DataFrames can be thought of
 as Relational DataBase rather than a data structure in memory.
