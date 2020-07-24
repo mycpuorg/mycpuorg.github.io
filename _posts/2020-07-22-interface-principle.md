@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C++ Interface Principle
+title: "C++ Interface Principle"
 excerpt: "Learning a few more quirks of the language"
 tags: [C++, Interface, API, Design]
 comments: true
