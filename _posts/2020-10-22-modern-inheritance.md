@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Modern C++ Inheritance"
-excerpt: ""
+excerpt: ""Inheritance is the Base Class of Evil" - Sean Parent"
 tags: [function, variant, visit]
 comments: true
 ---
