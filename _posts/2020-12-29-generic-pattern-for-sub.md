@@ -11,7 +11,7 @@ of puzzles which fit a mould of solution.
 **Note:** This is only for contiguous subgroups not the same as interleaved
 subsequences.
 
-```C++
+```cpp
 std::vector<int> arr = {1, 1, 2, 3, 2, 0, 4, 0, 5, 0, 6};
 std::vector<int> sub_ = {1, 2, 3}; // not {1, 2, 3, 4, 5, 6} which is non-contig
 ```
@@ -41,7 +41,7 @@ window.
 Assume the problem is to find the longest window of increasing numbers in a
 given array (Common interview problem, perhaps).
 
-```C++
+```cpp
 // shown once here for clarity
 struct max_sub {
     size_t max_len;
@@ -81,7 +81,7 @@ to the right if the condition is satisfied. If the condition check fails, then
 the left iterator is advanced (or the window is shrunk) for the new input to be
 consumed.
 
-```C++
+```cpp
     while (r < arr.size() && (l <= r)) {
 	    while (arr[l] < arr[r]) { r++; }
 	    update_global_max_(l, r);
@@ -93,7 +93,7 @@ consumed.
 Now let's try to make this code apply to a broader set of problems that require
 a sliding window run over the input. The code becomes:
 
-```C++
+```cpp
     
 template <typename T, typename Pred>
 auto sliding_win_(const std::vector<T>& arr, Pred& p, MinMax& u) -> sub_arr_t {
