@@ -5,9 +5,12 @@ excerpt: "stdlib C++ Cheat Sheet"
 tags: [C++, STL, Algos]
 comments: true
 ---
-Come On! `C++` STL contains stupefyingly useful algorithms.
-I will just arbitrarily list them here for reference (not comprehensive by any
-means).
+There are a ton of detailed references available for STL. Even several books
+written about them. But I want cheat sheets long enough to explicitly tell me
+how to use them and implicitly, tell me why/when to use them. `C++` STL contains
+stupefyingly useful algorithms. I will just arbitrarily list them here for
+reference (not comprehensive by any means). It's a little hard to do this
+easily, so I am going to start here:
 
 ## List of Useful `STL` Algorithms
 
@@ -33,7 +36,7 @@ auto pivot_ = std::stable_partition(v.begin(), v.end(), [](const auto& e_) { ret
 ### ``std::rotate``:
 ```cpp
 auto mid_ = v.begin() + 5;
-std::rotate(v.begin(), mid, v.end());
+std::rotate(v.begin(), mid_, v.end());
 ```
 
 ### ``std::is_permutation``:
