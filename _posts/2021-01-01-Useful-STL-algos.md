@@ -130,8 +130,8 @@ auto iter = std::unique(v.begin(), v.end(),
 ```
 
 ### Merging Vectors: ``std::move``:
-v1 is the final vector
-v2 is the arr to be merged/deleted
+v2 is the final vector
+v1 is the arr to be merged/deleted
 
 ```cpp
 std::move(v1.begin(), v1.end(), std::back_inserter(v2));
