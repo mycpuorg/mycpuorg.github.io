@@ -111,6 +111,7 @@ BM_Set              38689124 ns     38681053 ns           18
 If a string copy takes `75ns` a RB Tree insertion of 1000 numbers takes millions
 of times longer? My intuition was that something was not right. But it's the
 hallowed ``stdlib`` itself! You know, it comes with all that claim of:
+
 ```
 "It's been
 optimized and tested over decades, so you dummies cannot outdo it in reasonable
@@ -118,6 +119,7 @@ time"
 ```
 
 To be fair, I also remember the famous:
+
 ```
 "It's not magic, you could muck it up as easily as another language"
 ```
