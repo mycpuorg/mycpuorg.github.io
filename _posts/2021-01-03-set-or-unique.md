@@ -231,6 +231,68 @@ BM_UniqueUnSort      1427650 ns      1427362 ns          514
 BM_UniqueSort           1031 ns         1031 ns       658493
 ```
 
+### Perf Counters (For Fun):
+
+
+```
+ sudo ~/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles,cs,faults,migrations" -d -d -d ./src/project_name 
+<-dcache-loads,L1-dcache-load-misses,cycles,cs,faults,migrations" -d -d -d ./src/project_name 
+2021-01-03 22:38:46
+Running ./src/project_name
+Run on (16 X 3700 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 64 KiB (x8)
+  L2 Unified 512 KiB (x8)
+  L3 Unified 8192 KiB (x2)
+Load Average: 0.38, 0.68, 0.66
+------------------------------------------------------------
+Benchmark                  Time             CPU   Iterations
+------------------------------------------------------------
+BM_StringCreation       31.9 ns         31.9 ns     21817609
+BM_StringCopy           74.9 ns         74.8 ns      9375163
+BM_InitializeNums 1806667769 ns   1800507600 ns          135
+BM_Set              38123421 ns     38102829 ns           19
+BM_UniqueUnSort      1370623 ns      1369860 ns          502
+BM_UniqueSort           1020 ns         1019 ns       695893
+
+ Performance counter stats for './src/project_name':
+
+                 0      sched:sched_process_free                                    
+                 1      sched:sched_process_exit                                    
+                 0      sched:sched_process_wait                                    
+                 0      sched:sched_process_fork                                    
+                 1      sched:sched_process_exec                                    
+                 0      sched:sched_process_hang                                    
+                 0      task:task_newtask                                           
+                 1      task:task_rename                                            
+ 1,495,012,058,475      L1-dcache-loads                                               (41.66%)
+       937,221,758      L1-dcache-load-misses     #    0.06% of all L1-dcache hits    (41.66%)
+ 1,036,181,705,187      cycles                                                        (41.67%)
+            24,323      cs                                                          
+            27,391      faults                                                      
+                93      migrations                                                  
+ 1,493,591,511,815      L1-dcache-loads                                               (41.67%)
+       931,805,247      L1-dcache-load-misses     #    0.06% of all L1-dcache hits    (41.67%)
+   <not supported>      LLC-loads                                                   
+   <not supported>      LLC-load-misses                                             
+   163,803,547,495      L1-icache-loads                                               (41.67%)
+        39,343,264      L1-icache-load-misses     #    0.02% of all L1-icache hits    (41.67%)
+        22,646,105      dTLB-loads                                                    (41.67%)
+        11,513,157      dTLB-load-misses          #   50.84% of all dTLB cache hits   (41.67%)
+           268,648      iTLB-loads                                                    (41.67%)
+            80,644      iTLB-load-misses          #   30.02% of all iTLB cache hits   (41.66%)
+       880,025,580      L1-dcache-prefetches                                          (41.66%)
+   <not supported>      L1-dcache-prefetch-misses                                   
+
+     248.697914989 seconds time elapsed
+
+     247.742867000 seconds user
+       0.099714000 seconds sys
+
+
+```
+
 ## Conclusions:
 + Question everything in your workload,
 + Experiment for your usecase
