@@ -28,6 +28,7 @@ codebase, I decided to simply measure.
 
 ## Setup Benchmark
 So I setup a quick Google Benchmark harness:
+
 ```cmake
 cmake_minimum_required(VERSION 3.16)
 
@@ -57,8 +58,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 So I got the following code cranked up in no time.
 ### Setup:
 + Get a few (1000) random numbers
-+ Insert them into a set (RB Tree)
-+ 
++ Insert numbers into a set (RB Tree)
+
 ```cpp
 std::vector<int> nums_;
 std::vector<int> nums_cp_;
@@ -87,6 +88,7 @@ BENCHMARK_MAIN();
 ```
 
 ### Result:
+
 ```
 2021-01-03 21:50:24
 Running ./src/project_name
@@ -137,6 +139,7 @@ There's an algorithm just for this in the standard library - it's called
 `std::unique()`
 
 Allegedly, [one such impl](https://www.cplusplus.com/reference/algorithm/unique/) of this algo is:
+
 ```cpp
 template <class ForwardIterator>
   ForwardIterator unique (ForwardIterator first, ForwardIterator last)
@@ -154,6 +157,7 @@ template <class ForwardIterator>
 ```
 
 Now, further if the array is already sorted then it must be very easy.
+
 ```cpp
 std::vector<int> nums_;
 std::vector<int> nums_cp_;
