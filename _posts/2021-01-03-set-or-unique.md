@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C++: How a simple question helped me for a New Year's Resolution"
+title: "C++: How a simple question helped me form a New Year's Resolution"
 excerpt: "Finding unique elements"
 tags: [C++, STD, lambda]
 comments: true
@@ -232,5 +232,7 @@ BM_UniqueSort           1031 ns         1031 ns       658493
 ```
 
 ## Conclusions:
-Question everything in your workload, experiment for your usecase, have fun.
++ Question everything in your workload,
++ Experiment for your usecase
++ Have fun.
 Sounds like a good New Year's Resolution anyway!
