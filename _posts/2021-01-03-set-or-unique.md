@@ -298,3 +298,118 @@ BM_UniqueSort           1020 ns         1019 ns       695893
 + Experiment for your usecase
 + Have fun.
 Sounds like a good New Year's Resolution anyway!
+
+
+## Appendix:
+This generated quite a few [comments on Reddit](https://www.reddit.com/r/cpp/comments/kq3bue/c_how_a_simple_question_helped_me_form_a_new/)
+So I will try to address a few valid points that were raised.
+
+### "Do not use Debug Build"
+This is valid in general while measuring performance.
+But in this case, my `cmake` is applicable only to the code I write! Remember,
+you won't be building a debug version of the standard library just because you
+built your application with Debug flags. If you see the code, there's hardly any
+code that's not from the `stdlib` here.
+
+I use `Debug` builds for experiments because it is helpful in profiling etc.
+But here, we are simply trying to illustrate that using simpler algos can be
+more useful. Unless, you are profiling a piece of algo/code you have come up
+with the compiler won't affect the behavior of standard library code in any
+significant way based on the flags set in your code.
+
+Nonetheless, this is a fair point, so I have 
+
+### "Why use a sorted structure"
+Because it makes it easier to find duplicates so you would expect the final algo
+in our case `Unique`, to run faster.
+
+### Why `set` vs `map`?
+Because intuitively you associate set as a container unique keys.
+
+### "I have a problem with the title?"
++ The Question is ```"What If?"```
++ New Year's Resolution is copied over from above:
+
+```
+Question everything in your workload,
+Experiment for your usecase
+Have fun.
+```
+
+### Code Changes:
+Thanks to many redditors for useful feedback:
+`u/pi_stuff`, `u/FutureChrome`, and `u/lostera`
+
+I have made the following changes which covers a a majority of open Qs.
+
+```diff
+-set(CMAKE_BUILD_TYPE Debug)
++set(CMAKE_BUILD_TYPE Release)
+```
+
+
+```cpp
+std::vector<int> nums_;
+std::vector<int> nums_cp_;
+auto helper_(int n) -> std::vector<int> {
+    auto gen_node_ = [=]() -> int { return rand() % 100; };
+    while (n--) { nums_.emplace_back(gen_node_()); }
+    std::copy(nums_.begin(), nums_.end(), std::back_inserter(nums_cp_));
+    // std::sort(nums_cp_.begin(), nums_cp_.end());
+    return nums_;
+}
+
+static void BM_InitializeNums(benchmark::State& state) {
+    for (auto _ : state) { helper_(1000); }
+}
+BENCHMARK(BM_InitializeNums);
+
+static void BM_Set(benchmark::State& state) {
+    for (auto _ : state) {
+	std::set<int> s;
+	for (const auto& e_ : nums_) { s.insert(e_); }
+    }
+}
+BENCHMARK(BM_Set);
+
+static void BM_UnorderedSet(benchmark::State& state) {
+    std::unordered_set<int> s;
+    for (auto _ : state) {
+	for (const auto& e_ : nums_) { s.insert(e_); }
+	s.clear();
+    }
+}
+BENCHMARK(BM_UnorderedSet);
+
+static void BM_UniqueUnSort(benchmark::State& state) {
+    for (auto _ : state) {
+	auto uniq_iter = std::unique(nums_.begin(), nums_.end());
+	std::vector<int> uniqs_;
+	nums_.erase(uniq_iter, nums_.end());
+    }
+}
+BENCHMARK(BM_UniqueUnSort);
+
+```
+
+
+```
+2021-01-04 13:45:12
+Running ./src/project_name
+Run on (16 X 3700 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 64 KiB (x8)
+  L2 Unified 512 KiB (x8)
+  L3 Unified 8192 KiB (x2)
+Load Average: 1.24, 1.36, 1.37
+------------------------------------------------------------
+Benchmark                  Time             CPU   Iterations
+------------------------------------------------------------
+BM_StringCreation       33.0 ns         33.0 ns     21797306
+BM_StringCopy           67.9 ns         67.9 ns     10334991
+BM_InitializeNums    7690912 ns      7685571 ns          554
+BM_Set             183048341 ns    182903481 ns            4
+BM_UnorderedSet     57835311 ns     57806128 ns           13
+BM_UniqueUnSort      6484169 ns      6480656 ns           93
+```
