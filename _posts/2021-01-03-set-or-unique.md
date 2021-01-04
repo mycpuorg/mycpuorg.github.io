@@ -317,7 +317,8 @@ more useful. Unless, you are profiling a piece of algo/code you have come up
 with the compiler won't affect the behavior of standard library code in any
 significant way based on the flags set in your code.
 
-Nonetheless, this is a fair point, so I have 
+Nonetheless, this is a fair point, so I have modified accordingly and shared the
+numbers below.
 
 ### "Why use a sorted structure"
 Because it makes it easier to find duplicates so you would expect the final algo
