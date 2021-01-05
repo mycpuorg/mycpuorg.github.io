@@ -250,7 +250,7 @@ BM_UniqueUnSort        60466 ns        60454 ns        12010
 
 
 ### Benchmark
-![Screenshot](./images/bench.png)
+![](/images/bench.png)
 
 ### Perf Counters (For Fun):
 
