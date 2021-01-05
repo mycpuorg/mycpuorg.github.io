@@ -250,6 +250,7 @@ BM_UniqueUnSort        60466 ns        60454 ns        12010
 
 
 ### Benchmark
++ Overhead is present in all functions:
 ![](/images/bench.png)
 
 ### Perf Counters (For Fun):
@@ -324,6 +325,9 @@ Sounds like a good New Year's Resolution anyway!
 ## Appendix:
 This generated quite a few [comments on Reddit](https://www.reddit.com/r/cpp/comments/kq3bue/c_how_a_simple_question_helped_me_form_a_new/)
 So I will try to address a few valid points that were raised.
+
+### Quick Benchmark is a nice tool!
+https://quick-bench.com/q/ekKw1U0yXiRF2-dYFmr8l_8naYc
 
 ### "Do not use Debug Build"
 This is valid in general while measuring performance.
