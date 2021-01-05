@@ -363,5 +363,5 @@ Have fun.
 ```
 
 ### Code Changes:
-Thanks to many redditors for useful feedback to capture accurate numbers
+Thanks to many redditors for useful feedback:
 `u/pi_stuff`, `u/FutureChrome`, `u/shimdar`, and `u/lostera`
