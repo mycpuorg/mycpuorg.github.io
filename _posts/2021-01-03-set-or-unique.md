@@ -49,7 +49,7 @@ add_subdirectory(src)
 find_package(benchmark REQUIRED)
 target_link_libraries(${this_project} benchmark::benchmark)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_ENABLE_EXPORTS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ```
@@ -67,30 +67,40 @@ auto helper_(int n) -> std::vector<int> {
     auto gen_node_ = [=]() -> int { return rand() % 100; };
     while (n--) { nums_.emplace_back(gen_node_()); }
     std::copy(nums_.begin(), nums_.end(), std::back_inserter(nums_cp_));
-    std::sort(nums_cp_.begin(), nums_cp_.end());
     return nums_;
 }
 
-static void BM_InitializeNums(benchmark::State& state) {
-    for (auto _ : state) { helper_(1000); }
+auto clear_up_() -> void {
+    nums_.clear();
+    nums_cp_.clear();
 }
-BENCHMARK(BM_InitializeNums);
+
+static void BM_Overhead(benchmark::State& state) {
+    for (auto _ : state) { 
+        helper_(1000);
+        clear_up_();
+    }
+}
+BENCHMARK(BM_Overhead);
 
 static void BM_Set(benchmark::State& state) {
-    std::set<int> s;
     for (auto _ : state) {
-	for (const auto& e_ : nums_) { s.insert(e_); }
+        helper_(1000);
+        std::set<int> s;
+        for (const auto& e_ : nums_) { s.insert(e_); }
+        clear_up_();
     }
 }
 BENCHMARK(BM_Set);
 
 BENCHMARK_MAIN();
+
 ```
 
 ### Result:
 
 ```
-2021-01-03 21:50:24
+2021-01-04 20:57:17
 Running ./src/project_name
 Run on (16 X 3700 MHz CPU s)
 CPU Caches:
@@ -98,26 +108,22 @@ CPU Caches:
   L1 Instruction 64 KiB (x8)
   L2 Unified 512 KiB (x8)
   L3 Unified 8192 KiB (x2)
-Load Average: 0.74, 0.97, 0.81
+Load Average: 0.48, 0.75, 0.79
 ------------------------------------------------------------
 Benchmark                  Time             CPU   Iterations
 ------------------------------------------------------------
-BM_StringCreation       32.2 ns         32.2 ns     21667369
-BM_StringCopy           74.8 ns         74.8 ns      9387404
-
-
-BM_InitializeNums 1780847955 ns   1780435494 ns          136
-BM_Set              38689124 ns     38681053 ns           18
+BM_StringCreation       32.7 ns         32.6 ns     21474767
+BM_StringCopy           79.9 ns         79.9 ns      8852194
+BM_Overhead      45110 ns        45102 ns        15699
+BM_Set                310303 ns       310241 ns         2283
 ```
 
-If a string copy takes `75ns` a RB Tree insertion of 1000 numbers takes millions
-of times longer? My intuition was that something was not right. But it's the
+If a string copy takes under `80ns` a RB Tree insertion of 1000 numbers takes
+tens of thousands of times longer? My intuition was that something was not right. But it's the
 hallowed ``stdlib`` itself! You know, it comes with all that claim of:
 
 ```
-"It's been
-optimized and tested over decades, so you dummies cannot outdo it in reasonable
-time"
+"It's been optimized and tested over decades, so you dummies cannot outdo it in reasonable time"
 ```
 
 To be fair, I also remember the famous:
@@ -165,41 +171,54 @@ auto helper_(int n) -> std::vector<int> {
     auto gen_node_ = [=]() -> int { return rand() % 100; };
     while (n--) { nums_.emplace_back(gen_node_()); }
     std::copy(nums_.begin(), nums_.end(), std::back_inserter(nums_cp_));
-    std::sort(nums_cp_.begin(), nums_cp_.end());
     return nums_;
 }
 
-static void BM_InitializeNums(benchmark::State& state) {
-    for (auto _ : state) { helper_(1000); }
+auto clear_up_() -> void {
+    nums_.clear();
+    nums_cp_.clear();
 }
-BENCHMARK(BM_InitializeNums);
+
+static void BM_Overhead(benchmark::State& state) {
+    for (auto _ : state) { 
+        helper_(1000);
+        clear_up_();
+    }
+}
+BENCHMARK(BM_Overhead);
 
 static void BM_Set(benchmark::State& state) {
-    std::set<int> s;
     for (auto _ : state) {
-	for (const auto& e_ : nums_) { s.insert(e_); }
+        helper_(1000);
+        std::set<int> s;
+        for (const auto& e_ : nums_) { s.insert(e_); }
+        clear_up_();
     }
 }
 BENCHMARK(BM_Set);
 
+static void BM_UnorderedSet(benchmark::State& state) {
+    for (auto _ : state) {
+        helper_(1000);
+        std::unordered_set<int> s;
+        for (const auto& e_ : nums_) { s.insert(e_); }
+        clear_up_();
+    }
+}
+BENCHMARK(BM_UnorderedSet);
+
 static void BM_UniqueUnSort(benchmark::State& state) {
     for (auto _ : state) {
-	auto uniq_iter = std::unique(nums_.begin(), nums_.end());
-	std::vector<int> uniqs_;
-	nums_.erase(uniq_iter, nums_.end());
+        helper_(1000);
+        auto uniq_iter = std::unique(nums_.begin(), nums_.end());
+        nums_.erase(uniq_iter, nums_.end());
+        clear_up_();
     }
 }
 BENCHMARK(BM_UniqueUnSort);
 
-static void BM_UniqueSort(benchmark::State& state) {
-    for (auto _ : state) {
-	auto uniq_sort_iter = std::unique(nums_cp_.begin(), nums_cp_.end());
-	nums_cp_.erase(uniq_sort_iter, nums_cp_.end());
-    }
-}
-BENCHMARK(BM_UniqueSort);
-
 BENCHMARK_MAIN();
+
 ```
 
 ### Results:
@@ -209,7 +228,7 @@ overhead so unless your data is already sorted simply sticking with the swapping
 algo gives a significant speedup.
 
 ```
-2021-01-03 21:50:24
+2021-01-04 20:57:17
 Running ./src/project_name
 Run on (16 X 3700 MHz CPU s)
 CPU Caches:
@@ -217,27 +236,28 @@ CPU Caches:
   L1 Instruction 64 KiB (x8)
   L2 Unified 512 KiB (x8)
   L3 Unified 8192 KiB (x2)
-Load Average: 0.74, 0.97, 0.81
+Load Average: 0.48, 0.75, 0.79
 ------------------------------------------------------------
 Benchmark                  Time             CPU   Iterations
 ------------------------------------------------------------
-BM_StringCreation       32.2 ns         32.2 ns     21667369
-BM_StringCopy           74.8 ns         74.8 ns      9387404
-
-
-BM_InitializeNums 1780847955 ns   1780435494 ns          136
-BM_Set              38689124 ns     38681053 ns           18
-BM_UniqueUnSort      1427650 ns      1427362 ns          514
-BM_UniqueSort           1031 ns         1031 ns       658493
+BM_StringCreation       32.7 ns         32.6 ns     21474767
+BM_StringCopy           79.9 ns         79.9 ns      8852194
+BM_Overhead      45110 ns        45102 ns        15699
+BM_Set                310303 ns       310241 ns         2283
+BM_UnorderedSet       146815 ns       146788 ns         4702
+BM_UniqueUnSort        60466 ns        60454 ns        12010
 ```
+
+
+### Benchmark
+![Screenshot](./images/bench.png)
 
 ### Perf Counters (For Fun):
 
-
 ```
- sudo ~/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles,cs,faults,migrations" -d -d -d ./src/project_name 
+sudo ~/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles,cs,faults,migrations" -d -d -d ./src/project_name 
 <-dcache-loads,L1-dcache-load-misses,cycles,cs,faults,migrations" -d -d -d ./src/project_name 
-2021-01-03 22:38:46
+2021-01-04 21:05:17
 Running ./src/project_name
 Run on (16 X 3700 MHz CPU s)
 CPU Caches:
@@ -245,16 +265,16 @@ CPU Caches:
   L1 Instruction 64 KiB (x8)
   L2 Unified 512 KiB (x8)
   L3 Unified 8192 KiB (x2)
-Load Average: 0.38, 0.68, 0.66
+Load Average: 0.69, 0.62, 0.68
 ------------------------------------------------------------
 Benchmark                  Time             CPU   Iterations
 ------------------------------------------------------------
-BM_StringCreation       31.9 ns         31.9 ns     21817609
-BM_StringCopy           74.9 ns         74.8 ns      9375163
-BM_InitializeNums 1806667769 ns   1800507600 ns          135
-BM_Set              38123421 ns     38102829 ns           19
-BM_UniqueUnSort      1370623 ns      1369860 ns          502
-BM_UniqueSort           1020 ns         1019 ns       695893
+BM_StringCreation       31.8 ns         31.8 ns     22014537
+BM_StringCopy           80.3 ns         80.2 ns      8700024
+BM_Overhead      44357 ns        44334 ns        15554
+BM_Set                315421 ns       315218 ns         2200
+BM_UnorderedSet       151866 ns       151778 ns         4507
+BM_UniqueUnSort        60268 ns        60228 ns        11901
 
  Performance counter stats for './src/project_name':
 
@@ -266,32 +286,33 @@ BM_UniqueSort           1020 ns         1019 ns       695893
                  0      sched:sched_process_hang                                    
                  0      task:task_newtask                                           
                  1      task:task_rename                                            
- 1,495,012,058,475      L1-dcache-loads                                               (41.66%)
-       937,221,758      L1-dcache-load-misses     #    0.06% of all L1-dcache hits    (41.66%)
- 1,036,181,705,187      cycles                                                        (41.67%)
-            24,323      cs                                                          
-            27,391      faults                                                      
-                93      migrations                                                  
- 1,493,591,511,815      L1-dcache-loads                                               (41.67%)
-       931,805,247      L1-dcache-load-misses     #    0.06% of all L1-dcache hits    (41.67%)
+    30,338,551,811      L1-dcache-loads                                               (41.57%)
+         2,017,065      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    (41.64%)
+    24,102,837,079      cycles                                                        (41.71%)
+               564      cs                                                          
+               146      faults                                                      
+                 3      migrations                                                  
+    30,422,089,436      L1-dcache-loads                                               (41.78%)
+         1,842,248      L1-dcache-load-misses     #    0.01% of all L1-dcache hits    (41.85%)
    <not supported>      LLC-loads                                                   
    <not supported>      LLC-load-misses                                             
-   163,803,547,495      L1-icache-loads                                               (41.67%)
-        39,343,264      L1-icache-load-misses     #    0.02% of all L1-icache hits    (41.67%)
-        22,646,105      dTLB-loads                                                    (41.67%)
-        11,513,157      dTLB-load-misses          #   50.84% of all dTLB cache hits   (41.67%)
-           268,648      iTLB-loads                                                    (41.67%)
-            80,644      iTLB-load-misses          #   30.02% of all iTLB cache hits   (41.66%)
-       880,025,580      L1-dcache-prefetches                                          (41.66%)
+     2,444,321,168      L1-icache-loads                                               (41.82%)
+         1,575,062      L1-icache-load-misses     #    0.06% of all L1-icache hits    (41.77%)
+           245,849      dTLB-loads                                                    (41.70%)
+            88,316      dTLB-load-misses          #   35.92% of all dTLB cache hits   (41.64%)
+            70,125      iTLB-loads                                                    (41.57%)
+            11,027      iTLB-load-misses          #   15.72% of all iTLB cache hits   (41.50%)
+         1,039,464      L1-dcache-prefetches                                          (41.47%)
    <not supported>      L1-dcache-prefetch-misses                                   
 
-     248.697914989 seconds time elapsed
+       5.756089511 seconds time elapsed
 
-     247.742867000 seconds user
-       0.099714000 seconds sys
-
+       5.735565000 seconds user
+       0.000000000 seconds sys
 
 ```
+
+
 
 ## Conclusions:
 + Question everything in your workload,
@@ -338,79 +359,5 @@ Have fun.
 ```
 
 ### Code Changes:
-Thanks to many redditors for useful feedback:
-`u/pi_stuff`, `u/FutureChrome`, and `u/lostera`
-
-I have made the following changes which covers a a majority of open Qs.
-
-```diff
--set(CMAKE_BUILD_TYPE Debug)
-+set(CMAKE_BUILD_TYPE Release)
-```
-
-
-```cpp
-std::vector<int> nums_;
-std::vector<int> nums_cp_;
-auto helper_(int n) -> std::vector<int> {
-    auto gen_node_ = [=]() -> int { return rand() % 100; };
-    while (n--) { nums_.emplace_back(gen_node_()); }
-    std::copy(nums_.begin(), nums_.end(), std::back_inserter(nums_cp_));
-    // std::sort(nums_cp_.begin(), nums_cp_.end());
-    return nums_;
-}
-
-static void BM_InitializeNums(benchmark::State& state) {
-    for (auto _ : state) { helper_(1000); }
-}
-BENCHMARK(BM_InitializeNums);
-
-static void BM_Set(benchmark::State& state) {
-    for (auto _ : state) {
-	std::set<int> s;
-	for (const auto& e_ : nums_) { s.insert(e_); }
-    }
-}
-BENCHMARK(BM_Set);
-
-static void BM_UnorderedSet(benchmark::State& state) {
-    std::unordered_set<int> s;
-    for (auto _ : state) {
-	for (const auto& e_ : nums_) { s.insert(e_); }
-	s.clear();
-    }
-}
-BENCHMARK(BM_UnorderedSet);
-
-static void BM_UniqueUnSort(benchmark::State& state) {
-    for (auto _ : state) {
-	auto uniq_iter = std::unique(nums_.begin(), nums_.end());
-	std::vector<int> uniqs_;
-	nums_.erase(uniq_iter, nums_.end());
-    }
-}
-BENCHMARK(BM_UniqueUnSort);
-
-```
-
-
-```
-2021-01-04 13:45:12
-Running ./src/project_name
-Run on (16 X 3700 MHz CPU s)
-CPU Caches:
-  L1 Data 32 KiB (x8)
-  L1 Instruction 64 KiB (x8)
-  L2 Unified 512 KiB (x8)
-  L3 Unified 8192 KiB (x2)
-Load Average: 1.24, 1.36, 1.37
-------------------------------------------------------------
-Benchmark                  Time             CPU   Iterations
-------------------------------------------------------------
-BM_StringCreation       33.0 ns         33.0 ns     21797306
-BM_StringCopy           67.9 ns         67.9 ns     10334991
-BM_InitializeNums    7690912 ns      7685571 ns          554
-BM_Set             183048341 ns    182903481 ns            4
-BM_UnorderedSet     57835311 ns     57806128 ns           13
-BM_UniqueUnSort      6484169 ns      6480656 ns           93
-```
+Thanks to many redditors for useful feedback to capture accurate numbers
+`u/pi_stuff`, `u/FutureChrome`, `u/shimdar`, and `u/lostera`
