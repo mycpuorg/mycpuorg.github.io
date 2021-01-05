@@ -222,8 +222,8 @@ BENCHMARK_MAIN();
 ```
 
 ### Results:
-So the simple stupid algo is like **30x** faster. Further, if the array is already
-sorted then it's **30000x** faster! To be fair, the sorting is a significant
+So the simple stupid algo is close to **17x** faster. Further, if the array is already
+sorted then it's **way** faster! To be fair, the sorting is a significant
 overhead so unless your data is already sorted simply sticking with the swapping
 algo gives a significant speedup.
 
