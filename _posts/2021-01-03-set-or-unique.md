@@ -1,10 +1,25 @@
 ---
 layout: post
-title: "C++: How a simple question helped me form a New Year's Resolution"
+title: "C++: How a simple question helped me form a New Year's Resolution - [Inaccurate]"
 excerpt: "Finding unique elements"
 tags: [C++, STD, lambda]
 comments: true
 ---
+## Edit:
+I published this post a couple of days ago. I have figured since then the
+content of this post has flaws. So I am making a follow up post to this instead
+of simply changing this as a reminder to future self of why I went wrong here.
+
+## tl;dr:
++ I didn't understand / use the Google Benchmark correctly.
++ This flaw in the logic led to a few serial errors.
++ I tried to take a shorter route to benchmarking with Google
+  Benchmark. Specifically, I did not realize that the benchmark loops for several
+  thousands of iterations until confidence values are achieved. `helper_()` and
+  `clear_up_()` were bad shortcuts.
++ My original intent was muddled as I tried to quickfix "minor" errors.
+
+
 Firstly, this post is a short walk through in ``C++`` code, but feel free to
 jump to the conclusion for my New Year's Resolution (Spoiler: It's not an "Aha!"
 moment)
@@ -166,10 +181,13 @@ Now, further if the array is already sorted then it must be very easy.
 
 ```cpp
 std::vector<int> nums_;
+std::vector<int> nums_sorted;
 std::vector<int> nums_cp_;
 auto helper_(int n) -> std::vector<int> {
     auto gen_node_ = [=]() -> int { return rand() % 100; };
     while (n--) { nums_.emplace_back(gen_node_()); }
+    std::copy(nums_.begin(), nums_.end(), std::back_inserter(nums_sorted));
+    std::sort(nums_sorted.begin(), nums_sorted.end());
     std::copy(nums_.begin(), nums_.end(), std::back_inserter(nums_cp_));
     return nums_;
 }
@@ -177,6 +195,7 @@ auto helper_(int n) -> std::vector<int> {
 auto clear_up_() -> void {
     nums_.clear();
     nums_cp_.clear();
+	nums_sorted.clear();
 }
 
 static void BM_Overhead(benchmark::State& state) {
@@ -216,6 +235,16 @@ static void BM_UniqueUnSort(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_UniqueUnSort);
+
+static void BM_UniqueSort(benchmark::State& state) {
+    for (auto _ : state) {
+        helper_(1000);
+        auto uniq_iter = std::unique(nums_.begin(), nums_.end());
+        nums_.erase(uniq_iter, nums_.end());
+        clear_up_();
+    }
+}
+BENCHMARK(BM_UniqueSort);
 
 BENCHMARK_MAIN();
 
