@@ -11,8 +11,17 @@ http://www.mycpu.org/set-or-unique/. If you are interested in what needed fixing
 I recommend you go there first.
 ```
 
-## Problem:
+## tl;dr:
++ I didn't understand / use the Google Benchmark correctly.
++ This flaw in the logic led to a few serial errors.
++ I tried to take a shorter route to benchmarking with Google
+  Benchmark. Specifically, I did not realize that the benchmark loops for several
+  thousands of iterations until confidence values are achieved. `helper_()` and
+  `clear_up_()` were bad shortcuts.
++ My original intent was muddled as I tried to quickfix "minor" errors.
 
+
+## Problem:
 To find unique elements in a vector quickly with existing `std::` routines.
 
 ## Setup Code:
@@ -254,8 +263,6 @@ CPU Caches:
   L2 Unified 512 KiB (x8)
   L3 Unified 8192 KiB (x2)
 Load Average: 1.74, 1.14, 0.74
-***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
-***WARNING*** Library was built as DEBUG. Timings may be affected.
 ---------------------------------------------------------------------
 Benchmark                           Time             CPU   Iterations
 ---------------------------------------------------------------------
@@ -277,6 +284,11 @@ Funny thing is that a `std::set` and `std::unordered_set` perform worse on an
 already sorted input.
 
 The best bang for buck appears to be from using `std::unordered_set` on unsorted data!
+
+I looked up for any theoritical reasoning on why RB-Trees should perform worse
+on sorted inputs, there was no obvious answers. Thoughts?
+
+### Perf Counters
 
 ```
 sudo ~/bin/perf stat -e "sched:sched_process*,task:*,L1-dcache-loads,L1-dcache-load-misses,cycles,cs,faults,migrations" -d -d -d ./src/project_name 
