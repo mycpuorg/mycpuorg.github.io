@@ -270,8 +270,9 @@ BM_UniqueSortedInput           197036 ns       196992 ns         3446
 ```
 
 ### Benchmark
-+ Overhead is present in all functions:
 ![](/images/bench_fixed_sorted_inputs.png)
+
+Refer: https://quick-bench.com/q/kq7yeDlz9R6HV-0XE37eRiGINYM
 
 Funny thing is that a `std::set` and `std::unordered_set` perform worse on an
 already sorted input.
