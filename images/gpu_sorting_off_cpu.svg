@@ -1,0 +1,2592 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" width="1200" height="534" onload="init(evt)" viewBox="0 0 1200 534" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- Flame graph stack visualization. See https://github.com/brendangregg/FlameGraph for latest version, and http://www.brendangregg.com/flamegraphs.html for examples. -->
+<!-- NOTES:  -->
+<defs>
+	<linearGradient id="background" y1="0" y2="1" x1="0" x2="0" >
+		<stop stop-color="#eeeeee" offset="5%" />
+		<stop stop-color="#e0e0ff" offset="95%" />
+	</linearGradient>
+</defs>
+<style type="text/css">
+	text { font-family:Verdana; font-size:12px; fill:rgb(0,0,0); }
+	#search, #ignorecase { opacity:0.1; cursor:pointer; }
+	#search:hover, #search.show, #ignorecase:hover, #ignorecase.show { opacity:1; }
+	#subtitle { text-anchor:middle; font-color:rgb(160,160,160); }
+	#title { text-anchor:middle; font-size:17px}
+	#unzoom { cursor:pointer; }
+	#frames > *:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+	.hide { display:none; }
+	.parent { opacity:0.5; }
+</style>
+<script type="text/ecmascript">
+<![CDATA[
+	"use strict";
+	var details, searchbtn, unzoombtn, matchedtxt, svg, searching, currentSearchTerm, ignorecase, ignorecaseBtn;
+	function init(evt) {
+		details = document.getElementById("details").firstChild;
+		searchbtn = document.getElementById("search");
+		ignorecaseBtn = document.getElementById("ignorecase");
+		unzoombtn = document.getElementById("unzoom");
+		matchedtxt = document.getElementById("matched");
+		svg = document.getElementsByTagName("svg")[0];
+		searching = 0;
+		currentSearchTerm = null;
+
+		// use GET parameters to restore a flamegraphs state.
+		var params = get_params();
+		if (params.x && params.y)
+			zoom(find_group(document.querySelector('[x="' + params.x + '"][y="' + params.y + '"]')));
+                if (params.s) search(params.s);
+	}
+
+	// event listeners
+	window.addEventListener("click", function(e) {
+		var target = find_group(e.target);
+		if (target) {
+			if (target.nodeName == "a") {
+				if (e.ctrlKey === false) return;
+				e.preventDefault();
+			}
+			if (target.classList.contains("parent")) unzoom();
+			zoom(target);
+			if (!document.querySelector('.parent')) {
+				clearzoom();
+				return;
+			}
+
+			// set parameters for zoom state
+			var el = target.querySelector("rect");
+			if (el && el.attributes && el.attributes.y && el.attributes._orig_x) {
+				var params = get_params()
+				params.x = el.attributes._orig_x.value;
+				params.y = el.attributes.y.value;
+				history.replaceState(null, null, parse_params(params));
+			}
+		}
+		else if (e.target.id == "unzoom") clearzoom();
+		else if (e.target.id == "search") search_prompt();
+		else if (e.target.id == "ignorecase") toggle_ignorecase();
+	}, false)
+
+	// mouse-over for info
+	// show
+	window.addEventListener("mouseover", function(e) {
+		var target = find_group(e.target);
+		if (target) details.nodeValue = "Function: " + g_to_text(target);
+	}, false)
+
+	// clear
+	window.addEventListener("mouseout", function(e) {
+		var target = find_group(e.target);
+		if (target) details.nodeValue = ' ';
+	}, false)
+
+	// ctrl-F for search
+	// ctrl-I to toggle case-sensitive search
+	window.addEventListener("keydown",function (e) {
+		if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+			e.preventDefault();
+			search_prompt();
+		}
+		else if (e.ctrlKey && e.keyCode === 73) {
+			e.preventDefault();
+			toggle_ignorecase();
+		}
+	}, false)
+
+	// functions
+	function get_params() {
+		var params = {};
+		var paramsarr = window.location.search.substr(1).split('&');
+		for (var i = 0; i < paramsarr.length; ++i) {
+			var tmp = paramsarr[i].split("=");
+			if (!tmp[0] || !tmp[1]) continue;
+			params[tmp[0]]  = decodeURIComponent(tmp[1]);
+		}
+		return params;
+	}
+	function parse_params(params) {
+		var uri = "?";
+		for (var key in params) {
+			uri += key + '=' + encodeURIComponent(params[key]) + '&';
+		}
+		if (uri.slice(-1) == "&")
+			uri = uri.substring(0, uri.length - 1);
+		if (uri == '?')
+			uri = window.location.href.split('?')[0];
+		return uri;
+	}
+	function find_child(node, selector) {
+		var children = node.querySelectorAll(selector);
+		if (children.length) return children[0];
+	}
+	function find_group(node) {
+		var parent = node.parentElement;
+		if (!parent) return;
+		if (parent.id == "frames") return node;
+		return find_group(parent);
+	}
+	function orig_save(e, attr, val) {
+		if (e.attributes["_orig_" + attr] != undefined) return;
+		if (e.attributes[attr] == undefined) return;
+		if (val == undefined) val = e.attributes[attr].value;
+		e.setAttribute("_orig_" + attr, val);
+	}
+	function orig_load(e, attr) {
+		if (e.attributes["_orig_"+attr] == undefined) return;
+		e.attributes[attr].value = e.attributes["_orig_" + attr].value;
+		e.removeAttribute("_orig_"+attr);
+	}
+	function g_to_text(e) {
+		var text = find_child(e, "title").firstChild.nodeValue;
+		return (text)
+	}
+	function g_to_func(e) {
+		var func = g_to_text(e);
+		// if there's any manipulation we want to do to the function
+		// name before it's searched, do it here before returning.
+		return (func);
+	}
+	function update_text(e) {
+		var r = find_child(e, "rect");
+		var t = find_child(e, "text");
+		var w = parseFloat(r.attributes.width.value) -3;
+		var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+		t.attributes.x.value = parseFloat(r.attributes.x.value) + 3;
+
+		// Smaller than this size won't fit anything
+		if (w < 2 * 12 * 0.59) {
+			t.textContent = "";
+			return;
+		}
+
+		t.textContent = txt;
+		// Fit in full text width
+		if (/^ *$/.test(txt) || t.getSubStringLength(0, txt.length) < w)
+			return;
+
+		for (var x = txt.length - 2; x > 0; x--) {
+			if (t.getSubStringLength(0, x + 2) <= w) {
+				t.textContent = txt.substring(0, x) + "..";
+				return;
+			}
+		}
+		t.textContent = "";
+	}
+
+	// zoom
+	function zoom_reset(e) {
+		if (e.attributes != undefined) {
+			orig_load(e, "x");
+			orig_load(e, "width");
+		}
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_reset(c[i]);
+		}
+	}
+	function zoom_child(e, x, ratio) {
+		if (e.attributes != undefined) {
+			if (e.attributes.x != undefined) {
+				orig_save(e, "x");
+				e.attributes.x.value = (parseFloat(e.attributes.x.value) - x - 10) * ratio + 10;
+				if (e.tagName == "text")
+					e.attributes.x.value = find_child(e.parentNode, "rect[x]").attributes.x.value + 3;
+			}
+			if (e.attributes.width != undefined) {
+				orig_save(e, "width");
+				e.attributes.width.value = parseFloat(e.attributes.width.value) * ratio;
+			}
+		}
+
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_child(c[i], x - 10, ratio);
+		}
+	}
+	function zoom_parent(e) {
+		if (e.attributes) {
+			if (e.attributes.x != undefined) {
+				orig_save(e, "x");
+				e.attributes.x.value = 10;
+			}
+			if (e.attributes.width != undefined) {
+				orig_save(e, "width");
+				e.attributes.width.value = parseInt(svg.width.baseVal.value) - (10 * 2);
+			}
+		}
+		if (e.childNodes == undefined) return;
+		for (var i = 0, c = e.childNodes; i < c.length; i++) {
+			zoom_parent(c[i]);
+		}
+	}
+	function zoom(node) {
+		var attr = find_child(node, "rect").attributes;
+		var width = parseFloat(attr.width.value);
+		var xmin = parseFloat(attr.x.value);
+		var xmax = parseFloat(xmin + width);
+		var ymin = parseFloat(attr.y.value);
+		var ratio = (svg.width.baseVal.value - 2 * 10) / width;
+
+		// XXX: Workaround for JavaScript float issues (fix me)
+		var fudge = 0.0001;
+
+		unzoombtn.classList.remove("hide");
+
+		var el = document.getElementById("frames").children;
+		for (var i = 0; i < el.length; i++) {
+			var e = el[i];
+			var a = find_child(e, "rect").attributes;
+			var ex = parseFloat(a.x.value);
+			var ew = parseFloat(a.width.value);
+			var upstack;
+			// Is it an ancestor
+			if (0 == 0) {
+				upstack = parseFloat(a.y.value) > ymin;
+			} else {
+				upstack = parseFloat(a.y.value) < ymin;
+			}
+			if (upstack) {
+				// Direct ancestor
+				if (ex <= xmin && (ex+ew+fudge) >= xmax) {
+					e.classList.add("parent");
+					zoom_parent(e);
+					update_text(e);
+				}
+				// not in current path
+				else
+					e.classList.add("hide");
+			}
+			// Children maybe
+			else {
+				// no common path
+				if (ex < xmin || ex + fudge >= xmax) {
+					e.classList.add("hide");
+				}
+				else {
+					zoom_child(e, xmin, ratio);
+					update_text(e);
+				}
+			}
+		}
+		search();
+	}
+	function unzoom() {
+		unzoombtn.classList.add("hide");
+		var el = document.getElementById("frames").children;
+		for(var i = 0; i < el.length; i++) {
+			el[i].classList.remove("parent");
+			el[i].classList.remove("hide");
+			zoom_reset(el[i]);
+			update_text(el[i]);
+		}
+		search();
+	}
+	function clearzoom() {
+		unzoom();
+
+		// remove zoom state
+		var params = get_params();
+		if (params.x) delete params.x;
+		if (params.y) delete params.y;
+		history.replaceState(null, null, parse_params(params));
+	}
+
+	// search
+	function toggle_ignorecase() {
+		ignorecase = !ignorecase;
+		if (ignorecase) {
+			ignorecaseBtn.classList.add("show");
+		} else {
+			ignorecaseBtn.classList.remove("show");
+		}
+		reset_search();
+		search();
+	}
+	function reset_search() {
+		var el = document.querySelectorAll("#frames rect");
+		for (var i = 0; i < el.length; i++) {
+			orig_load(el[i], "fill")
+		}
+		var params = get_params();
+		delete params.s;
+		history.replaceState(null, null, parse_params(params));
+	}
+	function search_prompt() {
+		if (!searching) {
+			var term = prompt("Enter a search term (regexp " +
+			    "allowed, eg: ^ext4_)"
+			    + (ignorecase ? ", ignoring case" : "")
+			    + "\nPress Ctrl-i to toggle case sensitivity", "");
+			if (term != null) search(term);
+		} else {
+			reset_search();
+			searching = 0;
+			currentSearchTerm = null;
+			searchbtn.classList.remove("show");
+			searchbtn.firstChild.nodeValue = "Search"
+			matchedtxt.classList.add("hide");
+			matchedtxt.firstChild.nodeValue = ""
+		}
+	}
+	function search(term) {
+		if (term) currentSearchTerm = term;
+
+		var re = new RegExp(currentSearchTerm, ignorecase ? 'i' : '');
+		var el = document.getElementById("frames").children;
+		var matches = new Object();
+		var maxwidth = 0;
+		for (var i = 0; i < el.length; i++) {
+			var e = el[i];
+			var func = g_to_func(e);
+			var rect = find_child(e, "rect");
+			if (func == null || rect == null)
+				continue;
+
+			// Save max width. Only works as we have a root frame
+			var w = parseFloat(rect.attributes.width.value);
+			if (w > maxwidth)
+				maxwidth = w;
+
+			if (func.match(re)) {
+				// highlight
+				var x = parseFloat(rect.attributes.x.value);
+				orig_save(rect, "fill");
+				rect.attributes.fill.value = "rgb(230,0,230)";
+
+				// remember matches
+				if (matches[x] == undefined) {
+					matches[x] = w;
+				} else {
+					if (w > matches[x]) {
+						// overwrite with parent
+						matches[x] = w;
+					}
+				}
+				searching = 1;
+			}
+		}
+		if (!searching)
+			return;
+		var params = get_params();
+		params.s = currentSearchTerm;
+		history.replaceState(null, null, parse_params(params));
+
+		searchbtn.classList.add("show");
+		searchbtn.firstChild.nodeValue = "Reset Search";
+
+		// calculate percent matched, excluding vertical overlap
+		var count = 0;
+		var lastx = -1;
+		var lastw = 0;
+		var keys = Array();
+		for (k in matches) {
+			if (matches.hasOwnProperty(k))
+				keys.push(k);
+		}
+		// sort the matched frames by their x location
+		// ascending, then width descending
+		keys.sort(function(a, b){
+			return a - b;
+		});
+		// Step through frames saving only the biggest bottom-up frames
+		// thanks to the sort order. This relies on the tree property
+		// where children are always smaller than their parents.
+		var fudge = 0.0001;	// JavaScript floating point
+		for (var k in keys) {
+			var x = parseFloat(keys[k]);
+			var w = matches[keys[k]];
+			if (x >= lastx + lastw - fudge) {
+				count += w;
+				lastx = x;
+				lastw = w;
+			}
+		}
+		// display matched percent
+		matchedtxt.classList.remove("hide");
+		var pct = 100 * count / maxwidth;
+		if (pct != 100) pct = pct.toFixed(1)
+		matchedtxt.firstChild.nodeValue = "Matched: " + pct + "%";
+	}
+]]>
+</script>
+<rect x="0.0" y="0" width="1200.0" height="534.0" fill="url(#background)"  />
+<text id="title" x="600.00" y="24" >Off-CPU Time Flame Graph</text>
+<text id="details" x="10.00" y="517" > </text>
+<text id="unzoom" x="10.00" y="24" class="hide">Reset Zoom</text>
+<text id="search" x="1090.00" y="24" >Search</text>
+<text id="ignorecase" x="1174.00" y="24" >ic</text>
+<text id="matched" x="1090.00" y="517" > </text>
+<g id="frames">
+<g >
+<title>    __sched_text_start+1302 (5 us, 0.03%)</title><rect x="476.0" y="309" width="0.5" height="15.0" fill="rgb(108,108,192)" rx="2" ry="2" />
+<text  x="479.04" y="319.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (20 us, 0.14%)</title><rect x="427.6" y="405" width="1.7" height="15.0" fill="rgb(127,127,241)" rx="2" ry="2" />
+<text  x="430.62" y="415.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_epoll_wait+89 (606 us, 4.23%)</title><rect x="38.4" y="437" width="49.9" height="15.0" fill="rgb(104,104,213)" rx="2" ry="2" />
+<text  x="41.41" y="447.5" >    _..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (5 us, 0.03%)</title><rect x="476.0" y="325" width="0.5" height="15.0" fill="rgb(117,117,196)" rx="2" ry="2" />
+<text  x="479.04" y="335.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="89.4" y="181" width="0.3" height="15.0" fill="rgb(134,134,190)" rx="2" ry="2" />
+<text  x="92.37" y="191.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="90.0" y="197" width="0.4" height="15.0" fill="rgb(126,126,201)" rx="2" ry="2" />
+<text  x="93.03" y="207.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (20 us, 0.14%)</title><rect x="602.4" y="421" width="1.7" height="15.0" fill="rgb(101,101,232)" rx="2" ry="2" />
+<text  x="605.43" y="431.5" ></text>
+</g>
+<g >
+<title>    ____fput+14 (72 us, 0.50%)</title><rect x="88.7" y="373" width="5.9" height="15.0" fill="rgb(91,91,224)" rx="2" ry="2" />
+<text  x="91.72" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (249 us, 1.74%)</title><rect x="394.5" y="341" width="20.5" height="15.0" fill="rgb(128,128,231)" rx="2" ry="2" />
+<text  x="397.52" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (113 us, 0.79%)</title><rect x="466.7" y="405" width="9.3" height="15.0" fill="rgb(83,83,229)" rx="2" ry="2" />
+<text  x="469.73" y="415.5" ></text>
+</g>
+<g >
+<title>    do_exit+1947 (2 us, 0.01%)</title><rect x="427.5" y="357" width="0.1" height="15.0" fill="rgb(110,110,213)" rx="2" ry="2" />
+<text  x="430.46" y="367.5" ></text>
+</g>
+<g >
+<title>    poll_schedule_timeout.constprop.0+70 (2 us, 0.01%)</title><rect x="425.5" y="373" width="0.1" height="15.0" fill="rgb(130,130,231)" rx="2" ry="2" />
+<text  x="428.48" y="383.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="89.4" y="245" width="0.3" height="15.0" fill="rgb(103,103,202)" rx="2" ry="2" />
+<text  x="92.37" y="255.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="90.0" y="213" width="0.4" height="15.0" fill="rgb(94,94,208)" rx="2" ry="2" />
+<text  x="93.03" y="223.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (634 us, 4.42%)</title><rect x="550.0" y="421" width="52.2" height="15.0" fill="rgb(119,119,233)" rx="2" ry="2" />
+<text  x="552.98" y="431.5" >    s..</text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="604.4" y="421" width="0.3" height="15.0" fill="rgb(89,89,210)" rx="2" ry="2" />
+<text  x="607.41" y="431.5" ></text>
+</g>
+<g >
+<title>    write_cache_pages+400 (2 us, 0.01%)</title><rect x="602.3" y="277" width="0.1" height="15.0" fill="rgb(87,87,216)" rx="2" ry="2" />
+<text  x="605.26" y="287.5" ></text>
+</g>
+<g >
+<title>    _cond_resched+34 (4 us, 0.03%)</title><rect x="448.9" y="341" width="0.4" height="15.0" fill="rgb(101,101,226)" rx="2" ry="2" />
+<text  x="451.95" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="93.2" y="197" width="0.3" height="15.0" fill="rgb(108,108,237)" rx="2" ry="2" />
+<text  x="96.16" y="207.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="448.9" y="293" width="0.4" height="15.0" fill="rgb(133,133,240)" rx="2" ry="2" />
+<text  x="451.95" y="303.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (19 us, 0.13%)</title><rect x="425.6" y="357" width="1.6" height="15.0" fill="rgb(97,97,242)" rx="2" ry="2" />
+<text  x="428.65" y="367.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="393.8" y="149" width="0.3" height="15.0" fill="rgb(114,114,202)" rx="2" ry="2" />
+<text  x="396.78" y="159.5" ></text>
+</g>
+<g >
+<title>    __kthread_create_on_node+216 (4 us, 0.03%)</title><rect x="393.8" y="229" width="0.3" height="15.0" fill="rgb(92,92,203)" rx="2" ry="2" />
+<text  x="396.78" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="476.9" y="309" width="0.2" height="15.0" fill="rgb(80,80,206)" rx="2" ry="2" />
+<text  x="479.94" y="319.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (60 us, 0.42%)</title><rect x="18.6" y="357" width="5.0" height="15.0" fill="rgb(121,121,221)" rx="2" ry="2" />
+<text  x="21.65" y="367.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="94.2" y="213" width="0.3" height="15.0" fill="rgb(91,91,201)" rx="2" ry="2" />
+<text  x="97.15" y="223.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+65 (4 us, 0.03%)</title><rect x="91.7" y="245" width="0.3" height="15.0" fill="rgb(123,123,201)" rx="2" ry="2" />
+<text  x="94.68" y="255.5" ></text>
+</g>
+<g >
+<title>    uvm_release.isra.0+66 (44 us, 0.31%)</title><rect x="91.0" y="325" width="3.6" height="15.0" fill="rgb(80,80,216)" rx="2" ry="2" />
+<text  x="94.02" y="335.5" ></text>
+</g>
+<g >
+<title>    out_of_line_wait_on_bit+141 (2 us, 0.01%)</title><rect x="476.9" y="389" width="0.2" height="15.0" fill="rgb(102,102,201)" rx="2" ry="2" />
+<text  x="479.94" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (777 us, 5.42%)</title><rect x="329.5" y="389" width="64.0" height="15.0" fill="rgb(108,108,207)" rx="2" ry="2" />
+<text  x="332.48" y="399.5" >    sch..</text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="92.3" y="229" width="0.4" height="15.0" fill="rgb(121,121,205)" rx="2" ry="2" />
+<text  x="95.34" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="93.5" y="213" width="0.3" height="15.0" fill="rgb(137,137,239)" rx="2" ry="2" />
+<text  x="96.49" y="223.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+399 (6 us, 0.04%)</title><rect x="476.5" y="421" width="0.4" height="15.0" fill="rgb(120,120,237)" rx="2" ry="2" />
+<text  x="479.45" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (2 us, 0.01%)</title><rect x="425.5" y="325" width="0.1" height="15.0" fill="rgb(87,87,239)" rx="2" ry="2" />
+<text  x="428.48" y="335.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (51 us, 0.36%)</title><rect x="1185.8" y="325" width="4.2" height="15.0" fill="rgb(111,111,240)" rx="2" ry="2" />
+<text  x="1188.80" y="335.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="604.4" y="389" width="0.3" height="15.0" fill="rgb(137,137,198)" rx="2" ry="2" />
+<text  x="607.41" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="92.0" y="181" width="0.3" height="15.0" fill="rgb(123,123,220)" rx="2" ry="2" />
+<text  x="95.01" y="191.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="88.7" y="181" width="0.3" height="15.0" fill="rgb(100,100,226)" rx="2" ry="2" />
+<text  x="91.72" y="191.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (3 us, 0.02%)</title><rect x="10.0" y="389" width="0.2" height="15.0" fill="rgb(132,132,201)" rx="2" ry="2" />
+<text  x="13.00" y="399.5" ></text>
+</g>
+<g >
+<title>    futex_wait_queue_me+187 (2,841 us, 19.82%)</title><rect x="94.8" y="389" width="233.9" height="15.0" fill="rgb(124,124,201)" rx="2" ry="2" />
+<text  x="97.81" y="399.5" >    futex_wait_queue_me+187</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (634 us, 4.42%)</title><rect x="550.0" y="405" width="52.2" height="15.0" fill="rgb(113,113,190)" rx="2" ry="2" />
+<text  x="552.98" y="415.5" >    _..</text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="93.8" y="277" width="0.4" height="15.0" fill="rgb(90,90,243)" rx="2" ry="2" />
+<text  x="96.82" y="287.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="604.1" y="437" width="0.3" height="15.0" fill="rgb(109,109,216)" rx="2" ry="2" />
+<text  x="607.08" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (352 us, 2.46%)</title><rect x="477.6" y="389" width="29.0" height="15.0" fill="rgb(116,116,224)" rx="2" ry="2" />
+<text  x="480.60" y="399.5" >  ..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="91.4" y="149" width="0.3" height="15.0" fill="rgb(91,91,226)" rx="2" ry="2" />
+<text  x="94.35" y="159.5" ></text>
+</g>
+<g >
+<title>    bit_wait_io+17 (2 us, 0.01%)</title><rect x="477.3" y="357" width="0.1" height="15.0" fill="rgb(109,109,227)" rx="2" ry="2" />
+<text  x="480.27" y="367.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="604.4" y="437" width="0.3" height="15.0" fill="rgb(92,92,227)" rx="2" ry="2" />
+<text  x="607.41" y="447.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_pselect6+136 (116 us, 0.81%)</title><rect x="415.9" y="437" width="9.6" height="15.0" fill="rgb(116,116,196)" rx="2" ry="2" />
+<text  x="418.93" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="94.2" y="197" width="0.3" height="15.0" fill="rgb(99,99,207)" rx="2" ry="2" />
+<text  x="97.15" y="207.5" ></text>
+</g>
+<g >
+<title>    wb_writeback+490 (2 us, 0.01%)</title><rect x="602.3" y="389" width="0.1" height="15.0" fill="rgb(131,131,231)" rx="2" ry="2" />
+<text  x="605.26" y="399.5" ></text>
+</g>
+<g >
+<title>all (14,331 us, 100%)</title><rect x="10.0" y="485" width="1180.0" height="15.0" fill="rgb(128,128,241)" rx="2" ry="2" />
+<text  x="13.00" y="495.5" ></text>
+</g>
+<g >
+<title>    entry_SYSCALL_64_after_hwframe+68 (4,968 us, 34.67%)</title><rect x="18.6" y="469" width="409.0" height="15.0" fill="rgb(124,124,240)" rx="2" ry="2" />
+<text  x="21.56" y="479.5" >    entry_SYSCALL_64_after_hwframe+68</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (777 us, 5.42%)</title><rect x="329.5" y="357" width="64.0" height="15.0" fill="rgb(93,93,194)" rx="2" ry="2" />
+<text  x="332.48" y="367.5" >    __s..</text>
+</g>
+<g >
+<title>    blkdev_writepages+14 (2 us, 0.01%)</title><rect x="602.3" y="309" width="0.1" height="15.0" fill="rgb(125,125,199)" rx="2" ry="2" />
+<text  x="605.26" y="319.5" ></text>
+</g>
+<g >
+<title>    kjournald2+182 (6 us, 0.04%)</title><rect x="476.9" y="437" width="0.5" height="15.0" fill="rgb(84,84,224)" rx="2" ry="2" />
+<text  x="479.94" y="447.5" ></text>
+</g>
+<g >
+<title>    do_task_dead+69 (2 us, 0.01%)</title><rect x="427.5" y="341" width="0.1" height="15.0" fill="rgb(94,94,195)" rx="2" ry="2" />
+<text  x="430.46" y="351.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="604.1" y="405" width="0.3" height="15.0" fill="rgb(130,130,224)" rx="2" ry="2" />
+<text  x="607.08" y="415.5" ></text>
+</g>
+<g >
+<title>    do_sys_poll+1021 (11 us, 0.08%)</title><rect x="415.0" y="421" width="0.9" height="15.0" fill="rgb(106,106,209)" rx="2" ry="2" />
+<text  x="418.03" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="477.3" y="293" width="0.1" height="15.0" fill="rgb(98,98,219)" rx="2" ry="2" />
+<text  x="480.27" y="303.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_exit_group+24 (76 us, 0.53%)</title><rect x="88.4" y="437" width="6.2" height="15.0" fill="rgb(100,100,244)" rx="2" ry="2" />
+<text  x="91.39" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="92.3" y="133" width="0.4" height="15.0" fill="rgb(113,113,244)" rx="2" ry="2" />
+<text  x="95.34" y="143.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (60 us, 0.42%)</title><rect x="18.6" y="341" width="5.0" height="15.0" fill="rgb(106,106,210)" rx="2" ry="2" />
+<text  x="21.65" y="351.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="604.7" y="421" width="0.4" height="15.0" fill="rgb(95,95,228)" rx="2" ry="2" />
+<text  x="607.73" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (28 us, 0.20%)</title><rect x="86.0" y="325" width="2.3" height="15.0" fill="rgb(99,99,225)" rx="2" ry="2" />
+<text  x="89.00" y="335.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+151 (578 us, 4.03%)</title><rect x="38.4" y="373" width="47.6" height="15.0" fill="rgb(84,84,231)" rx="2" ry="2" />
+<text  x="41.41" y="383.5" >    ..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (249 us, 1.74%)</title><rect x="394.5" y="325" width="20.5" height="15.0" fill="rgb(97,97,228)" rx="2" ry="2" />
+<text  x="397.52" y="335.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="394.1" y="197" width="0.3" height="15.0" fill="rgb(104,104,197)" rx="2" ry="2" />
+<text  x="397.11" y="207.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_init_on_node+336 (4 us, 0.03%)</title><rect x="328.7" y="293" width="0.4" height="15.0" fill="rgb(81,81,199)" rx="2" ry="2" />
+<text  x="331.73" y="303.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="89.7" y="229" width="0.3" height="15.0" fill="rgb(114,114,218)" rx="2" ry="2" />
+<text  x="92.70" y="239.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+249 (28 us, 0.20%)</title><rect x="86.0" y="373" width="2.3" height="15.0" fill="rgb(130,130,223)" rx="2" ry="2" />
+<text  x="89.00" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2,841 us, 19.82%)</title><rect x="94.8" y="341" width="233.9" height="15.0" fill="rgb(116,116,194)" rx="2" ry="2" />
+<text  x="97.81" y="351.5" >    __sched_text_start+1302</text>
+</g>
+<g >
+<title>    x86_64_start_reservations+36 (51 us, 0.36%)</title><rect x="1185.8" y="437" width="4.2" height="15.0" fill="rgb(127,127,192)" rx="2" ry="2" />
+<text  x="1188.80" y="447.5" ></text>
+</g>
+<g >
+<title>    __down+130 (76 us, 0.53%)</title><rect x="10.7" y="421" width="6.2" height="15.0" fill="rgb(110,110,226)" rx="2" ry="2" />
+<text  x="13.66" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="93.5" y="229" width="0.3" height="15.0" fill="rgb(126,126,228)" rx="2" ry="2" />
+<text  x="96.49" y="239.5" ></text>
+</g>
+<g >
+<title>    __flush_work+298 (5 us, 0.03%)</title><rect x="476.0" y="389" width="0.5" height="15.0" fill="rgb(129,129,211)" rx="2" ry="2" />
+<text  x="479.04" y="399.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_select+37 (19 us, 0.13%)</title><rect x="425.6" y="437" width="1.6" height="15.0" fill="rgb(102,102,191)" rx="2" ry="2" />
+<text  x="428.65" y="447.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="91.4" y="229" width="0.3" height="15.0" fill="rgb(95,95,219)" rx="2" ry="2" />
+<text  x="94.35" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2,841 us, 19.82%)</title><rect x="94.8" y="357" width="233.9" height="15.0" fill="rgb(118,118,231)" rx="2" ry="2" />
+<text  x="97.81" y="367.5" >    __sched_text_start+1302</text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="93.8" y="229" width="0.4" height="15.0" fill="rgb(93,93,227)" rx="2" ry="2" />
+<text  x="96.82" y="239.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="90.0" y="229" width="0.4" height="15.0" fill="rgb(105,105,224)" rx="2" ry="2" />
+<text  x="93.03" y="239.5" ></text>
+</g>
+<g >
+<title>    generic_writepages+87 (2 us, 0.01%)</title><rect x="602.3" y="293" width="0.1" height="15.0" fill="rgb(106,106,211)" rx="2" ry="2" />
+<text  x="605.26" y="303.5" ></text>
+</g>
+<g >
+<title>    __kthread_create_on_node+216 (4 us, 0.03%)</title><rect x="328.7" y="261" width="0.4" height="15.0" fill="rgb(121,121,237)" rx="2" ry="2" />
+<text  x="331.73" y="271.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (202 us, 1.41%)</title><rect x="431.0" y="373" width="16.6" height="15.0" fill="rgb(99,99,212)" rx="2" ry="2" />
+<text  x="434.00" y="383.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+151 (249 us, 1.74%)</title><rect x="394.5" y="373" width="20.5" height="15.0" fill="rgb(118,118,244)" rx="2" ry="2" />
+<text  x="397.52" y="383.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="91.0" y="213" width="0.4" height="15.0" fill="rgb(102,102,204)" rx="2" ry="2" />
+<text  x="94.02" y="223.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="329.1" y="197" width="0.3" height="15.0" fill="rgb(117,117,243)" rx="2" ry="2" />
+<text  x="332.06" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (352 us, 2.46%)</title><rect x="477.6" y="405" width="29.0" height="15.0" fill="rgb(125,125,216)" rx="2" ry="2" />
+<text  x="480.60" y="415.5" >  ..</text>
+</g>
+<g >
+<title>    schedule+79 (2 us, 0.01%)</title><rect x="477.4" y="421" width="0.2" height="15.0" fill="rgb(128,128,238)" rx="2" ry="2" />
+<text  x="480.44" y="431.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion_killable+159 (4 us, 0.03%)</title><rect x="329.1" y="245" width="0.3" height="15.0" fill="rgb(106,106,225)" rx="2" ry="2" />
+<text  x="332.06" y="255.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="477.1" y="357" width="0.2" height="15.0" fill="rgb(136,136,212)" rx="2" ry="2" />
+<text  x="480.11" y="367.5" ></text>
+</g>
+<g >
+<title>    cpu_startup_entry+32 (51 us, 0.36%)</title><rect x="1185.8" y="373" width="4.2" height="15.0" fill="rgb(135,135,235)" rx="2" ry="2" />
+<text  x="1188.80" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (11 us, 0.08%)</title><rect x="415.0" y="325" width="0.9" height="15.0" fill="rgb(81,81,224)" rx="2" ry="2" />
+<text  x="418.03" y="335.5" ></text>
+</g>
+<g >
+<title>    down_interruptible+81 (16 us, 0.11%)</title><rect x="447.6" y="421" width="1.3" height="15.0" fill="rgb(118,118,200)" rx="2" ry="2" />
+<text  x="450.63" y="431.5" ></text>
+</g>
+<g >
+<title>    uvm_gpu_disable_isr+167 (12 us, 0.08%)</title><rect x="91.0" y="261" width="1.0" height="15.0" fill="rgb(130,130,201)" rx="2" ry="2" />
+<text  x="94.02" y="271.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="604.7" y="341" width="0.4" height="15.0" fill="rgb(120,120,210)" rx="2" ry="2" />
+<text  x="607.73" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (11 us, 0.08%)</title><rect x="415.0" y="341" width="0.9" height="15.0" fill="rgb(87,87,212)" rx="2" ry="2" />
+<text  x="418.03" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+151 (5 us, 0.03%)</title><rect x="425.6" y="341" width="0.5" height="15.0" fill="rgb(113,113,235)" rx="2" ry="2" />
+<text  x="428.65" y="351.5" ></text>
+</g>
+<g >
+<title>    wbt_wait+158 (2 us, 0.01%)</title><rect x="602.3" y="117" width="0.1" height="15.0" fill="rgb(109,109,224)" rx="2" ry="2" />
+<text  x="605.26" y="127.5" ></text>
+</g>
+<g >
+<title>    setup_irq_thread+60 (4 us, 0.03%)</title><rect x="393.5" y="229" width="0.3" height="15.0" fill="rgb(99,99,192)" rx="2" ry="2" />
+<text  x="396.45" y="239.5" ></text>
+</g>
+<g >
+<title>    khugepaged+939 (6 us, 0.04%)</title><rect x="476.5" y="437" width="0.4" height="15.0" fill="rgb(94,94,213)" rx="2" ry="2" />
+<text  x="479.45" y="447.5" ></text>
+</g>
+<g >
+<title>    kthread_stop+113 (4 us, 0.03%)</title><rect x="88.7" y="245" width="0.3" height="15.0" fill="rgb(115,115,201)" rx="2" ry="2" />
+<text  x="91.72" y="255.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (76 us, 0.53%)</title><rect x="10.7" y="389" width="6.2" height="15.0" fill="rgb(135,135,243)" rx="2" ry="2" />
+<text  x="13.66" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (6 us, 0.04%)</title><rect x="476.5" y="405" width="0.4" height="15.0" fill="rgb(98,98,236)" rx="2" ry="2" />
+<text  x="479.45" y="415.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="92.7" y="165" width="0.3" height="15.0" fill="rgb(84,84,237)" rx="2" ry="2" />
+<text  x="95.67" y="175.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="93.8" y="293" width="0.4" height="15.0" fill="rgb(97,97,242)" rx="2" ry="2" />
+<text  x="96.82" y="303.5" ></text>
+</g>
+<g >
+<title>    smpboot_thread_fn+279 (457 us, 3.19%)</title><rect x="512.3" y="437" width="37.6" height="15.0" fill="rgb(98,98,206)" rx="2" ry="2" />
+<text  x="515.27" y="447.5" >   ..</text>
+</g>
+<g >
+<title>    start_secondary+287 (7,053 us, 49.21%)</title><rect x="605.1" y="453" width="580.7" height="15.0" fill="rgb(103,103,192)" rx="2" ry="2" />
+<text  x="608.06" y="463.5" >    start_secondary+287</text>
+</g>
+<g >
+<title>    rcu_gp_kthread+1292 (352 us, 2.46%)</title><rect x="477.6" y="437" width="29.0" height="15.0" fill="rgb(127,127,225)" rx="2" ry="2" />
+<text  x="480.60" y="447.5" >  ..</text>
+</g>
+<g >
+<title>    io_schedule+22 (2 us, 0.01%)</title><rect x="477.3" y="341" width="0.1" height="15.0" fill="rgb(113,113,190)" rx="2" ry="2" />
+<text  x="480.27" y="351.5" ></text>
+</g>
+<g >
+<title>    __kthread_create_on_node+216 (4 us, 0.03%)</title><rect x="393.5" y="197" width="0.3" height="15.0" fill="rgb(93,93,217)" rx="2" ry="2" />
+<text  x="396.45" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="393.8" y="181" width="0.3" height="15.0" fill="rgb(96,96,224)" rx="2" ry="2" />
+<text  x="396.78" y="191.5" ></text>
+</g>
+<g >
+<title>    irqentry_exit_to_user_mode+9 (18 us, 0.13%)</title><rect x="17.1" y="421" width="1.5" height="15.0" fill="rgb(103,103,198)" rx="2" ry="2" />
+<text  x="20.08" y="431.5" ></text>
+</g>
+<g >
+<title>    task_work_run+112 (72 us, 0.50%)</title><rect x="88.7" y="389" width="5.9" height="15.0" fill="rgb(138,138,195)" rx="2" ry="2" />
+<text  x="91.72" y="399.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="90.7" y="229" width="0.3" height="15.0" fill="rgb(134,134,205)" rx="2" ry="2" />
+<text  x="93.69" y="239.5" ></text>
+</g>
+<g >
+<title>    uvm_release_entry+118 (44 us, 0.31%)</title><rect x="91.0" y="341" width="3.6" height="15.0" fill="rgb(88,88,190)" rx="2" ry="2" />
+<text  x="94.02" y="351.5" ></text>
+</g>
+<g >
+<title>    do_select+1771 (116 us, 0.81%)</title><rect x="415.9" y="389" width="9.6" height="15.0" fill="rgb(80,80,191)" rx="2" ry="2" />
+<text  x="418.93" y="399.5" ></text>
+</g>
+<g >
+<title>    uvm_va_space_destroy+771 (8 us, 0.06%)</title><rect x="93.2" y="309" width="0.6" height="15.0" fill="rgb(82,82,234)" rx="2" ry="2" />
+<text  x="96.16" y="319.5" ></text>
+</g>
+<g >
+<title>    os_delay+379 (4 us, 0.03%)</title><rect x="10.3" y="453" width="0.4" height="15.0" fill="rgb(81,81,244)" rx="2" ry="2" />
+<text  x="13.33" y="463.5" ></text>
+</g>
+<g >
+<title>    rest_init+184 (51 us, 0.36%)</title><rect x="1185.8" y="389" width="4.2" height="15.0" fill="rgb(86,86,206)" rx="2" ry="2" />
+<text  x="1188.80" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="604.4" y="357" width="0.3" height="15.0" fill="rgb(138,138,241)" rx="2" ry="2" />
+<text  x="607.41" y="367.5" ></text>
+</g>
+<g >
+<title>    do_epoll_wait+207 (606 us, 4.23%)</title><rect x="38.4" y="421" width="49.9" height="15.0" fill="rgb(128,128,228)" rx="2" ry="2" />
+<text  x="41.41" y="431.5" >    d..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (69 us, 0.48%)</title><rect x="506.6" y="389" width="5.7" height="15.0" fill="rgb(139,139,195)" rx="2" ry="2" />
+<text  x="509.59" y="399.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+65 (4 us, 0.03%)</title><rect x="90.7" y="261" width="0.3" height="15.0" fill="rgb(84,84,197)" rx="2" ry="2" />
+<text  x="93.69" y="271.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="92.0" y="165" width="0.3" height="15.0" fill="rgb(117,117,214)" rx="2" ry="2" />
+<text  x="95.01" y="175.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (116 us, 0.81%)</title><rect x="415.9" y="309" width="9.6" height="15.0" fill="rgb(82,82,199)" rx="2" ry="2" />
+<text  x="418.93" y="319.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="89.0" y="245" width="0.4" height="15.0" fill="rgb(90,90,191)" rx="2" ry="2" />
+<text  x="92.05" y="255.5" ></text>
+</g>
+<g >
+<title>    kthread+276 (2,082 us, 14.53%)</title><rect x="431.0" y="453" width="171.4" height="15.0" fill="rgb(137,137,211)" rx="2" ry="2" />
+<text  x="434.00" y="463.5" >    kthread+276</text>
+</g>
+<g >
+<title>    uvm_gpu_retain_by_uuid+1370 (8 us, 0.06%)</title><rect x="328.7" y="341" width="0.7" height="15.0" fill="rgb(121,121,194)" rx="2" ry="2" />
+<text  x="331.73" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="16.9" y="373" width="0.2" height="15.0" fill="rgb(96,96,224)" rx="2" ry="2" />
+<text  x="19.92" y="383.5" ></text>
+</g>
+<g >
+<title>    __wait_on_buffer+52 (2 us, 0.01%)</title><rect x="476.9" y="405" width="0.2" height="15.0" fill="rgb(104,104,219)" rx="2" ry="2" />
+<text  x="479.94" y="415.5" ></text>
+</g>
+<g >
+<title>    jbd2_journal_commit_transaction+5049 (2 us, 0.01%)</title><rect x="477.1" y="421" width="0.2" height="15.0" fill="rgb(88,88,209)" rx="2" ry="2" />
+<text  x="480.11" y="431.5" ></text>
+</g>
+<g >
+<title>    exit_to_user_mode_prepare+217 (18 us, 0.13%)</title><rect x="17.1" y="405" width="1.5" height="15.0" fill="rgb(82,82,216)" rx="2" ry="2" />
+<text  x="20.08" y="415.5" ></text>
+</g>
+<g >
+<title>    worker_thread+77 (3 us, 0.02%)</title><rect x="602.2" y="437" width="0.2" height="15.0" fill="rgb(114,114,230)" rx="2" ry="2" />
+<text  x="605.18" y="447.5" ></text>
+</g>
+<g >
+<title>    x86_64_start_kernel+139 (51 us, 0.36%)</title><rect x="1185.8" y="453" width="4.2" height="15.0" fill="rgb(112,112,240)" rx="2" ry="2" />
+<text  x="1188.80" y="463.5" ></text>
+</g>
+<g >
+<title>    nvidia_frontend_close+47 (28 us, 0.20%)</title><rect x="88.7" y="341" width="2.3" height="15.0" fill="rgb(121,121,192)" rx="2" ry="2" />
+<text  x="91.72" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="90.7" y="181" width="0.3" height="15.0" fill="rgb(112,112,214)" rx="2" ry="2" />
+<text  x="93.69" y="191.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion_killable+159 (4 us, 0.03%)</title><rect x="393.8" y="213" width="0.3" height="15.0" fill="rgb(109,109,233)" rx="2" ry="2" />
+<text  x="396.78" y="223.5" ></text>
+</g>
+<g >
+<title>    blkdev_writepage+24 (2 us, 0.01%)</title><rect x="602.3" y="245" width="0.1" height="15.0" fill="rgb(121,121,228)" rx="2" ry="2" />
+<text  x="605.26" y="255.5" ></text>
+</g>
+<g >
+<title>    uvm_gpu_init_isr+592 (4 us, 0.03%)</title><rect x="329.1" y="309" width="0.3" height="15.0" fill="rgb(119,119,229)" rx="2" ry="2" />
+<text  x="332.06" y="319.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="91.0" y="149" width="0.4" height="15.0" fill="rgb(123,123,192)" rx="2" ry="2" />
+<text  x="94.02" y="159.5" ></text>
+</g>
+<g >
+<title>    out_of_line_wait_on_bit+141 (2 us, 0.01%)</title><rect x="477.3" y="389" width="0.1" height="15.0" fill="rgb(83,83,228)" rx="2" ry="2" />
+<text  x="480.27" y="399.5" ></text>
+</g>
+<g >
+<title>    nv_shutdown_adapter+42 (12 us, 0.08%)</title><rect x="89.0" y="277" width="1.0" height="15.0" fill="rgb(128,128,219)" rx="2" ry="2" />
+<text  x="92.05" y="287.5" ></text>
+</g>
+<g >
+<title>    do_dentry_open+342 (13 us, 0.09%)</title><rect x="393.5" y="341" width="1.0" height="15.0" fill="rgb(80,80,196)" rx="2" ry="2" />
+<text  x="396.45" y="351.5" ></text>
+</g>
+<g >
+<title>    nvidia_frontend_open+88 (12 us, 0.08%)</title><rect x="393.5" y="309" width="0.9" height="15.0" fill="rgb(109,109,198)" rx="2" ry="2" />
+<text  x="396.45" y="319.5" ></text>
+</g>
+<g >
+<title>    io_schedule+22 (2 us, 0.01%)</title><rect x="476.9" y="341" width="0.2" height="15.0" fill="rgb(126,126,230)" rx="2" ry="2" />
+<text  x="479.94" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="93.8" y="245" width="0.4" height="15.0" fill="rgb(100,100,196)" rx="2" ry="2" />
+<text  x="96.82" y="255.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="92.7" y="213" width="0.3" height="15.0" fill="rgb(109,109,228)" rx="2" ry="2" />
+<text  x="95.67" y="223.5" ></text>
+</g>
+<g >
+<title>    get_signal+348 (2 us, 0.01%)</title><rect x="427.5" y="389" width="0.1" height="15.0" fill="rgb(94,94,202)" rx="2" ry="2" />
+<text  x="430.46" y="399.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="91.0" y="197" width="0.4" height="15.0" fill="rgb(137,137,227)" rx="2" ry="2" />
+<text  x="94.02" y="207.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="91.7" y="213" width="0.3" height="15.0" fill="rgb(96,96,231)" rx="2" ry="2" />
+<text  x="94.68" y="223.5" ></text>
+</g>
+<g >
+<title>    __setup_irq+1342 (4 us, 0.03%)</title><rect x="393.5" y="245" width="0.3" height="15.0" fill="rgb(80,80,223)" rx="2" ry="2" />
+<text  x="396.45" y="255.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (202 us, 1.41%)</title><rect x="431.0" y="341" width="16.6" height="15.0" fill="rgb(137,137,190)" rx="2" ry="2" />
+<text  x="434.00" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (18 us, 0.13%)</title><rect x="17.1" y="389" width="1.5" height="15.0" fill="rgb(102,102,216)" rx="2" ry="2" />
+<text  x="20.08" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="427.5" y="309" width="0.1" height="15.0" fill="rgb(120,120,197)" rx="2" ry="2" />
+<text  x="430.46" y="319.5" ></text>
+</g>
+<g >
+<title>    do_nanosleep+116 (60 us, 0.42%)</title><rect x="18.6" y="389" width="5.0" height="15.0" fill="rgb(97,97,197)" rx="2" ry="2" />
+<text  x="21.65" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="91.7" y="149" width="0.3" height="15.0" fill="rgb(102,102,217)" rx="2" ry="2" />
+<text  x="94.68" y="159.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="92.3" y="165" width="0.4" height="15.0" fill="rgb(133,133,228)" rx="2" ry="2" />
+<text  x="95.34" y="175.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (7,053 us, 49.21%)</title><rect x="605.1" y="373" width="580.7" height="15.0" fill="rgb(128,128,212)" rx="2" ry="2" />
+<text  x="608.06" y="383.5" >    __sched_text_start+1302</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (457 us, 3.19%)</title><rect x="512.3" y="389" width="37.6" height="15.0" fill="rgb(101,101,206)" rx="2" ry="2" />
+<text  x="515.27" y="399.5" >   ..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="448.9" y="309" width="0.4" height="15.0" fill="rgb(94,94,208)" rx="2" ry="2" />
+<text  x="451.95" y="319.5" ></text>
+</g>
+<g >
+<title>    kthreadd+728 (20 us, 0.14%)</title><rect x="602.4" y="453" width="1.7" height="15.0" fill="rgb(105,105,218)" rx="2" ry="2" />
+<text  x="605.43" y="463.5" ></text>
+</g>
+<g >
+<title>    io_schedule+22 (2 us, 0.01%)</title><rect x="602.3" y="85" width="0.1" height="15.0" fill="rgb(90,90,225)" rx="2" ry="2" />
+<text  x="605.26" y="95.5" ></text>
+</g>
+<g >
+<title>    hrtimer_nanosleep+158 (60 us, 0.42%)</title><rect x="18.6" y="405" width="5.0" height="15.0" fill="rgb(111,111,193)" rx="2" ry="2" />
+<text  x="21.65" y="415.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="90.4" y="229" width="0.3" height="15.0" fill="rgb(125,125,212)" rx="2" ry="2" />
+<text  x="93.36" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="92.3" y="149" width="0.4" height="15.0" fill="rgb(128,128,241)" rx="2" ry="2" />
+<text  x="95.34" y="159.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="89.4" y="197" width="0.3" height="15.0" fill="rgb(90,90,218)" rx="2" ry="2" />
+<text  x="92.37" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (11 us, 0.08%)</title><rect x="415.0" y="357" width="0.9" height="15.0" fill="rgb(119,119,192)" rx="2" ry="2" />
+<text  x="418.03" y="367.5" ></text>
+</g>
+<g >
+<title>    path_openat+2839 (13 us, 0.09%)</title><rect x="393.5" y="373" width="1.0" height="15.0" fill="rgb(82,82,202)" rx="2" ry="2" />
+<text  x="396.45" y="383.5" ></text>
+</g>
+<g >
+<title>    syscall_exit_to_user_mode+39 (3 us, 0.02%)</title><rect x="427.4" y="437" width="0.2" height="15.0" fill="rgb(120,120,228)" rx="2" ry="2" />
+<text  x="430.38" y="447.5" ></text>
+</g>
+<g >
+<title>    rq_qos_wait+262 (2 us, 0.01%)</title><rect x="602.3" y="101" width="0.1" height="15.0" fill="rgb(106,106,238)" rx="2" ry="2" />
+<text  x="605.26" y="111.5" ></text>
+</g>
+<g >
+<title>    do_pselect.constprop.0+175 (2 us, 0.01%)</title><rect x="425.5" y="421" width="0.1" height="15.0" fill="rgb(129,129,191)" rx="2" ry="2" />
+<text  x="428.48" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (69 us, 0.48%)</title><rect x="506.6" y="421" width="5.7" height="15.0" fill="rgb(120,120,231)" rx="2" ry="2" />
+<text  x="509.59" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (20 us, 0.14%)</title><rect x="427.6" y="389" width="1.7" height="15.0" fill="rgb(83,83,243)" rx="2" ry="2" />
+<text  x="430.62" y="399.5" ></text>
+</g>
+<g >
+<title>    do_sys_poll+1021 (249 us, 1.74%)</title><rect x="394.5" y="421" width="20.5" height="15.0" fill="rgb(93,93,221)" rx="2" ry="2" />
+<text  x="397.52" y="431.5" ></text>
+</g>
+<g >
+<title>    nv_shutdown_adapter+77 (12 us, 0.08%)</title><rect x="90.0" y="277" width="1.0" height="15.0" fill="rgb(100,100,191)" rx="2" ry="2" />
+<text  x="93.03" y="287.5" ></text>
+</g>
+<g >
+<title>    chrdev_open+211 (12 us, 0.08%)</title><rect x="393.5" y="325" width="0.9" height="15.0" fill="rgb(116,116,224)" rx="2" ry="2" />
+<text  x="396.45" y="335.5" ></text>
+</g>
+<g >
+<title>    irq_thread+130 (4 us, 0.03%)</title><rect x="448.9" y="437" width="0.4" height="15.0" fill="rgb(139,139,244)" rx="2" ry="2" />
+<text  x="451.95" y="447.5" ></text>
+</g>
+<g >
+<title>    bit_wait_io+17 (2 us, 0.01%)</title><rect x="476.9" y="357" width="0.2" height="15.0" fill="rgb(137,137,224)" rx="2" ry="2" />
+<text  x="479.94" y="367.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+399 (113 us, 0.79%)</title><rect x="466.7" y="421" width="9.3" height="15.0" fill="rgb(120,120,198)" rx="2" ry="2" />
+<text  x="469.73" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="91.0" y="165" width="0.4" height="15.0" fill="rgb(125,125,198)" rx="2" ry="2" />
+<text  x="94.02" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="393.5" y="149" width="0.3" height="15.0" fill="rgb(128,128,193)" rx="2" ry="2" />
+<text  x="396.45" y="159.5" ></text>
+</g>
+<g >
+<title>    uvm_gpu_release_locked+35 (24 us, 0.17%)</title><rect x="91.0" y="293" width="2.0" height="15.0" fill="rgb(123,123,204)" rx="2" ry="2" />
+<text  x="94.02" y="303.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="329.1" y="213" width="0.3" height="15.0" fill="rgb(83,83,195)" rx="2" ry="2" />
+<text  x="332.06" y="223.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="604.1" y="421" width="0.3" height="15.0" fill="rgb(82,82,193)" rx="2" ry="2" />
+<text  x="607.08" y="431.5" ></text>
+</g>
+<g >
+<title>    submit_bio+81 (2 us, 0.01%)</title><rect x="602.3" y="181" width="0.1" height="15.0" fill="rgb(139,139,225)" rx="2" ry="2" />
+<text  x="605.26" y="191.5" ></text>
+</g>
+<g >
+<title>    os_flush_work_queue+77 (8 us, 0.06%)</title><rect x="604.1" y="453" width="0.6" height="15.0" fill="rgb(134,134,198)" rx="2" ry="2" />
+<text  x="607.08" y="463.5" ></text>
+</g>
+<g >
+<title>    preempt_schedule_common+24 (2 us, 0.01%)</title><rect x="477.1" y="389" width="0.2" height="15.0" fill="rgb(99,99,220)" rx="2" ry="2" />
+<text  x="480.11" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (2,841 us, 19.82%)</title><rect x="94.8" y="373" width="233.9" height="15.0" fill="rgb(139,139,192)" rx="2" ry="2" />
+<text  x="97.81" y="383.5" >    schedule+79</text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="604.7" y="389" width="0.4" height="15.0" fill="rgb(81,81,200)" rx="2" ry="2" />
+<text  x="607.73" y="399.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="90.4" y="245" width="0.3" height="15.0" fill="rgb(85,85,204)" rx="2" ry="2" />
+<text  x="93.36" y="255.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="89.4" y="213" width="0.3" height="15.0" fill="rgb(122,122,222)" rx="2" ry="2" />
+<text  x="92.37" y="223.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="92.0" y="213" width="0.3" height="15.0" fill="rgb(93,93,227)" rx="2" ry="2" />
+<text  x="95.01" y="223.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_epoll_pwait+119 (179 us, 1.25%)</title><rect x="23.7" y="437" width="14.7" height="15.0" fill="rgb(86,86,233)" rx="2" ry="2" />
+<text  x="26.67" y="447.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (578 us, 4.03%)</title><rect x="38.4" y="357" width="47.6" height="15.0" fill="rgb(96,96,203)" rx="2" ry="2" />
+<text  x="41.41" y="367.5" >    ..</text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="604.7" y="373" width="0.4" height="15.0" fill="rgb(102,102,200)" rx="2" ry="2" />
+<text  x="607.73" y="383.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="90.7" y="213" width="0.3" height="15.0" fill="rgb(102,102,219)" rx="2" ry="2" />
+<text  x="93.69" y="223.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (14 us, 0.10%)</title><rect x="426.1" y="325" width="1.1" height="15.0" fill="rgb(101,101,233)" rx="2" ry="2" />
+<text  x="429.06" y="335.5" ></text>
+</g>
+<g >
+<title>    __wait_on_bit+51 (2 us, 0.01%)</title><rect x="476.9" y="373" width="0.2" height="15.0" fill="rgb(84,84,224)" rx="2" ry="2" />
+<text  x="479.94" y="383.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (5 us, 0.03%)</title><rect x="476.0" y="373" width="0.5" height="15.0" fill="rgb(98,98,234)" rx="2" ry="2" />
+<text  x="479.04" y="383.5" ></text>
+</g>
+<g >
+<title>    kjournald2+546 (2 us, 0.01%)</title><rect x="477.4" y="437" width="0.2" height="15.0" fill="rgb(100,100,203)" rx="2" ry="2" />
+<text  x="480.44" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (202 us, 1.41%)</title><rect x="431.0" y="357" width="16.6" height="15.0" fill="rgb(106,106,239)" rx="2" ry="2" />
+<text  x="434.00" y="367.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="10.3" y="405" width="0.4" height="15.0" fill="rgb(92,92,202)" rx="2" ry="2" />
+<text  x="13.33" y="415.5" ></text>
+</g>
+<g >
+<title>    kern_select+184 (19 us, 0.13%)</title><rect x="425.6" y="421" width="1.6" height="15.0" fill="rgb(81,81,196)" rx="2" ry="2" />
+<text  x="428.65" y="431.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_pselect6+93 (2 us, 0.01%)</title><rect x="425.5" y="437" width="0.1" height="15.0" fill="rgb(112,112,221)" rx="2" ry="2" />
+<text  x="428.48" y="447.5" ></text>
+</g>
+<g >
+<title>    irqentry_exit+25 (18 us, 0.13%)</title><rect x="17.1" y="437" width="1.5" height="15.0" fill="rgb(123,123,204)" rx="2" ry="2" />
+<text  x="20.08" y="447.5" ></text>
+</g>
+<g >
+<title>    jbd2_journal_commit_transaction+4190 (2 us, 0.01%)</title><rect x="476.9" y="421" width="0.2" height="15.0" fill="rgb(89,89,221)" rx="2" ry="2" />
+<text  x="479.94" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="89.0" y="165" width="0.4" height="15.0" fill="rgb(118,118,217)" rx="2" ry="2" />
+<text  x="92.05" y="175.5" ></text>
+</g>
+<g >
+<title>    do_exit+911 (72 us, 0.50%)</title><rect x="88.7" y="405" width="5.9" height="15.0" fill="rgb(135,135,223)" rx="2" ry="2" />
+<text  x="91.72" y="415.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_openat+32 (13 us, 0.09%)</title><rect x="393.5" y="437" width="1.0" height="15.0" fill="rgb(120,120,193)" rx="2" ry="2" />
+<text  x="396.45" y="447.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="604.4" y="373" width="0.3" height="15.0" fill="rgb(117,117,196)" rx="2" ry="2" />
+<text  x="607.41" y="383.5" ></text>
+</g>
+<g >
+<title>    kthread_stop+113 (4 us, 0.03%)</title><rect x="89.7" y="245" width="0.3" height="15.0" fill="rgb(121,121,240)" rx="2" ry="2" />
+<text  x="92.70" y="255.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="93.2" y="213" width="0.3" height="15.0" fill="rgb(128,128,242)" rx="2" ry="2" />
+<text  x="96.16" y="223.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (16 us, 0.11%)</title><rect x="447.6" y="389" width="1.3" height="15.0" fill="rgb(87,87,238)" rx="2" ry="2" />
+<text  x="450.63" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="88.4" y="373" width="0.3" height="15.0" fill="rgb(86,86,203)" rx="2" ry="2" />
+<text  x="91.39" y="383.5" ></text>
+</g>
+<g >
+<title>    schedule_preempt_disabled+14 (20 us, 0.14%)</title><rect x="427.6" y="437" width="1.7" height="15.0" fill="rgb(136,136,218)" rx="2" ry="2" />
+<text  x="430.62" y="447.5" ></text>
+</g>
+<g >
+<title>    do_exit+1947 (21 us, 0.15%)</title><rect x="429.3" y="437" width="1.7" height="15.0" fill="rgb(90,90,197)" rx="2" ry="2" />
+<text  x="432.27" y="447.5" ></text>
+</g>
+<g >
+<title>    ret_from_fork+34 (2,143 us, 14.95%)</title><rect x="427.6" y="469" width="176.5" height="15.0" fill="rgb(110,110,235)" rx="2" ry="2" />
+<text  x="430.62" y="479.5" >    ret_from_fork+34</text>
+</g>
+<g >
+<title>    do_epoll_pwait.part.0+18 (179 us, 1.25%)</title><rect x="23.7" y="421" width="14.7" height="15.0" fill="rgb(116,116,196)" rx="2" ry="2" />
+<text  x="26.67" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="91.0" y="133" width="0.4" height="15.0" fill="rgb(86,86,226)" rx="2" ry="2" />
+<text  x="94.02" y="143.5" ></text>
+</g>
+<g >
+<title>    block_write_full_page+276 (2 us, 0.01%)</title><rect x="602.3" y="229" width="0.1" height="15.0" fill="rgb(115,115,240)" rx="2" ry="2" />
+<text  x="605.26" y="239.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="94.2" y="277" width="0.3" height="15.0" fill="rgb(80,80,206)" rx="2" ry="2" />
+<text  x="97.15" y="287.5" ></text>
+</g>
+<g >
+<title>    nv_close_device+386 (28 us, 0.20%)</title><rect x="88.7" y="293" width="2.3" height="15.0" fill="rgb(133,133,223)" rx="2" ry="2" />
+<text  x="91.72" y="303.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="93.2" y="293" width="0.3" height="15.0" fill="rgb(93,93,221)" rx="2" ry="2" />
+<text  x="96.16" y="303.5" ></text>
+</g>
+<g >
+<title>    do_epoll_wait+207 (179 us, 1.25%)</title><rect x="23.7" y="405" width="14.7" height="15.0" fill="rgb(103,103,207)" rx="2" ry="2" />
+<text  x="26.67" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="91.0" y="181" width="0.4" height="15.0" fill="rgb(122,122,191)" rx="2" ry="2" />
+<text  x="94.02" y="191.5" ></text>
+</g>
+<g >
+<title>    core_sys_select+438 (116 us, 0.81%)</title><rect x="415.9" y="405" width="9.6" height="15.0" fill="rgb(129,129,222)" rx="2" ry="2" />
+<text  x="418.93" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (202 us, 1.41%)</title><rect x="431.0" y="389" width="16.6" height="15.0" fill="rgb(118,118,240)" rx="2" ry="2" />
+<text  x="434.00" y="399.5" ></text>
+</g>
+<g >
+<title>    kthread_stop+113 (4 us, 0.03%)</title><rect x="90.7" y="245" width="0.3" height="15.0" fill="rgb(115,115,242)" rx="2" ry="2" />
+<text  x="93.69" y="255.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="91.4" y="213" width="0.3" height="15.0" fill="rgb(99,99,226)" rx="2" ry="2" />
+<text  x="94.35" y="223.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="88.7" y="213" width="0.3" height="15.0" fill="rgb(81,81,219)" rx="2" ry="2" />
+<text  x="91.72" y="223.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="94.2" y="261" width="0.3" height="15.0" fill="rgb(113,113,219)" rx="2" ry="2" />
+<text  x="97.15" y="271.5" ></text>
+</g>
+<g >
+<title>    down_interruptible+81 (202 us, 1.41%)</title><rect x="431.0" y="421" width="16.6" height="15.0" fill="rgb(104,104,232)" rx="2" ry="2" />
+<text  x="434.00" y="431.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_init_on_node+336 (4 us, 0.03%)</title><rect x="329.1" y="293" width="0.3" height="15.0" fill="rgb(126,126,236)" rx="2" ry="2" />
+<text  x="332.06" y="303.5" ></text>
+</g>
+<g >
+<title>    do_task_dead+69 (21 us, 0.15%)</title><rect x="429.3" y="421" width="1.7" height="15.0" fill="rgb(135,135,240)" rx="2" ry="2" />
+<text  x="432.27" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="90.0" y="165" width="0.4" height="15.0" fill="rgb(131,131,232)" rx="2" ry="2" />
+<text  x="93.03" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+151 (11 us, 0.08%)</title><rect x="415.0" y="373" width="0.9" height="15.0" fill="rgb(137,137,227)" rx="2" ry="2" />
+<text  x="418.03" y="383.5" ></text>
+</g>
+<g >
+<title>    uvm_gpu_disable_isr+179 (12 us, 0.08%)</title><rect x="92.0" y="261" width="1.0" height="15.0" fill="rgb(106,106,216)" rx="2" ry="2" />
+<text  x="95.01" y="271.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (7,053 us, 49.21%)</title><rect x="605.1" y="389" width="580.7" height="15.0" fill="rgb(128,128,241)" rx="2" ry="2" />
+<text  x="608.06" y="399.5" >    __sched_text_start+1302</text>
+</g>
+<g >
+<title>    _nv008963rm+35 (3 us, 0.02%)</title><rect x="10.0" y="469" width="0.2" height="15.0" fill="rgb(95,95,239)" rx="2" ry="2" />
+<text  x="13.00" y="479.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (16 us, 0.11%)</title><rect x="447.6" y="357" width="1.3" height="15.0" fill="rgb(131,131,215)" rx="2" ry="2" />
+<text  x="450.63" y="367.5" ></text>
+</g>
+<g >
+<title>    khugepaged+116 (5 us, 0.03%)</title><rect x="476.0" y="437" width="0.5" height="15.0" fill="rgb(121,121,224)" rx="2" ry="2" />
+<text  x="479.04" y="447.5" ></text>
+</g>
+<g >
+<title>    uvm_va_space_destroy+1013 (24 us, 0.17%)</title><rect x="91.0" y="309" width="2.0" height="15.0" fill="rgb(94,94,232)" rx="2" ry="2" />
+<text  x="94.02" y="319.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (6 us, 0.04%)</title><rect x="476.5" y="389" width="0.4" height="15.0" fill="rgb(97,97,239)" rx="2" ry="2" />
+<text  x="479.45" y="399.5" ></text>
+</g>
+<g >
+<title>    os_acquire_mutex+53 (76 us, 0.53%)</title><rect x="10.7" y="453" width="6.2" height="15.0" fill="rgb(97,97,200)" rx="2" ry="2" />
+<text  x="13.66" y="463.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="10.3" y="389" width="0.4" height="15.0" fill="rgb(124,124,203)" rx="2" ry="2" />
+<text  x="13.33" y="399.5" ></text>
+</g>
+<g >
+<title>    asm_sysvec_xen_hvm_callback+18 (18 us, 0.13%)</title><rect x="17.1" y="469" width="1.5" height="15.0" fill="rgb(91,91,198)" rx="2" ry="2" />
+<text  x="20.08" y="479.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (6 us, 0.04%)</title><rect x="37.9" y="309" width="0.5" height="15.0" fill="rgb(90,90,194)" rx="2" ry="2" />
+<text  x="40.91" y="319.5" ></text>
+</g>
+<g >
+<title>    poll_schedule_timeout.constprop.0+70 (116 us, 0.81%)</title><rect x="415.9" y="373" width="9.6" height="15.0" fill="rgb(86,86,240)" rx="2" ry="2" />
+<text  x="418.93" y="383.5" ></text>
+</g>
+<g >
+<title>    uvm_va_space_destroy+827 (2 us, 0.01%)</title><rect x="94.5" y="309" width="0.1" height="15.0" fill="rgb(125,125,202)" rx="2" ry="2" />
+<text  x="97.48" y="319.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="91.7" y="197" width="0.3" height="15.0" fill="rgb(106,106,227)" rx="2" ry="2" />
+<text  x="94.68" y="207.5" ></text>
+</g>
+<g >
+<title>    uvm_ioctl+2273 (8 us, 0.06%)</title><rect x="328.7" y="389" width="0.7" height="15.0" fill="rgb(135,135,203)" rx="2" ry="2" />
+<text  x="331.73" y="399.5" ></text>
+</g>
+<g >
+<title>    jbd2_journal_commit_transaction+5462 (2 us, 0.01%)</title><rect x="477.3" y="421" width="0.1" height="15.0" fill="rgb(137,137,200)" rx="2" ry="2" />
+<text  x="480.27" y="431.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_init_on_node+336 (4 us, 0.03%)</title><rect x="393.8" y="261" width="0.3" height="15.0" fill="rgb(127,127,225)" rx="2" ry="2" />
+<text  x="396.78" y="271.5" ></text>
+</g>
+<g >
+<title>    core_sys_select+438 (2 us, 0.01%)</title><rect x="425.5" y="405" width="0.1" height="15.0" fill="rgb(116,116,222)" rx="2" ry="2" />
+<text  x="428.48" y="415.5" ></text>
+</g>
+<g >
+<title>    __kthread_create_on_node+216 (4 us, 0.03%)</title><rect x="394.1" y="229" width="0.3" height="15.0" fill="rgb(120,120,237)" rx="2" ry="2" />
+<text  x="397.11" y="239.5" ></text>
+</g>
+<g >
+<title>    nvidia_close+186 (28 us, 0.20%)</title><rect x="88.7" y="325" width="2.3" height="15.0" fill="rgb(137,137,230)" rx="2" ry="2" />
+<text  x="91.72" y="335.5" ></text>
+</g>
+<g >
+<title>    kthread_create_on_node+73 (4 us, 0.03%)</title><rect x="328.7" y="277" width="0.4" height="15.0" fill="rgb(86,86,195)" rx="2" ry="2" />
+<text  x="331.73" y="287.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (212 us, 1.48%)</title><rect x="449.3" y="389" width="17.4" height="15.0" fill="rgb(120,120,227)" rx="2" ry="2" />
+<text  x="452.28" y="399.5" ></text>
+</g>
+<g >
+<title>    affine_move_task+285 (4 us, 0.03%)</title><rect x="448.9" y="373" width="0.4" height="15.0" fill="rgb(102,102,216)" rx="2" ry="2" />
+<text  x="451.95" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="90.4" y="149" width="0.3" height="15.0" fill="rgb(125,125,223)" rx="2" ry="2" />
+<text  x="93.36" y="159.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="393.8" y="165" width="0.3" height="15.0" fill="rgb(108,108,192)" rx="2" ry="2" />
+<text  x="396.78" y="175.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="89.4" y="149" width="0.3" height="15.0" fill="rgb(98,98,236)" rx="2" ry="2" />
+<text  x="92.37" y="159.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (2 us, 0.01%)</title><rect x="477.3" y="325" width="0.1" height="15.0" fill="rgb(128,128,193)" rx="2" ry="2" />
+<text  x="480.27" y="335.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_init_on_node+336 (4 us, 0.03%)</title><rect x="394.1" y="261" width="0.3" height="15.0" fill="rgb(84,84,220)" rx="2" ry="2" />
+<text  x="397.11" y="271.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="602.3" y="37" width="0.1" height="15.0" fill="rgb(100,100,192)" rx="2" ry="2" />
+<text  x="605.26" y="47.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (20 us, 0.14%)</title><rect x="602.4" y="437" width="1.7" height="15.0" fill="rgb(102,102,244)" rx="2" ry="2" />
+<text  x="605.43" y="447.5" ></text>
+</g>
+<g >
+<title>    do_exit+1947 (4 us, 0.03%)</title><rect x="88.4" y="405" width="0.3" height="15.0" fill="rgb(83,83,232)" rx="2" ry="2" />
+<text  x="91.39" y="415.5" ></text>
+</g>
+<g >
+<title>    poll_schedule_timeout.constprop.0+70 (249 us, 1.74%)</title><rect x="394.5" y="405" width="20.5" height="15.0" fill="rgb(136,136,191)" rx="2" ry="2" />
+<text  x="397.52" y="415.5" ></text>
+</g>
+<g >
+<title>    do_syscall_64+56 (4,965 us, 34.65%)</title><rect x="18.6" y="453" width="408.8" height="15.0" fill="rgb(114,114,209)" rx="2" ry="2" />
+<text  x="21.56" y="463.5" >    do_syscall_64+56</text>
+</g>
+<g >
+<title>    __kmalloc+981 (3 us, 0.02%)</title><rect x="10.0" y="437" width="0.2" height="15.0" fill="rgb(127,127,218)" rx="2" ry="2" />
+<text  x="13.00" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="93.5" y="197" width="0.3" height="15.0" fill="rgb(136,136,208)" rx="2" ry="2" />
+<text  x="96.49" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (606 us, 4.23%)</title><rect x="38.4" y="389" width="49.9" height="15.0" fill="rgb(138,138,209)" rx="2" ry="2" />
+<text  x="41.41" y="399.5" >    s..</text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="91.0" y="229" width="0.4" height="15.0" fill="rgb(99,99,208)" rx="2" ry="2" />
+<text  x="94.02" y="239.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (28 us, 0.20%)</title><rect x="86.0" y="357" width="2.3" height="15.0" fill="rgb(99,99,198)" rx="2" ry="2" />
+<text  x="89.00" y="367.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_futex+330 (2,841 us, 19.82%)</title><rect x="94.8" y="437" width="233.9" height="15.0" fill="rgb(129,129,206)" rx="2" ry="2" />
+<text  x="97.81" y="447.5" >    __x64_sys_futex+330</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="393.5" y="133" width="0.3" height="15.0" fill="rgb(85,85,234)" rx="2" ry="2" />
+<text  x="396.45" y="143.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (116 us, 0.81%)</title><rect x="415.9" y="357" width="9.6" height="15.0" fill="rgb(108,108,232)" rx="2" ry="2" />
+<text  x="418.93" y="367.5" ></text>
+</g>
+<g >
+<title>    _nv033105rm+641 (4 us, 0.03%)</title><rect x="10.3" y="469" width="0.4" height="15.0" fill="rgb(97,97,230)" rx="2" ry="2" />
+<text  x="13.33" y="479.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (212 us, 1.48%)</title><rect x="449.3" y="421" width="17.4" height="15.0" fill="rgb(112,112,226)" rx="2" ry="2" />
+<text  x="452.28" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="88.7" y="197" width="0.3" height="15.0" fill="rgb(139,139,201)" rx="2" ry="2" />
+<text  x="91.72" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="604.1" y="373" width="0.3" height="15.0" fill="rgb(136,136,239)" rx="2" ry="2" />
+<text  x="607.08" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (16 us, 0.11%)</title><rect x="447.6" y="341" width="1.3" height="15.0" fill="rgb(101,101,242)" rx="2" ry="2" />
+<text  x="450.63" y="351.5" ></text>
+</g>
+<g >
+<title>    kthread_create_on_node+73 (4 us, 0.03%)</title><rect x="393.5" y="213" width="0.3" height="15.0" fill="rgb(96,96,234)" rx="2" ry="2" />
+<text  x="396.45" y="223.5" ></text>
+</g>
+<g >
+<title>    do_select+1771 (2 us, 0.01%)</title><rect x="425.5" y="389" width="0.1" height="15.0" fill="rgb(136,136,197)" rx="2" ry="2" />
+<text  x="428.48" y="399.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_ppoll+168 (11 us, 0.08%)</title><rect x="415.0" y="437" width="0.9" height="15.0" fill="rgb(95,95,191)" rx="2" ry="2" />
+<text  x="418.03" y="447.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_poll+165 (249 us, 1.74%)</title><rect x="394.5" y="437" width="20.5" height="15.0" fill="rgb(111,111,219)" rx="2" ry="2" />
+<text  x="397.52" y="447.5" ></text>
+</g>
+<g >
+<title>    __writepage+27 (2 us, 0.01%)</title><rect x="602.3" y="261" width="0.1" height="15.0" fill="rgb(138,138,200)" rx="2" ry="2" />
+<text  x="605.26" y="271.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (6 us, 0.04%)</title><rect x="37.9" y="325" width="0.5" height="15.0" fill="rgb(104,104,237)" rx="2" ry="2" />
+<text  x="40.91" y="335.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="90.0" y="181" width="0.4" height="15.0" fill="rgb(113,113,217)" rx="2" ry="2" />
+<text  x="93.03" y="191.5" ></text>
+</g>
+<g >
+<title>    rcu_gp_kthread+2555 (69 us, 0.48%)</title><rect x="506.6" y="437" width="5.7" height="15.0" fill="rgb(80,80,205)" rx="2" ry="2" />
+<text  x="509.59" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (113 us, 0.79%)</title><rect x="466.7" y="389" width="9.3" height="15.0" fill="rgb(102,102,234)" rx="2" ry="2" />
+<text  x="469.73" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="329.1" y="229" width="0.3" height="15.0" fill="rgb(92,92,193)" rx="2" ry="2" />
+<text  x="332.06" y="239.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="10.3" y="421" width="0.4" height="15.0" fill="rgb(129,129,195)" rx="2" ry="2" />
+<text  x="13.33" y="431.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+25 (8 us, 0.06%)</title><rect x="90.0" y="261" width="0.7" height="15.0" fill="rgb(89,89,190)" rx="2" ry="2" />
+<text  x="93.03" y="271.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="90.4" y="213" width="0.3" height="15.0" fill="rgb(86,86,202)" rx="2" ry="2" />
+<text  x="93.36" y="223.5" ></text>
+</g>
+<g >
+<title>    uvm_va_space_destroy+686 (2 us, 0.01%)</title><rect x="93.0" y="309" width="0.2" height="15.0" fill="rgb(124,124,223)" rx="2" ry="2" />
+<text  x="96.00" y="319.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="92.0" y="229" width="0.3" height="15.0" fill="rgb(138,138,205)" rx="2" ry="2" />
+<text  x="95.01" y="239.5" ></text>
+</g>
+<g >
+<title>    kthread_create_on_node+73 (4 us, 0.03%)</title><rect x="393.8" y="245" width="0.3" height="15.0" fill="rgb(99,99,233)" rx="2" ry="2" />
+<text  x="396.78" y="255.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+25 (8 us, 0.06%)</title><rect x="91.0" y="245" width="0.7" height="15.0" fill="rgb(107,107,194)" rx="2" ry="2" />
+<text  x="94.02" y="255.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="393.8" y="197" width="0.3" height="15.0" fill="rgb(96,96,214)" rx="2" ry="2" />
+<text  x="396.78" y="207.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (173 us, 1.21%)</title><rect x="23.7" y="309" width="14.2" height="15.0" fill="rgb(133,133,242)" rx="2" ry="2" />
+<text  x="26.67" y="319.5" ></text>
+</g>
+<g >
+<title>    kthread_create_on_node+73 (4 us, 0.03%)</title><rect x="394.1" y="245" width="0.3" height="15.0" fill="rgb(90,90,206)" rx="2" ry="2" />
+<text  x="397.11" y="255.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (116 us, 0.81%)</title><rect x="415.9" y="325" width="9.6" height="15.0" fill="rgb(121,121,199)" rx="2" ry="2" />
+<text  x="418.93" y="335.5" ></text>
+</g>
+<g >
+<title>    submit_bio_noacct+1059 (2 us, 0.01%)</title><rect x="602.3" y="165" width="0.1" height="15.0" fill="rgb(85,85,211)" rx="2" ry="2" />
+<text  x="605.26" y="175.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (578 us, 4.03%)</title><rect x="38.4" y="341" width="47.6" height="15.0" fill="rgb(88,88,203)" rx="2" ry="2" />
+<text  x="41.41" y="351.5" >    ..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (69 us, 0.48%)</title><rect x="506.6" y="405" width="5.7" height="15.0" fill="rgb(127,127,228)" rx="2" ry="2" />
+<text  x="509.59" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+249 (2 us, 0.01%)</title><rect x="425.5" y="341" width="0.1" height="15.0" fill="rgb(107,107,243)" rx="2" ry="2" />
+<text  x="428.48" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (5 us, 0.03%)</title><rect x="425.6" y="325" width="0.5" height="15.0" fill="rgb(121,121,230)" rx="2" ry="2" />
+<text  x="428.65" y="335.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="91.4" y="133" width="0.3" height="15.0" fill="rgb(112,112,232)" rx="2" ry="2" />
+<text  x="94.35" y="143.5" ></text>
+</g>
+<g >
+<title>    __set_cpus_allowed_ptr+311 (4 us, 0.03%)</title><rect x="448.9" y="389" width="0.4" height="15.0" fill="rgb(83,83,220)" rx="2" ry="2" />
+<text  x="451.95" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="393.5" y="165" width="0.3" height="15.0" fill="rgb(128,128,215)" rx="2" ry="2" />
+<text  x="396.45" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+151 (173 us, 1.21%)</title><rect x="23.7" y="357" width="14.2" height="15.0" fill="rgb(123,123,196)" rx="2" ry="2" />
+<text  x="26.67" y="367.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="90.4" y="165" width="0.3" height="15.0" fill="rgb(99,99,217)" rx="2" ry="2" />
+<text  x="93.36" y="175.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (51 us, 0.36%)</title><rect x="1185.8" y="309" width="4.2" height="15.0" fill="rgb(132,132,199)" rx="2" ry="2" />
+<text  x="1188.80" y="319.5" ></text>
+</g>
+<g >
+<title>    exit_to_user_mode_prepare+277 (2 us, 0.01%)</title><rect x="427.5" y="421" width="0.1" height="15.0" fill="rgb(133,133,195)" rx="2" ry="2" />
+<text  x="430.46" y="431.5" ></text>
+</g>
+<g >
+<title>    do_task_dead+69 (4 us, 0.03%)</title><rect x="88.4" y="389" width="0.3" height="15.0" fill="rgb(86,86,213)" rx="2" ry="2" />
+<text  x="91.39" y="399.5" ></text>
+</g>
+<g >
+<title>    __writeback_inodes_wb+86 (2 us, 0.01%)</title><rect x="602.3" y="373" width="0.1" height="15.0" fill="rgb(109,109,229)" rx="2" ry="2" />
+<text  x="605.26" y="383.5" ></text>
+</g>
+<g >
+<title>    remove_gpu+158 (24 us, 0.17%)</title><rect x="91.0" y="277" width="2.0" height="15.0" fill="rgb(125,125,204)" rx="2" ry="2" />
+<text  x="94.02" y="287.5" ></text>
+</g>
+<g >
+<title>    asm_exc_page_fault+30 (2 us, 0.01%)</title><rect x="16.9" y="469" width="0.2" height="15.0" fill="rgb(86,86,193)" rx="2" ry="2" />
+<text  x="19.92" y="479.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (21 us, 0.15%)</title><rect x="429.3" y="389" width="1.7" height="15.0" fill="rgb(115,115,197)" rx="2" ry="2" />
+<text  x="432.27" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="89.0" y="149" width="0.4" height="15.0" fill="rgb(107,107,209)" rx="2" ry="2" />
+<text  x="92.05" y="159.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+249 (14 us, 0.10%)</title><rect x="426.1" y="341" width="1.1" height="15.0" fill="rgb(117,117,232)" rx="2" ry="2" />
+<text  x="429.06" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (5 us, 0.03%)</title><rect x="425.6" y="293" width="0.5" height="15.0" fill="rgb(125,125,234)" rx="2" ry="2" />
+<text  x="428.65" y="303.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (173 us, 1.21%)</title><rect x="23.7" y="325" width="14.2" height="15.0" fill="rgb(98,98,232)" rx="2" ry="2" />
+<text  x="26.67" y="335.5" ></text>
+</g>
+<g >
+<title>    blk_mq_submit_bio+247 (2 us, 0.01%)</title><rect x="602.3" y="149" width="0.1" height="15.0" fill="rgb(116,116,229)" rx="2" ry="2" />
+<text  x="605.26" y="159.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (113 us, 0.79%)</title><rect x="466.7" y="373" width="9.3" height="15.0" fill="rgb(91,91,206)" rx="2" ry="2" />
+<text  x="469.73" y="383.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="604.1" y="389" width="0.3" height="15.0" fill="rgb(96,96,201)" rx="2" ry="2" />
+<text  x="607.08" y="399.5" ></text>
+</g>
+<g >
+<title>    _cond_resched+34 (3 us, 0.02%)</title><rect x="10.0" y="421" width="0.2" height="15.0" fill="rgb(125,125,218)" rx="2" ry="2" />
+<text  x="13.00" y="431.5" ></text>
+</g>
+<g >
+<title>    kthread+249 (21 us, 0.15%)</title><rect x="429.3" y="453" width="1.7" height="15.0" fill="rgb(92,92,195)" rx="2" ry="2" />
+<text  x="432.27" y="463.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (18 us, 0.13%)</title><rect x="17.1" y="357" width="1.5" height="15.0" fill="rgb(83,83,233)" rx="2" ry="2" />
+<text  x="20.08" y="367.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_clock_nanosleep+198 (60 us, 0.42%)</title><rect x="18.6" y="437" width="5.0" height="15.0" fill="rgb(80,80,213)" rx="2" ry="2" />
+<text  x="21.65" y="447.5" ></text>
+</g>
+<g >
+<title>    rm_disable_adapter+112 (8 us, 0.06%)</title><rect x="604.1" y="469" width="0.6" height="15.0" fill="rgb(84,84,191)" rx="2" ry="2" />
+<text  x="607.08" y="479.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="88.4" y="357" width="0.3" height="15.0" fill="rgb(99,99,193)" rx="2" ry="2" />
+<text  x="91.39" y="367.5" ></text>
+</g>
+<g >
+<title>    do_sys_openat2+540 (13 us, 0.09%)</title><rect x="393.5" y="405" width="1.0" height="15.0" fill="rgb(133,133,208)" rx="2" ry="2" />
+<text  x="396.45" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (179 us, 1.25%)</title><rect x="23.7" y="373" width="14.7" height="15.0" fill="rgb(111,111,242)" rx="2" ry="2" />
+<text  x="26.67" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="393.5" y="117" width="0.3" height="15.0" fill="rgb(113,113,244)" rx="2" ry="2" />
+<text  x="396.45" y="127.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="89.0" y="181" width="0.4" height="15.0" fill="rgb(112,112,234)" rx="2" ry="2" />
+<text  x="92.05" y="191.5" ></text>
+</g>
+<g >
+<title>    kthread_create_on_node+73 (4 us, 0.03%)</title><rect x="329.1" y="277" width="0.3" height="15.0" fill="rgb(103,103,232)" rx="2" ry="2" />
+<text  x="332.06" y="287.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="91.4" y="181" width="0.3" height="15.0" fill="rgb(90,90,207)" rx="2" ry="2" />
+<text  x="94.35" y="191.5" ></text>
+</g>
+<g >
+<title>    os_flush_work_queue+77 (4 us, 0.03%)</title><rect x="604.7" y="453" width="0.4" height="15.0" fill="rgb(95,95,229)" rx="2" ry="2" />
+<text  x="607.73" y="463.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (5 us, 0.03%)</title><rect x="476.0" y="341" width="0.5" height="15.0" fill="rgb(139,139,219)" rx="2" ry="2" />
+<text  x="479.04" y="351.5" ></text>
+</g>
+<g >
+<title>    os_alloc_mem+198 (3 us, 0.02%)</title><rect x="10.0" y="453" width="0.2" height="15.0" fill="rgb(85,85,194)" rx="2" ry="2" />
+<text  x="13.00" y="463.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+399 (352 us, 2.46%)</title><rect x="477.6" y="421" width="29.0" height="15.0" fill="rgb(94,94,212)" rx="2" ry="2" />
+<text  x="480.60" y="431.5" >  ..</text>
+</g>
+<g >
+<title>    _nv035470rm+12 (76 us, 0.53%)</title><rect x="10.7" y="469" width="6.2" height="15.0" fill="rgb(110,110,205)" rx="2" ry="2" />
+<text  x="13.66" y="479.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="89.7" y="213" width="0.3" height="15.0" fill="rgb(97,97,228)" rx="2" ry="2" />
+<text  x="92.70" y="223.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="604.7" y="405" width="0.4" height="15.0" fill="rgb(88,88,237)" rx="2" ry="2" />
+<text  x="607.73" y="415.5" ></text>
+</g>
+<g >
+<title>    do_pselect.constprop.0+175 (116 us, 0.81%)</title><rect x="415.9" y="421" width="9.6" height="15.0" fill="rgb(116,116,190)" rx="2" ry="2" />
+<text  x="418.93" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="89.4" y="165" width="0.3" height="15.0" fill="rgb(118,118,224)" rx="2" ry="2" />
+<text  x="92.37" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (76 us, 0.53%)</title><rect x="10.7" y="405" width="6.2" height="15.0" fill="rgb(137,137,204)" rx="2" ry="2" />
+<text  x="13.66" y="415.5" ></text>
+</g>
+<g >
+<title>    poll_schedule_timeout.constprop.0+70 (11 us, 0.08%)</title><rect x="415.0" y="405" width="0.9" height="15.0" fill="rgb(109,109,204)" rx="2" ry="2" />
+<text  x="418.03" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="93.5" y="245" width="0.3" height="15.0" fill="rgb(112,112,215)" rx="2" ry="2" />
+<text  x="96.49" y="255.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (2 us, 0.01%)</title><rect x="476.9" y="325" width="0.2" height="15.0" fill="rgb(98,98,196)" rx="2" ry="2" />
+<text  x="479.94" y="335.5" ></text>
+</g>
+<g >
+<title>    __down_interruptible+141 (16 us, 0.11%)</title><rect x="447.6" y="405" width="1.3" height="15.0" fill="rgb(116,116,221)" rx="2" ry="2" />
+<text  x="450.63" y="415.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="425.5" y="309" width="0.1" height="15.0" fill="rgb(130,130,207)" rx="2" ry="2" />
+<text  x="428.48" y="319.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (116 us, 0.81%)</title><rect x="415.9" y="293" width="9.6" height="15.0" fill="rgb(94,94,208)" rx="2" ry="2" />
+<text  x="418.93" y="303.5" ></text>
+</g>
+<g >
+<title>    uvm_unlocked_ioctl+54 (8 us, 0.06%)</title><rect x="328.7" y="405" width="0.7" height="15.0" fill="rgb(82,82,207)" rx="2" ry="2" />
+<text  x="331.73" y="415.5" ></text>
+</g>
+<g >
+<title>    process_one_work+544 (3 us, 0.02%)</title><rect x="602.2" y="421" width="0.2" height="15.0" fill="rgb(96,96,212)" rx="2" ry="2" />
+<text  x="605.18" y="431.5" ></text>
+</g>
+<g >
+<title>    __wait_on_buffer+52 (2 us, 0.01%)</title><rect x="477.3" y="405" width="0.1" height="15.0" fill="rgb(118,118,205)" rx="2" ry="2" />
+<text  x="480.27" y="415.5" ></text>
+</g>
+<g >
+<title>    irq_thread_check_affinity+229 (4 us, 0.03%)</title><rect x="448.9" y="421" width="0.4" height="15.0" fill="rgb(118,118,217)" rx="2" ry="2" />
+<text  x="451.95" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="94.2" y="229" width="0.3" height="15.0" fill="rgb(118,118,215)" rx="2" ry="2" />
+<text  x="97.15" y="239.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (5 us, 0.03%)</title><rect x="476.0" y="357" width="0.5" height="15.0" fill="rgb(84,84,234)" rx="2" ry="2" />
+<text  x="479.04" y="367.5" ></text>
+</g>
+<g >
+<title>    nv_shutdown_adapter+270 (4 us, 0.03%)</title><rect x="88.7" y="277" width="0.3" height="15.0" fill="rgb(116,116,232)" rx="2" ry="2" />
+<text  x="91.72" y="287.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+151 (116 us, 0.81%)</title><rect x="415.9" y="341" width="9.6" height="15.0" fill="rgb(92,92,219)" rx="2" ry="2" />
+<text  x="418.93" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (76 us, 0.53%)</title><rect x="10.7" y="373" width="6.2" height="15.0" fill="rgb(82,82,211)" rx="2" ry="2" />
+<text  x="13.66" y="383.5" ></text>
+</g>
+<g >
+<title>    nvidia_close_callback+152 (28 us, 0.20%)</title><rect x="88.7" y="309" width="2.3" height="15.0" fill="rgb(117,117,231)" rx="2" ry="2" />
+<text  x="91.72" y="319.5" ></text>
+</g>
+<g >
+<title>    exc_page_fault+108 (2 us, 0.01%)</title><rect x="16.9" y="453" width="0.2" height="15.0" fill="rgb(138,138,195)" rx="2" ry="2" />
+<text  x="19.92" y="463.5" ></text>
+</g>
+<g >
+<title>    arch_do_signal_or_restart+240 (2 us, 0.01%)</title><rect x="427.5" y="405" width="0.1" height="15.0" fill="rgb(111,111,219)" rx="2" ry="2" />
+<text  x="430.46" y="415.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (20 us, 0.14%)</title><rect x="602.4" y="405" width="1.7" height="15.0" fill="rgb(123,123,191)" rx="2" ry="2" />
+<text  x="605.43" y="415.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="91.4" y="197" width="0.3" height="15.0" fill="rgb(119,119,225)" rx="2" ry="2" />
+<text  x="94.35" y="207.5" ></text>
+</g>
+<g >
+<title>    __rq_qos_throttle+40 (2 us, 0.01%)</title><rect x="602.3" y="133" width="0.1" height="15.0" fill="rgb(89,89,235)" rx="2" ry="2" />
+<text  x="605.26" y="143.5" ></text>
+</g>
+<g >
+<title>    __down_interruptible+141 (202 us, 1.41%)</title><rect x="431.0" y="405" width="16.6" height="15.0" fill="rgb(86,86,215)" rx="2" ry="2" />
+<text  x="434.00" y="415.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (6 us, 0.04%)</title><rect x="476.5" y="373" width="0.4" height="15.0" fill="rgb(128,128,228)" rx="2" ry="2" />
+<text  x="479.45" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="477.4" y="405" width="0.2" height="15.0" fill="rgb(138,138,203)" rx="2" ry="2" />
+<text  x="480.44" y="415.5" ></text>
+</g>
+<g >
+<title>    _main_loop+61 (16 us, 0.11%)</title><rect x="447.6" y="437" width="1.3" height="15.0" fill="rgb(133,133,223)" rx="2" ry="2" />
+<text  x="450.63" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (3 us, 0.02%)</title><rect x="10.0" y="373" width="0.2" height="15.0" fill="rgb(102,102,193)" rx="2" ry="2" />
+<text  x="13.00" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="93.8" y="213" width="0.4" height="15.0" fill="rgb(94,94,225)" rx="2" ry="2" />
+<text  x="96.82" y="223.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="89.7" y="197" width="0.3" height="15.0" fill="rgb(129,129,198)" rx="2" ry="2" />
+<text  x="92.70" y="207.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="89.7" y="181" width="0.3" height="15.0" fill="rgb(121,121,233)" rx="2" ry="2" />
+<text  x="92.70" y="191.5" ></text>
+</g>
+<g >
+<title>    start_kernel+1721 (51 us, 0.36%)</title><rect x="1185.8" y="421" width="4.2" height="15.0" fill="rgb(97,97,228)" rx="2" ry="2" />
+<text  x="1188.80" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (28 us, 0.20%)</title><rect x="86.0" y="341" width="2.3" height="15.0" fill="rgb(106,106,240)" rx="2" ry="2" />
+<text  x="89.00" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (14 us, 0.10%)</title><rect x="426.1" y="293" width="1.1" height="15.0" fill="rgb(102,102,205)" rx="2" ry="2" />
+<text  x="429.06" y="303.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="90.0" y="149" width="0.4" height="15.0" fill="rgb(126,126,204)" rx="2" ry="2" />
+<text  x="93.03" y="159.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="394.1" y="149" width="0.3" height="15.0" fill="rgb(136,136,213)" rx="2" ry="2" />
+<text  x="397.11" y="159.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="476.9" y="293" width="0.2" height="15.0" fill="rgb(90,90,233)" rx="2" ry="2" />
+<text  x="479.94" y="303.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="328.7" y="213" width="0.4" height="15.0" fill="rgb(109,109,238)" rx="2" ry="2" />
+<text  x="331.73" y="223.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="604.1" y="341" width="0.3" height="15.0" fill="rgb(83,83,233)" rx="2" ry="2" />
+<text  x="607.08" y="351.5" ></text>
+</g>
+<g >
+<title>@[ (4 us, 0.03%)</title><rect x="91.4" y="117" width="0.3" height="15.0" fill="rgb(113,113,239)" rx="2" ry="2" />
+<text  x="94.35" y="127.5" ></text>
+</g>
+<g >
+<title>    do_sys_open+70 (13 us, 0.09%)</title><rect x="393.5" y="421" width="1.0" height="15.0" fill="rgb(92,92,236)" rx="2" ry="2" />
+<text  x="396.45" y="431.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="477.1" y="373" width="0.2" height="15.0" fill="rgb(125,125,225)" rx="2" ry="2" />
+<text  x="480.11" y="383.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (18 us, 0.13%)</title><rect x="17.1" y="373" width="1.5" height="15.0" fill="rgb(103,103,230)" rx="2" ry="2" />
+<text  x="20.08" y="383.5" ></text>
+</g>
+<g >
+<title>    kthread_stop+113 (4 us, 0.03%)</title><rect x="91.7" y="229" width="0.3" height="15.0" fill="rgb(125,125,244)" rx="2" ry="2" />
+<text  x="94.68" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="477.4" y="389" width="0.2" height="15.0" fill="rgb(138,138,230)" rx="2" ry="2" />
+<text  x="480.44" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (634 us, 4.42%)</title><rect x="550.0" y="389" width="52.2" height="15.0" fill="rgb(126,126,221)" rx="2" ry="2" />
+<text  x="552.98" y="399.5" >    _..</text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="89.4" y="229" width="0.3" height="15.0" fill="rgb(91,91,227)" rx="2" ry="2" />
+<text  x="92.37" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (777 us, 5.42%)</title><rect x="329.5" y="373" width="64.0" height="15.0" fill="rgb(112,112,235)" rx="2" ry="2" />
+<text  x="332.48" y="383.5" >    __s..</text>
+</g>
+<g >
+<title>    __writeback_single_inode+68 (2 us, 0.01%)</title><rect x="602.3" y="341" width="0.1" height="15.0" fill="rgb(83,83,192)" rx="2" ry="2" />
+<text  x="605.26" y="351.5" ></text>
+</g>
+<g >
+<title>    nv_open_device+1247 (4 us, 0.03%)</title><rect x="393.5" y="277" width="0.3" height="15.0" fill="rgb(88,88,240)" rx="2" ry="2" />
+<text  x="396.45" y="287.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (173 us, 1.21%)</title><rect x="23.7" y="341" width="14.2" height="15.0" fill="rgb(107,107,193)" rx="2" ry="2" />
+<text  x="26.67" y="351.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="93.8" y="197" width="0.4" height="15.0" fill="rgb(132,132,215)" rx="2" ry="2" />
+<text  x="96.82" y="207.5" ></text>
+</g>
+<g >
+<title>    kcompactd+422 (113 us, 0.79%)</title><rect x="466.7" y="437" width="9.3" height="15.0" fill="rgb(104,104,190)" rx="2" ry="2" />
+<text  x="469.73" y="447.5" ></text>
+</g>
+<g >
+<title>    down+71 (76 us, 0.53%)</title><rect x="10.7" y="437" width="6.2" height="15.0" fill="rgb(134,134,193)" rx="2" ry="2" />
+<text  x="13.66" y="447.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="92.3" y="197" width="0.4" height="15.0" fill="rgb(120,120,244)" rx="2" ry="2" />
+<text  x="95.34" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (2 us, 0.01%)</title><rect x="425.5" y="357" width="0.1" height="15.0" fill="rgb(128,128,192)" rx="2" ry="2" />
+<text  x="428.48" y="367.5" ></text>
+</g>
+<g >
+<title>    request_threaded_irq+254 (4 us, 0.03%)</title><rect x="393.5" y="261" width="0.3" height="15.0" fill="rgb(87,87,212)" rx="2" ry="2" />
+<text  x="396.45" y="271.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion_killable+159 (4 us, 0.03%)</title><rect x="394.1" y="213" width="0.3" height="15.0" fill="rgb(84,84,194)" rx="2" ry="2" />
+<text  x="397.11" y="223.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (212 us, 1.48%)</title><rect x="449.3" y="405" width="17.4" height="15.0" fill="rgb(115,115,238)" rx="2" ry="2" />
+<text  x="452.28" y="415.5" ></text>
+</g>
+<g >
+<title>    nvidia_open+401 (12 us, 0.08%)</title><rect x="393.5" y="293" width="0.9" height="15.0" fill="rgb(110,110,213)" rx="2" ry="2" />
+<text  x="396.45" y="303.5" ></text>
+</g>
+<g >
+<title>    do_filp_open+145 (13 us, 0.09%)</title><rect x="393.5" y="389" width="1.0" height="15.0" fill="rgb(94,94,212)" rx="2" ry="2" />
+<text  x="396.45" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (249 us, 1.74%)</title><rect x="394.5" y="389" width="20.5" height="15.0" fill="rgb(96,96,202)" rx="2" ry="2" />
+<text  x="397.52" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (578 us, 4.03%)</title><rect x="38.4" y="325" width="47.6" height="15.0" fill="rgb(84,84,222)" rx="2" ry="2" />
+<text  x="41.41" y="335.5" >    ..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="477.3" y="309" width="0.1" height="15.0" fill="rgb(110,110,197)" rx="2" ry="2" />
+<text  x="480.27" y="319.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_nanosleep+167 (777 us, 5.42%)</title><rect x="329.5" y="437" width="64.0" height="15.0" fill="rgb(103,103,198)" rx="2" ry="2" />
+<text  x="332.48" y="447.5" >    __x..</text>
+</g>
+<g >
+<title>    arch_call_rest_init+14 (51 us, 0.36%)</title><rect x="1185.8" y="405" width="4.2" height="15.0" fill="rgb(107,107,238)" rx="2" ry="2" />
+<text  x="1188.80" y="415.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="16.9" y="357" width="0.2" height="15.0" fill="rgb(121,121,227)" rx="2" ry="2" />
+<text  x="19.92" y="367.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="92.3" y="181" width="0.4" height="15.0" fill="rgb(101,101,243)" rx="2" ry="2" />
+<text  x="95.34" y="191.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="427.5" y="325" width="0.1" height="15.0" fill="rgb(85,85,235)" rx="2" ry="2" />
+<text  x="430.46" y="335.5" ></text>
+</g>
+<g >
+<title>    down_read+67 (2 us, 0.01%)</title><rect x="16.9" y="421" width="0.2" height="15.0" fill="rgb(80,80,242)" rx="2" ry="2" />
+<text  x="19.92" y="431.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="92.7" y="197" width="0.3" height="15.0" fill="rgb(130,130,191)" rx="2" ry="2" />
+<text  x="95.67" y="207.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (2 us, 0.01%)</title><rect x="602.3" y="69" width="0.1" height="15.0" fill="rgb(92,92,243)" rx="2" ry="2" />
+<text  x="605.26" y="79.5" ></text>
+</g>
+<g >
+<title>    do_nanosleep+116 (777 us, 5.42%)</title><rect x="329.5" y="405" width="64.0" height="15.0" fill="rgb(92,92,224)" rx="2" ry="2" />
+<text  x="332.48" y="415.5" >    do_..</text>
+</g>
+<g >
+<title>    hrtimer_nanosleep+158 (777 us, 5.42%)</title><rect x="329.5" y="421" width="64.0" height="15.0" fill="rgb(129,129,196)" rx="2" ry="2" />
+<text  x="332.48" y="431.5" >    hrt..</text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+25 (8 us, 0.06%)</title><rect x="92.0" y="245" width="0.7" height="15.0" fill="rgb(123,123,197)" rx="2" ry="2" />
+<text  x="95.01" y="255.5" ></text>
+</g>
+<g >
+<title>    __x64_sys_fsync+20 (2 us, 0.01%)</title><rect x="94.6" y="437" width="0.2" height="15.0" fill="rgb(116,116,231)" rx="2" ry="2" />
+<text  x="97.64" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (14 us, 0.10%)</title><rect x="426.1" y="309" width="1.1" height="15.0" fill="rgb(96,96,236)" rx="2" ry="2" />
+<text  x="429.06" y="319.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+25 (8 us, 0.06%)</title><rect x="89.0" y="261" width="0.7" height="15.0" fill="rgb(127,127,197)" rx="2" ry="2" />
+<text  x="92.05" y="271.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="92.0" y="133" width="0.3" height="15.0" fill="rgb(111,111,225)" rx="2" ry="2" />
+<text  x="95.01" y="143.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="89.0" y="197" width="0.4" height="15.0" fill="rgb(94,94,238)" rx="2" ry="2" />
+<text  x="92.05" y="207.5" ></text>
+</g>
+<g >
+<title>    lru_add_drain_all+352 (5 us, 0.03%)</title><rect x="476.0" y="421" width="0.5" height="15.0" fill="rgb(105,105,225)" rx="2" ry="2" />
+<text  x="479.04" y="431.5" ></text>
+</g>
+<g >
+<title>    do_user_addr_fault+824 (2 us, 0.01%)</title><rect x="16.9" y="437" width="0.2" height="15.0" fill="rgb(116,116,236)" rx="2" ry="2" />
+<text  x="19.92" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="604.7" y="357" width="0.4" height="15.0" fill="rgb(81,81,240)" rx="2" ry="2" />
+<text  x="607.73" y="367.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (20 us, 0.14%)</title><rect x="427.6" y="421" width="1.7" height="15.0" fill="rgb(101,101,221)" rx="2" ry="2" />
+<text  x="430.62" y="431.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="93.5" y="293" width="0.3" height="15.0" fill="rgb(131,131,202)" rx="2" ry="2" />
+<text  x="96.49" y="303.5" ></text>
+</g>
+<g >
+<title>    __wait_on_bit+51 (2 us, 0.01%)</title><rect x="477.3" y="373" width="0.1" height="15.0" fill="rgb(125,125,207)" rx="2" ry="2" />
+<text  x="480.27" y="383.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (16 us, 0.11%)</title><rect x="447.6" y="373" width="1.3" height="15.0" fill="rgb(97,97,234)" rx="2" ry="2" />
+<text  x="450.63" y="383.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion_killable+159 (4 us, 0.03%)</title><rect x="393.5" y="181" width="0.3" height="15.0" fill="rgb(119,119,207)" rx="2" ry="2" />
+<text  x="396.45" y="191.5" ></text>
+</g>
+<g >
+<title>    rm_disable_adapter+54 (4 us, 0.03%)</title><rect x="604.7" y="469" width="0.4" height="15.0" fill="rgb(115,115,218)" rx="2" ry="2" />
+<text  x="607.73" y="479.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (249 us, 1.74%)</title><rect x="394.5" y="357" width="20.5" height="15.0" fill="rgb(104,104,242)" rx="2" ry="2" />
+<text  x="397.52" y="367.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="90.0" y="245" width="0.4" height="15.0" fill="rgb(81,81,214)" rx="2" ry="2" />
+<text  x="93.03" y="255.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+47 (4 us, 0.03%)</title><rect x="448.9" y="357" width="0.4" height="15.0" fill="rgb(115,115,241)" rx="2" ry="2" />
+<text  x="451.95" y="367.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="604.1" y="357" width="0.3" height="15.0" fill="rgb(122,122,213)" rx="2" ry="2" />
+<text  x="607.08" y="367.5" ></text>
+</g>
+<g >
+<title>    writeback_sb_inodes+557 (2 us, 0.01%)</title><rect x="602.3" y="357" width="0.1" height="15.0" fill="rgb(110,110,244)" rx="2" ry="2" />
+<text  x="605.26" y="367.5" ></text>
+</g>
+<g >
+<title>    nv_open_device+1387 (4 us, 0.03%)</title><rect x="394.1" y="277" width="0.3" height="15.0" fill="rgb(84,84,191)" rx="2" ry="2" />
+<text  x="397.11" y="287.5" ></text>
+</g>
+<g >
+<title>    schedule_idle+44 (7,053 us, 49.21%)</title><rect x="605.1" y="405" width="580.7" height="15.0" fill="rgb(110,110,238)" rx="2" ry="2" />
+<text  x="608.06" y="415.5" >    schedule_idle+44</text>
+</g>
+<g >
+<title>    vfs_fsync_range+73 (2 us, 0.01%)</title><rect x="94.6" y="405" width="0.2" height="15.0" fill="rgb(138,138,196)" rx="2" ry="2" />
+<text  x="97.64" y="415.5" ></text>
+</g>
+<g >
+<title>    preempt_schedule_common+24 (4 us, 0.03%)</title><rect x="448.9" y="325" width="0.4" height="15.0" fill="rgb(105,105,194)" rx="2" ry="2" />
+<text  x="451.95" y="335.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="93.2" y="245" width="0.3" height="15.0" fill="rgb(80,80,212)" rx="2" ry="2" />
+<text  x="96.16" y="255.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="92.3" y="213" width="0.4" height="15.0" fill="rgb(125,125,220)" rx="2" ry="2" />
+<text  x="95.34" y="223.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="93.8" y="261" width="0.4" height="15.0" fill="rgb(133,133,200)" rx="2" ry="2" />
+<text  x="96.82" y="271.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (60 us, 0.42%)</title><rect x="18.6" y="373" width="5.0" height="15.0" fill="rgb(94,94,206)" rx="2" ry="2" />
+<text  x="21.65" y="383.5" ></text>
+</g>
+<g >
+<title>    do_writepages+67 (2 us, 0.01%)</title><rect x="602.3" y="325" width="0.1" height="15.0" fill="rgb(132,132,237)" rx="2" ry="2" />
+<text  x="605.26" y="335.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (5 us, 0.03%)</title><rect x="425.6" y="309" width="0.5" height="15.0" fill="rgb(118,118,197)" rx="2" ry="2" />
+<text  x="428.65" y="319.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="604.4" y="341" width="0.3" height="15.0" fill="rgb(109,109,234)" rx="2" ry="2" />
+<text  x="607.41" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (2 us, 0.01%)</title><rect x="16.9" y="389" width="0.2" height="15.0" fill="rgb(126,126,208)" rx="2" ry="2" />
+<text  x="19.92" y="399.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="90.4" y="197" width="0.3" height="15.0" fill="rgb(90,90,217)" rx="2" ry="2" />
+<text  x="93.36" y="207.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+65 (4 us, 0.03%)</title><rect x="89.7" y="261" width="0.3" height="15.0" fill="rgb(134,134,243)" rx="2" ry="2" />
+<text  x="92.70" y="271.5" ></text>
+</g>
+<g >
+<title>    futex_wait+261 (2,841 us, 19.82%)</title><rect x="94.8" y="405" width="233.9" height="15.0" fill="rgb(106,106,199)" rx="2" ry="2" />
+<text  x="97.81" y="415.5" >    futex_wait+261</text>
+</g>
+<g >
+<title>    do_select+1771 (19 us, 0.13%)</title><rect x="425.6" y="389" width="1.6" height="15.0" fill="rgb(120,120,226)" rx="2" ry="2" />
+<text  x="428.65" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="394.1" y="165" width="0.3" height="15.0" fill="rgb(96,96,218)" rx="2" ry="2" />
+<text  x="397.11" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="328.7" y="229" width="0.4" height="15.0" fill="rgb(92,92,202)" rx="2" ry="2" />
+<text  x="331.73" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="425.5" y="293" width="0.1" height="15.0" fill="rgb(93,93,215)" rx="2" ry="2" />
+<text  x="428.48" y="303.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="394.1" y="181" width="0.3" height="15.0" fill="rgb(83,83,234)" rx="2" ry="2" />
+<text  x="397.11" y="191.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_stop+65 (4 us, 0.03%)</title><rect x="92.7" y="245" width="0.3" height="15.0" fill="rgb(91,91,234)" rx="2" ry="2" />
+<text  x="95.67" y="255.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="92.0" y="197" width="0.3" height="15.0" fill="rgb(111,111,190)" rx="2" ry="2" />
+<text  x="95.01" y="207.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="89.0" y="229" width="0.4" height="15.0" fill="rgb(105,105,232)" rx="2" ry="2" />
+<text  x="92.05" y="239.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="93.2" y="229" width="0.3" height="15.0" fill="rgb(99,99,214)" rx="2" ry="2" />
+<text  x="96.16" y="239.5" ></text>
+</g>
+<g >
+<title>    kthread+227 (20 us, 0.14%)</title><rect x="427.6" y="453" width="1.7" height="15.0" fill="rgb(84,84,219)" rx="2" ry="2" />
+<text  x="430.62" y="463.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="93.2" y="261" width="0.3" height="15.0" fill="rgb(97,97,232)" rx="2" ry="2" />
+<text  x="96.16" y="271.5" ></text>
+</g>
+<g >
+<title>    secondary_startup_64_no_verify+194 (7,104 us, 49.57%)</title><rect x="605.1" y="469" width="584.9" height="15.0" fill="rgb(119,119,193)" rx="2" ry="2" />
+<text  x="608.06" y="479.5" >    secondary_startup_64_no_verify+194</text>
+</g>
+<g >
+<title>    flush_work+16 (5 us, 0.03%)</title><rect x="476.0" y="405" width="0.5" height="15.0" fill="rgb(128,128,217)" rx="2" ry="2" />
+<text  x="479.04" y="415.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="93.5" y="261" width="0.3" height="15.0" fill="rgb(116,116,235)" rx="2" ry="2" />
+<text  x="96.49" y="271.5" ></text>
+</g>
+<g >
+<title>    do_fsync+61 (2 us, 0.01%)</title><rect x="94.6" y="421" width="0.2" height="15.0" fill="rgb(122,122,222)" rx="2" ry="2" />
+<text  x="97.64" y="431.5" ></text>
+</g>
+<g >
+<title>    worker_thread+207 (634 us, 4.42%)</title><rect x="550.0" y="437" width="52.2" height="15.0" fill="rgb(106,106,233)" rx="2" ry="2" />
+<text  x="552.98" y="447.5" >    w..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="90.7" y="165" width="0.3" height="15.0" fill="rgb(113,113,202)" rx="2" ry="2" />
+<text  x="93.69" y="175.5" ></text>
+</g>
+<g >
+<title>    __fput+159 (72 us, 0.50%)</title><rect x="88.7" y="357" width="5.9" height="15.0" fill="rgb(132,132,235)" rx="2" ry="2" />
+<text  x="91.72" y="367.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion_killable+159 (4 us, 0.03%)</title><rect x="328.7" y="245" width="0.4" height="15.0" fill="rgb(123,123,200)" rx="2" ry="2" />
+<text  x="331.73" y="255.5" ></text>
+</g>
+<g >
+<title>    do_idle+351 (7,053 us, 49.21%)</title><rect x="605.1" y="421" width="580.7" height="15.0" fill="rgb(138,138,194)" rx="2" ry="2" />
+<text  x="608.06" y="431.5" >    do_idle+351</text>
+</g>
+<g >
+<title>    common_nsleep+68 (60 us, 0.42%)</title><rect x="18.6" y="421" width="5.0" height="15.0" fill="rgb(100,100,226)" rx="2" ry="2" />
+<text  x="21.65" y="431.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="89.0" y="213" width="0.4" height="15.0" fill="rgb(91,91,213)" rx="2" ry="2" />
+<text  x="92.05" y="223.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="88.7" y="165" width="0.3" height="15.0" fill="rgb(136,136,244)" rx="2" ry="2" />
+<text  x="91.72" y="175.5" ></text>
+</g>
+<g >
+<title>    kthread_stop+113 (4 us, 0.03%)</title><rect x="92.7" y="229" width="0.3" height="15.0" fill="rgb(119,119,231)" rx="2" ry="2" />
+<text  x="95.67" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (76 us, 0.53%)</title><rect x="10.7" y="357" width="6.2" height="15.0" fill="rgb(121,121,211)" rx="2" ry="2" />
+<text  x="13.66" y="367.5" ></text>
+</g>
+<g >
+<title>    wb_workfn+852 (2 us, 0.01%)</title><rect x="602.3" y="405" width="0.1" height="15.0" fill="rgb(89,89,219)" rx="2" ry="2" />
+<text  x="605.26" y="415.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="93.5" y="277" width="0.3" height="15.0" fill="rgb(121,121,229)" rx="2" ry="2" />
+<text  x="96.49" y="287.5" ></text>
+</g>
+<g >
+<title>    __kthread_create_on_node+216 (4 us, 0.03%)</title><rect x="329.1" y="261" width="0.3" height="15.0" fill="rgb(108,108,200)" rx="2" ry="2" />
+<text  x="332.06" y="271.5" ></text>
+</g>
+<g >
+<title>    submit_bh_wbc+405 (2 us, 0.01%)</title><rect x="602.3" y="197" width="0.1" height="15.0" fill="rgb(139,139,203)" rx="2" ry="2" />
+<text  x="605.26" y="207.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (2 us, 0.01%)</title><rect x="602.3" y="53" width="0.1" height="15.0" fill="rgb(128,128,242)" rx="2" ry="2" />
+<text  x="605.26" y="63.5" ></text>
+</g>
+<g >
+<title>    set_cpus_allowed_ptr+16 (4 us, 0.03%)</title><rect x="448.9" y="405" width="0.4" height="15.0" fill="rgb(129,129,207)" rx="2" ry="2" />
+<text  x="451.95" y="415.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (352 us, 2.46%)</title><rect x="477.6" y="373" width="29.0" height="15.0" fill="rgb(89,89,212)" rx="2" ry="2" />
+<text  x="480.60" y="383.5" >  ..</text>
+</g>
+<g >
+<title>    uvm_unlocked_ioctl_entry+141 (8 us, 0.06%)</title><rect x="328.7" y="421" width="0.7" height="15.0" fill="rgb(106,106,193)" rx="2" ry="2" />
+<text  x="331.73" y="431.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="604.4" y="405" width="0.3" height="15.0" fill="rgb(100,100,238)" rx="2" ry="2" />
+<text  x="607.41" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule_idle+44 (51 us, 0.36%)</title><rect x="1185.8" y="341" width="4.2" height="15.0" fill="rgb(94,94,236)" rx="2" ry="2" />
+<text  x="1188.80" y="351.5" ></text>
+</g>
+<g >
+<title>    vfs_open+45 (13 us, 0.09%)</title><rect x="393.5" y="357" width="1.0" height="15.0" fill="rgb(118,118,227)" rx="2" ry="2" />
+<text  x="396.45" y="367.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (6 us, 0.04%)</title><rect x="37.9" y="341" width="0.5" height="15.0" fill="rgb(117,117,233)" rx="2" ry="2" />
+<text  x="40.91" y="351.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="91.4" y="165" width="0.3" height="15.0" fill="rgb(107,107,201)" rx="2" ry="2" />
+<text  x="94.35" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (457 us, 3.19%)</title><rect x="512.3" y="421" width="37.6" height="15.0" fill="rgb(109,109,198)" rx="2" ry="2" />
+<text  x="515.27" y="431.5" >   ..</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (21 us, 0.15%)</title><rect x="429.3" y="405" width="1.7" height="15.0" fill="rgb(133,133,225)" rx="2" ry="2" />
+<text  x="432.27" y="415.5" ></text>
+</g>
+<g >
+<title>    do_idle+351 (51 us, 0.36%)</title><rect x="1185.8" y="357" width="4.2" height="15.0" fill="rgb(90,90,191)" rx="2" ry="2" />
+<text  x="1188.80" y="367.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range+19 (11 us, 0.08%)</title><rect x="415.0" y="389" width="0.9" height="15.0" fill="rgb(129,129,211)" rx="2" ry="2" />
+<text  x="418.03" y="399.5" ></text>
+</g>
+<g >
+<title>    ep_poll+1356 (606 us, 4.23%)</title><rect x="38.4" y="405" width="49.9" height="15.0" fill="rgb(96,96,196)" rx="2" ry="2" />
+<text  x="41.41" y="415.5" >    e..</text>
+</g>
+<g >
+<title>    uvm_api_register_gpu+73 (8 us, 0.06%)</title><rect x="328.7" y="373" width="0.7" height="15.0" fill="rgb(116,116,208)" rx="2" ry="2" />
+<text  x="331.73" y="383.5" ></text>
+</g>
+<g >
+<title>    uvm_va_space_destroy+796 (8 us, 0.06%)</title><rect x="93.8" y="309" width="0.7" height="15.0" fill="rgb(128,128,223)" rx="2" ry="2" />
+<text  x="96.82" y="319.5" ></text>
+</g>
+<g >
+<title>    nv_open_device+1344 (4 us, 0.03%)</title><rect x="393.8" y="277" width="0.3" height="15.0" fill="rgb(116,116,205)" rx="2" ry="2" />
+<text  x="396.78" y="287.5" ></text>
+</g>
+<g >
+<title>    uvm_gpu_init_isr+221 (4 us, 0.03%)</title><rect x="328.7" y="309" width="0.4" height="15.0" fill="rgb(80,80,204)" rx="2" ry="2" />
+<text  x="331.73" y="319.5" ></text>
+</g>
+<g >
+<title>    rwsem_down_read_slowpath+388 (2 us, 0.01%)</title><rect x="16.9" y="405" width="0.2" height="15.0" fill="rgb(103,103,242)" rx="2" ry="2" />
+<text  x="19.92" y="415.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="90.4" y="181" width="0.3" height="15.0" fill="rgb(99,99,223)" rx="2" ry="2" />
+<text  x="93.36" y="191.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="92.0" y="149" width="0.3" height="15.0" fill="rgb(121,121,217)" rx="2" ry="2" />
+<text  x="95.01" y="159.5" ></text>
+</g>
+<g >
+<title>    schedule_hrtimeout_range_clock+249 (6 us, 0.04%)</title><rect x="37.9" y="357" width="0.5" height="15.0" fill="rgb(120,120,218)" rx="2" ry="2" />
+<text  x="40.91" y="367.5" ></text>
+</g>
+<g >
+<title>    init_parent_gpu+719 (8 us, 0.06%)</title><rect x="328.7" y="325" width="0.7" height="15.0" fill="rgb(114,114,227)" rx="2" ry="2" />
+<text  x="331.73" y="335.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+34 (4 us, 0.03%)</title><rect x="94.2" y="293" width="0.3" height="15.0" fill="rgb(91,91,205)" rx="2" ry="2" />
+<text  x="97.15" y="303.5" ></text>
+</g>
+<g >
+<title>    uvm_va_space_register_gpu+63 (8 us, 0.06%)</title><rect x="328.7" y="357" width="0.7" height="15.0" fill="rgb(80,80,238)" rx="2" ry="2" />
+<text  x="331.73" y="367.5" ></text>
+</g>
+<g >
+<title>    sysvec_xen_hvm_callback+72 (18 us, 0.13%)</title><rect x="17.1" y="453" width="1.5" height="15.0" fill="rgb(134,134,244)" rx="2" ry="2" />
+<text  x="20.08" y="463.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="328.7" y="197" width="0.4" height="15.0" fill="rgb(90,90,211)" rx="2" ry="2" />
+<text  x="331.73" y="207.5" ></text>
+</g>
+<g >
+<title>    do_futex+347 (2,841 us, 19.82%)</title><rect x="94.8" y="421" width="233.9" height="15.0" fill="rgb(106,106,218)" rx="2" ry="2" />
+<text  x="97.81" y="431.5" >    do_futex+347</text>
+</g>
+<g >
+<title>    do_group_exit+67 (2 us, 0.01%)</title><rect x="427.5" y="373" width="0.1" height="15.0" fill="rgb(95,95,231)" rx="2" ry="2" />
+<text  x="430.46" y="383.5" ></text>
+</g>
+<g >
+<title>    free_irq+318 (4 us, 0.03%)</title><rect x="88.7" y="261" width="0.3" height="15.0" fill="rgb(97,97,210)" rx="2" ry="2" />
+<text  x="91.72" y="271.5" ></text>
+</g>
+<g >
+<title>    preempt_schedule_common+24 (3 us, 0.02%)</title><rect x="10.0" y="405" width="0.2" height="15.0" fill="rgb(94,94,210)" rx="2" ry="2" />
+<text  x="13.00" y="415.5" ></text>
+</g>
+<g >
+<title>    _raw_q_flush+110 (4 us, 0.03%)</title><rect x="93.2" y="277" width="0.3" height="15.0" fill="rgb(85,85,200)" rx="2" ry="2" />
+<text  x="96.16" y="287.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="92.7" y="181" width="0.3" height="15.0" fill="rgb(118,118,212)" rx="2" ry="2" />
+<text  x="95.67" y="191.5" ></text>
+</g>
+<g >
+<title>    ep_poll+1356 (179 us, 1.25%)</title><rect x="23.7" y="389" width="14.7" height="15.0" fill="rgb(127,127,227)" rx="2" ry="2" />
+<text  x="26.67" y="399.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="92.7" y="149" width="0.3" height="15.0" fill="rgb(136,136,200)" rx="2" ry="2" />
+<text  x="95.67" y="159.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="90.7" y="197" width="0.3" height="15.0" fill="rgb(117,117,222)" rx="2" ry="2" />
+<text  x="93.69" y="207.5" ></text>
+</g>
+<g >
+<title>    do_syscall_64+69 (3 us, 0.02%)</title><rect x="427.4" y="453" width="0.2" height="15.0" fill="rgb(98,98,217)" rx="2" ry="2" />
+<text  x="430.38" y="463.5" ></text>
+</g>
+<g >
+<title>    __block_write_full_page+526 (2 us, 0.01%)</title><rect x="602.3" y="213" width="0.1" height="15.0" fill="rgb(95,95,203)" rx="2" ry="2" />
+<text  x="605.26" y="223.5" ></text>
+</g>
+<g >
+<title>    uvm_tools_flush_events+26 (2 us, 0.01%)</title><rect x="94.5" y="293" width="0.1" height="15.0" fill="rgb(100,100,236)" rx="2" ry="2" />
+<text  x="97.48" y="303.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (457 us, 3.19%)</title><rect x="512.3" y="405" width="37.6" height="15.0" fill="rgb(118,118,191)" rx="2" ry="2" />
+<text  x="515.27" y="415.5" >   ..</text>
+</g>
+<g >
+<title>    __x64_sys_ioctl+145 (8 us, 0.06%)</title><rect x="328.7" y="437" width="0.7" height="15.0" fill="rgb(126,126,243)" rx="2" ry="2" />
+<text  x="331.73" y="447.5" ></text>
+</g>
+<g >
+<title>    core_sys_select+438 (19 us, 0.13%)</title><rect x="425.6" y="405" width="1.6" height="15.0" fill="rgb(110,110,204)" rx="2" ry="2" />
+<text  x="428.65" y="415.5" ></text>
+</g>
+<g >
+<title>    _main_loop+148 (202 us, 1.41%)</title><rect x="431.0" y="437" width="16.6" height="15.0" fill="rgb(106,106,228)" rx="2" ry="2" />
+<text  x="434.00" y="447.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="91.7" y="165" width="0.3" height="15.0" fill="rgb(126,126,219)" rx="2" ry="2" />
+<text  x="94.68" y="175.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+514 (4 us, 0.03%)</title><rect x="94.2" y="245" width="0.3" height="15.0" fill="rgb(128,128,216)" rx="2" ry="2" />
+<text  x="97.15" y="255.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="328.7" y="181" width="0.4" height="15.0" fill="rgb(114,114,238)" rx="2" ry="2" />
+<text  x="331.73" y="191.5" ></text>
+</g>
+<g >
+<title>    schedule+79 (4 us, 0.03%)</title><rect x="91.7" y="181" width="0.3" height="15.0" fill="rgb(113,113,197)" rx="2" ry="2" />
+<text  x="94.68" y="191.5" ></text>
+</g>
+<g >
+<title>    irq_thread+145 (212 us, 1.48%)</title><rect x="449.3" y="437" width="17.4" height="15.0" fill="rgb(116,116,195)" rx="2" ry="2" />
+<text  x="452.28" y="447.5" ></text>
+</g>
+<g >
+<title>    _cond_resched+34 (2 us, 0.01%)</title><rect x="477.1" y="405" width="0.2" height="15.0" fill="rgb(80,80,216)" rx="2" ry="2" />
+<text  x="480.11" y="415.5" ></text>
+</g>
+<g >
+<title>    wait_for_completion+148 (4 us, 0.03%)</title><rect x="88.7" y="229" width="0.3" height="15.0" fill="rgb(95,95,242)" rx="2" ry="2" />
+<text  x="91.72" y="239.5" ></text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="89.7" y="165" width="0.3" height="15.0" fill="rgb(108,108,190)" rx="2" ry="2" />
+<text  x="92.70" y="175.5" ></text>
+</g>
+<g >
+<title>    nv_kthread_q_flush+26 (4 us, 0.03%)</title><rect x="604.7" y="437" width="0.4" height="15.0" fill="rgb(80,80,242)" rx="2" ry="2" />
+<text  x="607.73" y="447.5" ></text>
+</g>
+<g >
+<title>    cpu_startup_entry+32 (7,053 us, 49.21%)</title><rect x="605.1" y="437" width="580.7" height="15.0" fill="rgb(116,116,216)" rx="2" ry="2" />
+<text  x="608.06" y="447.5" >    cpu_startup_entry+32</text>
+</g>
+<g >
+<title>    __sched_text_start+1302 (4 us, 0.03%)</title><rect x="329.1" y="181" width="0.3" height="15.0" fill="rgb(104,104,199)" rx="2" ry="2" />
+<text  x="332.06" y="191.5" ></text>
+</g>
+<g >
+<title>    schedule_timeout+399 (4 us, 0.03%)</title><rect x="10.3" y="437" width="0.4" height="15.0" fill="rgb(101,101,240)" rx="2" ry="2" />
+<text  x="13.33" y="447.5" ></text>
+</g>
+<g >
+<title>    poll_schedule_timeout.constprop.0+70 (19 us, 0.13%)</title><rect x="425.6" y="373" width="1.6" height="15.0" fill="rgb(132,132,238)" rx="2" ry="2" />
+<text  x="428.65" y="383.5" ></text>
+</g>
+<g >
+<title>    do_group_exit+67 (76 us, 0.53%)</title><rect x="88.4" y="421" width="6.2" height="15.0" fill="rgb(104,104,238)" rx="2" ry="2" />
+<text  x="91.39" y="431.5" ></text>
+</g>
+</g>
+</svg>
