@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Profiling PyTorch
+title: Profiling PyTorch - Attempt 1
 excerpt: Trying to peek into inner workings on PyTorch
 tags: [PyTorch, Deep Learning, Perf, Profiling, eBPF, Flamegraphs]
 comments: true
