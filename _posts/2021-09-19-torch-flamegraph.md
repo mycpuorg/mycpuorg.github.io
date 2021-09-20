@@ -32,13 +32,13 @@ Note: false thumbnail, click for the actual graphs
 <div
 style="float:center;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
 href="/images/vae_gpu.svg"><img
-src="/images/mlp_off_cpu_preview.png" width="600" height="500"
+src="/images/mlp_cpu_preview.png" width="600" height="500"
 style="padding-bottom:3px"/></a><br><center><i>VAE Trained on GPU</i></center></div>
 
 <div
 style="float:center;padding-left:30px;padding-right:10px;padding-bottom:3px"><a
 href="/images/vae_cpu.svg"><img
-src="/images/mlp_off_cpu_preview.png" width="600" height="500"
+src="/images/mlp_cpu_preview.png" width="600" height="500"
 style="padding-bottom:3px"/></a><br><center><i>VAE Trained on AVX512 CPU</i></center></div>
 
 
