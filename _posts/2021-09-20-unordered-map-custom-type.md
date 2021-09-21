@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Using `std::unordered_map` with custom types
+title: Using std::unordered_map with custom types
 excerpt: "A Common Pitfall"
 tags: [Linux, Code, C++, STL, map, unordered_map]
 comments: true
