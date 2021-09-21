@@ -13,7 +13,7 @@ how to hash them.
 
 For example: you can choose any type so long as you know how to hash it.
 
-```c++
+```cpp
 using meeting_time_t = std::pair<int, int>;
 ```
 
@@ -21,7 +21,7 @@ using meeting_time_t = std::pair<int, int>;
 The effect of defining your own hash function to the stdlib is that you also
 need to tell how to compare two keys.
 
-```c++
+```cpp
 bool operator== (const meeting_time_t& f, const meeting_time_t& s) {
     return (f.first == s.first and f.second == s.second);
 }
@@ -36,7 +36,7 @@ Note that you must implement the operator `()` where we compute the hash. This
 is completely up to the implementation - you can go crazy with crypto secure
 hash or keep it lightweight and dummy.
 
-```c++
+```cpp
 namespace std {
     template <>
 	struct hash<meeting_time_t> {
@@ -53,7 +53,7 @@ collisions.
 
 Hopefully, this gave you an idea that you can do the following:
 
-```c++
+```cpp
 std::unordered_map<meeting_time_t, size_t> meet_map { {{0, 1}, 5}, {{2, 3}, 7}};
 for (const auto& [k, v] : meet_map) { std::cout << k.first << k.second << v << std::endl; }
 ```
