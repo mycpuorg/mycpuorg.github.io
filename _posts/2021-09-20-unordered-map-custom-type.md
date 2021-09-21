@@ -39,12 +39,12 @@ hash or keep it lightweight and dummy.
 ```cpp
 namespace std {
     template <>
-	struct hash<meeting_time_t> {
-	    using argument_type = meeting_time_t;
-		using result_type = size_t;
-		
-		result_type operator() (const argument_type& m) const { return m.first * m.second; }
-	};
+    struct hash<meeting_time_t> {
+        using argument_type = meeting_time_t;
+        using result_type = size_t;
+        
+        result_type operator() (const argument_type& m) const { return m.first * m.second; }
+    };
 }
 ```
 
@@ -55,12 +55,12 @@ Hopefully, this gave you an idea that you can do the following:
 
 ```cpp
 std::unordered_map<meeting_time_t, size_t> meet_map { 
-	{ 
-		{5, 7}, 5 
-	}, 
-	{ 
-		{2, 3}, 7
-	}
-	};
+    { 
+        {5, 7}, 5 
+    }, 
+    { 
+        {2, 3}, 7
+    }
+    };
 for (const auto& [k, v] : meet_map) { std::cout << k.first << k.second << v << std::endl; }
 ```
