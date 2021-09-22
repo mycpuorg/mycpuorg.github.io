@@ -5,9 +5,6 @@ excerpt: "Collection of Neural Network Visualization Tools"
 tags: [Linux, Code, Neural Network, Visualization, algorithms, concurrency, gpu, parallel]
 comments: true
 ---
-```
-Note: this is a direct clone/copy of [this repo](https://github.com/ashishpatel26/Tools-to-Design-or-Visualize-Architecture-of-Neural-Network/blob/master/README.md)
-```
 
 ## Tools to Design or Visualize Architecture of Neural Network
 
@@ -249,3 +246,11 @@ Neataptic offers flexible neural networks; neurons and synapses can be removed w
 1)  https://datascience.stackexchange.com/questions/12851/how-do-you-visualize-neural-network-architectures 
 
 2)   https://datascience.stackexchange.com/questions/2670/visualizing-deep-neural-network-training
+
+
+**Note:** The work of collecting all these tools in a single location is done in
+[this
+repo](https://github.com/ashishpatel26/Tools-to-Design-or-Visualize-Architecture-of-Neural-Network/blob/master/README.md)
+(not mine). Please go over there and show some love to the developer who put
+this together. I like it so much that I felt the need to save this here. In the
+true spirit of this blog, it's meant to be my rough notes.
