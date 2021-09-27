@@ -73,6 +73,3 @@ giving it a whirr.
 
 Hope that whets your appetite to start using Emacs as an email client (among
 other things) Config details coming up in a separate post...
-
-### Translation
-[Russian](https://softdroid.net/emacs-kak-pochtovyy-klient-chast-i) By Vladimir
