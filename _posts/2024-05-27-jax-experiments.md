@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "MY Experiments With JAX"
-excerpt: ""
+title: "My Experiments With JAX"
+excerpt: "If TensorFlow and Haskell had a child ... "
 tags: [JAX, Pytorch, Deep Learning, ML, Machine Learning, Compilers, ML Compilers]
 comments: true
 ---
